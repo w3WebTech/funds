@@ -1,0 +1,101 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Payment Page
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-50 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+   <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="amount">
+     Enter Amount
+    </label>
+    <div class="relative">
+     <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+      ₹
+     </span>
+     <input class="pl-8 pr-4 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="amount" placeholder="Enter amount" type="text"/>
+    </div>
+   </div>
+   <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+     Select Account
+    </label>
+    <div class="flex space-x-4">
+     <div class="flex items-center space-x-2 border p-2 rounded w-1/2">
+      <i class="fas fa-university text-gray-700">
+      </i>
+      <div>
+       <p class="text-gray-700 text-sm">
+        ICICI BANK LTD
+       </p>
+       <p class="text-gray-500 text-xs">
+        17436
+       </p>
+      </div>
+      <i class="fas fa-check-circle text-green-500 ml-auto">
+      </i>
+     </div>
+     <div class="flex items-center space-x-2 border p-2 rounded w-1/2">
+      <i class="fas fa-university text-gray-700">
+      </i>
+      <div>
+       <p class="text-gray-700 text-sm">
+        HDFC BANK LTD
+       </p>
+       <p class="text-gray-500 text-xs">
+        689095
+       </p>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2">
+     Choose mode to transfer
+    </label>
+    <div class="space-y-2">
+     <div class="flex items-center space-x-2 border p-2 rounded">
+      <img alt="UPI QR Code" class="w-6 h-6" height="24" src="https://storage.googleapis.com/a1aa/image/fWRpRggBtSXjdqxyW2NHwTs2ZZPHijKAS6CuDW4xbbGeTE5TA.jpg" width="24"/>
+      <p class="text-gray-700 text-sm">
+       QR Code
+      </p>
+      <i class="fas fa-check-circle text-green-500 ml-auto">
+      </i>
+     </div>
+     <div class="flex items-center space-x-2 border p-2 rounded">
+      <img alt="UPI" class="w-6 h-6" height="24" src="https://storage.googleapis.com/a1aa/image/V782Bqx8QGrlNFV19m4pzounut8e73sH2pOcNV0CqpRfTE5TA.jpg" width="24"/>
+      <p class="text-gray-700 text-sm">
+       UPI
+      </p>
+     </div>
+     <div class="flex items-center space-x-2 border p-2 rounded">
+      <img alt="Net Banking via Razorpay" class="w-6 h-6" height="24" src="https://storage.googleapis.com/a1aa/image/6otT3iT9xV6fF6hpeZtADZVXSUpy6efUUEgAlbkkxQWuPRkPB.jpg" width="24"/>
+      <p class="text-gray-700 text-sm">
+       Net Banking Via Razorpay
+      </p>
+     </div>
+     <div class="flex items-center space-x-2 border p-2 rounded">
+      <img alt="Net Banking via Paytm" class="w-6 h-6" height="24" src="https://storage.googleapis.com/a1aa/image/Kk6rhlYkUkKbIZRQzt5rNVwXf2hne1iedIqPt2fKY3H3PRkPB.jpg" width="24"/>
+      <p class="text-gray-700 text-sm">
+       Net Banking Via Paytm
+      </p>
+     </div>
+    </div>
+   </div>
+   <div class="flex justify-between items-center">
+    <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+     PROCEED
+    </button>
+    <a class="text-blue-500 text-sm" href="#">
+     VIEW FUND TRANSACTION DETAILS
+    </a>
+   </div>
+  </div>
+ </body>
+</html>
