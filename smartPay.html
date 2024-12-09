@@ -13,11 +13,9 @@
         .tab-content {
             display: none;
         }
-
         .border-red-500 {
-            border-color: #f56565; /* Tailwind's red-500 color */
-        }
-
+    border-color: #f56565; /* Tailwind's red-500 color */
+}
         .tab-content.active {
             display: block;
         }
@@ -74,13 +72,6 @@
             bottom: 0;
             /* Slide up to visible */
         }
-
-        /* Prevent layout shift when UPI input is shown */
-        #upi-input {
-            position: absolute; /* Use absolute positioning */
-            width: 100%; /* Full width */
-            z-index: 10; /* Ensure it appears above other elements */
-        }
     </style>
 </head>
 
@@ -107,7 +98,7 @@
         </div>
         <!-- Main Content -->
         <div class="bg-white rounded-lg shadow-lg w-full m-5">
-            <div class="flex-1 p-10">
+            <div class="flex-1 md:p-10">
                 <div class="mx-auto p-6">
                     <div class="p-4 flex justify-center items-center text-center">
                         <div class="mx-auto">
@@ -152,10 +143,10 @@
                                         <label for="price" class="block text-sm font-medium text-gray-900">Select
                                             Account</label>
                                     </div>
-                                    <div class="grid grid-cols-3 gap-4">
+                                    <div class="grid grid-cols-3 gap-4"> <!-- Change to grid-cols-3 -->
                                         <div>
                                             <input type="radio" id="account1" name="account" value="ICICI"
-                                                class="custom-radio" onclick="selectAccount(this)" />
+                                                class="custom-radio" />
                                             <label for="account1"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -171,7 +162,7 @@
                                         </div>
                                         <div>
                                             <input type="radio" id="account2" name="account" value="HDFC"
-                                                class="custom-radio" onclick="selectAccount(this)" />
+                                                class="custom-radio" />
                                             <label for="account2"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -183,11 +174,12 @@
                                                     </div>
                                                 </div>
                                                 <i class="fas fa-check-circle check-icon"></i>
+
                                             </label>
                                         </div>
                                         <div>
                                             <input type="radio" id="account3" name="account" value="SBI"
-                                                class="custom-radio" onclick="selectAccount(this)" />
+                                                class="custom-radio" />
                                             <label for="account3"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -208,10 +200,10 @@
                                         <label for="transferMode" class="block text-sm font-medium text-gray-900">Choose
                                             Mode to Transfer</label>
                                     </div>
-                                    <div class="grid grid-cols-4 gap-4">
+                                    <div class="grid grid-cols-4 gap-4"> <!-- Change to grid-cols-4 -->
                                         <div>
                                             <input type="radio" id="qrcode" name="transferMode" value="QR Code"
-                                                class="custom-radio" onclick="selectTransferMode(this)" />
+                                                class="custom-radio" />
                                             <label for="qrcode"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -224,11 +216,11 @@
                                                 <i class="fas fa-check-circle check-icon"></i>
                                             </label>
                                         </div>
-                                        <div>
+                                        <div class="">
                                             <input type="radio" id="upi" name="transferMode" value="UPI"
-                                                class="custom-radio" onclick="selectTransferMode(this)" />
+                                                class="custom-radio" onclick="toggleInputField(upi)" />
                                             <label for="upi"
-                                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                class="custom-radio-label flex items-center justify-between p-4  rounded-lg">
                                                 <div class="flex items-center">
                                                     <i class="fas fa-mobile-alt text-gray-100 mr-2"></i>
                                                     <div>
@@ -241,13 +233,13 @@
                                             <div id="upi-input"
                                                 class="flex items-center rounded-md bg-white m-1 border border-gray-300 focus-within:border-blue-500 hidden">
                                                 <input type="text" name="upiPrice" id="upiPrice"
-                                                    class="px-2 block min-w-0 grow m-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
-                                                    placeholder="Enter UPI ID" aria-describedby="price-currency">
+                                                    class="px-2  grow m-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                                                    placeholder="Enter UPI id" aria-describedby="price-currency">
                                             </div>
                                         </div>
                                         <div>
                                             <input type="radio" id="netbankingrazorpay" name="transferMode"
-                                                value="Net Banking (Razorpay)" class="custom-radio" onclick="selectTransferMode(this)" />
+                                                value="Net Banking (Razorpay)" class="custom-radio" />
                                             <label for="netbankingrazorpay"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -263,7 +255,7 @@
                                         </div>
                                         <div>
                                             <input type="radio" id="netbankingpaytm" name="transferMode"
-                                                value="Net Banking (Paytm)" class="custom-radio" onclick="selectTransferMode(this)" />
+                                                value="Net Banking (Paytm)" class="custom-radio" />
                                             <label for="netbankingpaytm"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -288,8 +280,7 @@
                                     <div>
                                         <button type="button"
                                             class="w-full rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-blue-500 shadow-sm hover:bg-white/20 mx-1"
-                                            onclick="openBottomSheet()">View Transaction ></ ```html
-                                        </div>
+                                            onclick="openBottomSheet()">View Transaction ></button>
                                     </div>
                                 </div>
                             </div>
@@ -303,7 +294,7 @@
                                         Amount</label>
                                     <div class="mt-2">
                                         <div
-                                            class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue-600">
+                                            class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue- 600">
                                             <div class="shrink-0 select-none text-base text-gray-500 sm:text-lg px-5">
                                                 ₹ </div>
                                             <input type="text" name="price" id="price"
@@ -320,7 +311,7 @@
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <input type="radio" id="account1" name="account" value="ICICI"
-                                                class="custom-radio" onclick="selectAccount(this)" />
+                                                class="custom-radio" />
                                             <label for="account1"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -336,7 +327,7 @@
                                         </div>
                                         <div>
                                             <input type="radio" id="account2" name="account" value="HDFC"
-                                                class="custom-radio" onclick="selectAccount(this)" />
+                                                class="custom-radio" />
                                             <label for="account2"
                                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                 <div class="flex items-center">
@@ -369,7 +360,8 @@
             </div>
 
             <div class="overflow-y-auto max-h-60">
-                <div class="bg-white w-full ">
+                <div class="bg-white   w-full ">
+
                     <div class="p-4">
                         <div class="mb-4">
                             <p class="text-gray-500 text-sm">
@@ -393,7 +385,7 @@
                                     <p class="font-semibold text-green-600">
                                         ₹ 100
                                     </p>
-                                    <p class="text-green-700 bg-green-100 text-sm">
+                                    <p class="text-green-700  bg-green-100 text-sm">
                                         ✓ SUCCESS
                                     </p>
                                 </div>
@@ -421,7 +413,7 @@
                                     <p class="font-semibold text-green-600">
                                         ₹ 150
                                     </p>
-                                    <p class="text-green-700 bg-green-100 text-sm">
+                                    <p class="text-green-700  bg-green-100 text-sm">
                                         ✓ SUCCESS
                                     </p>
                                 </div>
@@ -449,7 +441,7 @@
                                     <p class="font-semibold text-green-600">
                                         ₹ 26890
                                     </p>
-                                    <p class="text-green-700 bg-green-100 text-sm">
+                                    <p class="text-green-700  bg-green-100 text-sm">
                                         ✓ SUCCESS
                                     </p>
                                 </div>
@@ -477,7 +469,7 @@
                                     <p class="font-semibold text-green-600">
                                         ₹ 10000
                                     </p>
-                                    <p class="text-green-700 bg-green-100 text-sm">
+                                    <p class="text-green-700  bg-green-100 text-sm">
                                         ✓ SUCCESS
                                     </p>
                                 </div>
@@ -505,7 +497,7 @@
                                     <p class="font-semibold text-green-600">
                                         ₹ 1250
                                     </p>
-                                    <p class="text-green-700 bg-green-100 text-sm">
+                                    <p class="text-green-700  bg-green-100 text-sm">
                                         ✓ SUCCESS
                                     </p>
                                 </div>
@@ -533,7 +525,7 @@
                                     <p class="font-semibold text-green-600">
                                         ₹ 50000
                                     </p>
-                                    <p class="text-green-700 bg-green-100 text-sm">
+                                    <p class="text-green-700  bg-green-100 text-sm">
                                         ✓ SUCCESS
                                     </p>
                                 </div>
@@ -542,6 +534,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <script>
@@ -593,23 +586,6 @@
                 document.getElementById('upi').disabled = false;
             }
         }
-
-        function selectAccount(account) {
-            const accounts = document.querySelectorAll('input[name="account"]');
-            accounts.forEach(acc => {
-                acc.disabled = true;
-            });
-            account.disabled = false;
-        }
-
-        function selectTransferMode(mode) {
-            const modes = document.querySelectorAll('input[name="transferMode"]');
-            modes.forEach(m => {
-                m.disabled = true;
-            });
-            mode.disabled = false;
-        }
-
         function toggleInputField(data) {
             const upiInput = document.getElementById('upi-input');
             const upiRadio = document.getElementById(data.target.id);
