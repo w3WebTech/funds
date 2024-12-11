@@ -14,6 +14,8 @@
             display: none;
         }
 
+    
+
         .border-red-500 {
             border-color: #f56565;
         }
@@ -92,6 +94,7 @@
 </head>
 
 <body class="bg-gray-100 h-screen overflow-hidden">
+    <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
     <div class="flex min-h-screen">
         <div class="bg-blue-800 rounded-xl text-white w-1/4 p-6 m-5 flex flex-col justify-between hidden md:block">
             <div>
@@ -146,23 +149,81 @@
                                     <div id="error-message" class="text-red-500 text-sm hidden">Please fill this field
                                     </div>
                                     <div id="no-message" class="text-white text-sm ">Please fill this field
-                                </div>
-                                <div class="block md:hidden mt-5">
-                                    <div class="flex items-center my-2">
-                                        <label for="price" class="block text-sm font-medium text-gray-900">Select
-                                            Account</label>
                                     </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <div class="block md:hidden mt-5">
+                                        <div class="flex items-center my-2">
+                                            <label for="price" class="block text-sm font-medium text-gray-900">Select
+                                                Account</label>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
-                                        <div>
-                                            <div onclick="openAccountSheet()">
+                                            <div>
+                                                <div onclick="openAccountSheet()">
+                                                    <label for="account3"
+                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <div class="flex items-center">
+                                                            <i class="fas fa-university text-gray-100 mr-2"></i>
+                                                            <div>
+                                                                <div class="text-gray-700 font-semibold text-sm"
+                                                                    id="selectedAccountDisplay">SBI BANK
+                                                                    LTD</div>
+                                                                <div class="text-gray-500 text-sm">●●●● 12345</div>
+                                                            </div>
+                                                        </div>
+                                                        <i class="fas fa-check-circle check-icon"></i>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" hidden md:block mt-5">
+                                        <div class="flex items-center my-2 ">
+                                            <label for="price" class="block text-sm font-medium text-gray-900">Select
+                                                Account</label>
+                                        </div>
+                                        <div class="account-options grid grid-cols-3 gap-4">
+                                            <div>
+                                                <input type="radio" id="account1" name="selectedAccount" value="ICICI"
+                                                    class="custom-radio" />
+                                                <label for="account1"
+                                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-university text-gray-100 mr-2"></i>
+                                                        <div>
+                                                            <div class="text-gray-700 font-semibold text-sm">ICICI BANK
+                                                                LTD</div>
+                                                            <div class="text-gray-500 text-sm">●●●● 17436</div>
+                                                        </div>
+                                                    </div>
+                                                    <i class="fas fa-check-circle check-icon"></i>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="account2" name="selectedAccount" value="HDFC"
+                                                    class="custom-radio" />
+                                                <label for="account2"
+                                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-university text-gray-100 mr-2"></i>
+                                                        <div>
+                                                            <div class="text-gray-700 font-semibold text-sm">HDFC BANK
+                                                                LTD</div>
+                                                            <div class="text-gray-500 text-sm">●●●● 689095</div>
+                                                        </div>
+                                                    </div>
+                                                    <i class="fas fa-check-circle check-icon"></i>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="account3" name="selectedAccount" value="SBI"
+                                                    class="custom-radio" />
                                                 <label for="account3"
                                                     class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                     <div class="flex items-center">
                                                         <i class="fas fa-university text-gray-100 mr-2"></i>
                                                         <div>
-                                                            <div class="text-gray-700 font-semibold text-sm"
-                                                                id="selectedAccountDisplay">SBI BANK
+                                                            <div class="text-gray-700 font-semibold text-sm">SBI BANK
                                                                 LTD</div>
                                                             <div class="text-gray-500 text-sm">●●●● 12345</div>
                                                         </div>
@@ -170,177 +231,123 @@
                                                     <i class="fas fa-check-circle check-icon"></i>
                                                 </label>
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
-                                <div class=" hidden md:block mt-5">
-                                    <div class="flex items-center my-2 ">
-                                        <label for="price" class="block text-sm font-medium text-gray-900">Select
-                                            Account</label>
-                                    </div>
-                                    <div class="account-options grid grid-cols-3 gap-4">
-                                        <div>
-                                            <input type="radio" id="account1" name="selectedAccount" value="ICICI"
-                                                class="custom-radio" />
-                                            <label for="account1"
-                                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                <div class="flex items-center">
-                                                    <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                    <div>
-                                                        <div class="text-gray-700 font-semibold text-sm">ICICI BANK
-                                                            LTD</div>
-                                                        <div class="text-gray-500 text-sm">●●●● 17436</div>
-                                                    </div>
-                                                </div>
-                                                <i class="fas fa-check-circle check-icon"></i>
-                                            </label>
+                                    <div class="">
+                                        <div class="flex items-center my-2">
+                                            <label for="transferMode"
+                                                class="block text-sm font-medium text-gray-900">Choose
+                                                Mode to Transfer</label>
                                         </div>
-                                        <div>
-                                            <input type="radio" id="account2" name="selectedAccount" value="HDFC"
-                                                class="custom-radio" />
-                                            <label for="account2"
-                                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                <div class="flex items-center">
-                                                    <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                    <div>
-                                                        <div class="text-gray-700 font-semibold text-sm">HDFC BANK
-                                                            LTD</div>
-                                                        <div class="text-gray-500 text-sm">●●●● 689095</div>
-                                                    </div>
-                                                </div>
-                                                <i class="fas fa-check-circle check-icon"></i>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <input type="radio" id="account3" name="selectedAccount" value="SBI"
-                                                class="custom-radio" />
-                                            <label for="account3"
-                                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                <div class="flex items-center">
-                                                    <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                    <div>
-                                                        <div class="text-gray-700 font-semibold text-sm">SBI BANK
-                                                            LTD</div>
-                                                        <div class="text-gray-500 text-sm">●●●● 12345</div>
-                                                    </div>
-                                                </div>
-                                                <i class="fas fa-check-circle check-icon"></i>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="flex items-center my-2">
-                                        <label for="transferMode" class="block text-sm font-medium text-gray-900">Choose
-                                            Mode to Transfer</label>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-4 md:gap-4">
-                                        <div class="transfer-option">
-                                            <input type="radio" id="qrcode" name="transferMode" value="QR Code"
-                                                class="custom-radio" onclick="toggleInputField(this)" />
-                                            <label for="qrcode"
-                                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                <div class="flex items-center">
-                                                    <i class="fas fa-qrcode text-gray-100 mr-2"></i>
-                                                    <div>
-                                                        <div class="text-gray-700 font-semibold text-sm">QR Code</div>
-                                                        <div class="text-gray-500 text-sm">via scan</div>
-                                                    </div>
-                                                </div>
-                                                <i class="fas fa-check-circle check-icon"></i>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <div class="transfer-option block md:hidden">
-                                                <input type="radio" id="upi" name="transferMode" value="UPI"
-                                                    class="custom-radio" onclick="toggleUpiIdSheet(this)" />
-                                                <label for="upi"
-                                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                    <div class="flex items-center">
-                                                        <i class="fas fa-mobile-alt text-gray-100 mr-2"></i>
-                                                        <div>
-                                                            <div class="text-gray-700 font-semibold text-sm">UPI</div>
-                                                            <div class="text-gray-500 text-sm">via Gpay</div>
-                                                        </div>
-                                                    </div>
-                                                    <i class="fas fa-check-circle check-icon"></i>
-                                                </label>
-                                            </div>
-                                            <div class=" hidden md:block ">
-                                                <input type="radio" id="upi" name="transferMode" value="UPI"
+                                        <div class="grid grid-cols-1 md:grid-cols-4 md:gap-4">
+                                            <div class="transfer-option">
+                                                <input type="radio" id="qrcode" name="transferMode" value="QR Code"
                                                     class="custom-radio" onclick="toggleInputField(this)" />
-                                                <label for="upi"
+                                                <label for="qrcode"
                                                     class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                     <div class="flex items-center">
-                                                        <i class="fas fa-mobile-alt text-gray-100 mr-2"></i>
+                                                        <i class="fas fa-qrcode text-gray-100 mr-2"></i>
                                                         <div>
-                                                            <div class="text-gray-700 font-semibold text-sm">UPI</div>
-                                                            <div class="text-gray-500 text-sm">via Gpay</div>
+                                                            <div class="text-gray-700 font-semibold text-sm">QR Code
+                                                            </div>
+                                                            <div class="text-gray-500 text-sm">via scan</div>
                                                         </div>
                                                     </div>
                                                     <i class="fas fa-check-circle check-icon"></i>
                                                 </label>
+                                            </div>
+                                            <div>
+                                                <div class="transfer-option block md:hidden">
+                                                    <input type="radio" id="upi" name="transferMode" value="UPI"
+                                                        class="custom-radio" onclick="toggleUpiIdSheet(this)" />
+                                                    <label for="upi"
+                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <div class="flex items-center">
+                                                            <i class="fas fa-mobile-alt text-gray-100 mr-2"></i>
+                                                            <div>
+                                                                <div class="text-gray-700 font-semibold text-sm">UPI
+                                                                </div>
+                                                                <div class="text-gray-500 text-sm">via Gpay</div>
+                                                            </div>
+                                                        </div>
+                                                        <i class="fas fa-check-circle check-icon"></i>
+                                                    </label>
+                                                </div>
+                                                <div class=" hidden md:block ">
+                                                    <input type="radio" id="upi" name="transferMode" value="UPI"
+                                                        class="custom-radio" onclick="toggleInputField(this)" />
+                                                    <label for="upi"
+                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <div class="flex items-center">
+                                                            <i class="fas fa-mobile-alt text-gray-100 mr-2"></i>
+                                                            <div>
+                                                                <div class="text-gray-700 font-semibold text-sm">UPI
+                                                                </div>
+                                                                <div class="text-gray-500 text-sm">via Gpay</div>
+                                                            </div>
+                                                        </div>
+                                                        <i class="fas fa-check-circle check-icon"></i>
+                                                    </label>
 
+                                                </div>
+                                            </div>
+                                            <div class="transfer-option">
+                                                <input type="radio" id="netbankingrazorpay" name="transferMode"
+                                                    value="Net Banking (Razorpay)" class="custom-radio"
+                                                    onclick="toggleInputField(this)" />
+                                                <label for="netbankingrazorpay"
+                                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-university text-gray-100 mr-2"></i>
+                                                        <div>
+                                                            <div class="text-gray-700 font-semibold text-sm">Net Banking
+                                                            </div>
+                                                            <div class="text-gray-500 text-sm">via Razorpay</div>
+                                                        </div>
+                                                    </div>
+                                                    <i class="fas fa-check-circle check-icon"></i>
+                                                </label>
+                                            </div>
+                                            <div class="transfer-option">
+                                                <input type="radio" id="netbankingpaytm" name="transferMode"
+                                                    value="Net Banking (Paytm)" class="custom-radio"
+                                                    onclick="toggleInputField(this)" />
+                                                <label for="netbankingpaytm"
+                                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-university text-gray-100 mr-2"></i>
+                                                        <div>
+                                                            <div class="text-gray-700 font-semibold text-sm">Net Banking
+                                                            </div>
+                                                            <div class="text-gray-500 text-sm">via Paytm</div>
+                                                        </div>
+                                                    </div>
+                                                    <i class="fas fa-check-circle check-icon"></i>
+                                                </label>
                                             </div>
                                         </div>
-                                        <div class="transfer-option">
-                                            <input type="radio" id="netbankingrazorpay" name="transferMode"
-                                                value="Net Banking (Razorpay)" class="custom-radio"
-                                                onclick="toggleInputField(this)" />
-                                            <label for="netbankingrazorpay"
-                                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                <div class="flex items-center">
-                                                    <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                    <div>
-                                                        <div class="text-gray-700 font-semibold text-sm">Net Banking
-                                                        </div>
-                                                        <div class="text-gray-500 text-sm">via Razorpay</div>
-                                                    </div>
-                                                </div>
-                                                <i class="fas fa-check-circle check-icon"></i>
-                                            </label>
-                                        </div>
-                                        <div class="transfer-option">
-                                            <input type="radio" id="netbankingpaytm" name="transferMode"
-                                                value="Net Banking (Paytm)" class="custom-radio"
-                                                onclick="toggleInputField(this)" />
-                                            <label for="netbankingpaytm"
-                                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                <div class="flex items-center">
-                                                    <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                    <div>
-                                                        <div class="text-gray-700 font-semibold text-sm">Net Banking
-                                                        </div>
-                                                        <div class="text-gray-500 text-sm">via Paytm</div>
-                                                    </div>
-                                                </div>
-                                                <i class="fas fa-check-circle check-icon"></i>
-                                            </label>
+                                        <div id="upi-input"
+                                            class=" flex items-center rounded-md bg-white m-1 border border-gray-300 focus-within:border-blue-500 hidden ">
+                                            <input type="text" name="upiPrice" id="upiPrice"
+                                                class="px-2 grow m-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                                                placeholder="Enter UPI id" aria-describedby="price-currency">
                                         </div>
                                     </div>
-                                    <div id="upi-input"
-                                        class=" flex items-center rounded-md bg-white m-1 border border-gray-300 focus-within:border-blue-500 hidden ">
-                                        <input type="text" name="upiPrice" id="upiPrice"
-                                            class="px-2 grow m-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
-                                            placeholder="Enter UPI id" aria-describedby="price-currency">
-                                    </div>
-                                </div>
 
-                                <div class="grid grid-cols-2 my-6">
-                                    <div>
-                                        <button type="button"
-                                            class="w-full rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Proceed</button>
-                                    </div>
-                                    <div>
-                                        <button type="button"
-                                            class="w-full rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-blue-500 shadow-sm hover:bg-white/20 mx-1"
-                                            onclick="openBottomSheet()">View Transaction ></button>
+                                    <div class="grid grid-cols-2 my-6">
+                                        <div>
+                                            <button type="button"
+                                                class="w-full rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Proceed</button>
+                                        </div>
+                                        <div>
+                                            <button type="button"
+                                                class="w-full rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-blue-500 shadow-sm hover:bg-white/20 mx-1"
+                                                onclick="openBottomSheet()">View Transaction ></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                     <div id="content2" class="tab-content">
                         <div class="flex items-center justify-center">
@@ -602,13 +609,13 @@
             debugger
             const priceInput = document.getElementById('price');
             const errorMessage = document.getElementById('error-message');
-const nomsg= document.getElementById('no-message');
+            const nomsg = document.getElementById('no-message');
             // Check if the amount is entered
             if (priceInput.value.trim() === '') {
                 nomsg.classList.add('hidden');
                 errorMessage.classList.remove('hidden');
                 priceInput.classList.add('border-red-500');
-         
+
                 upi.checked = false; // Uncheck the UPI radio button
                 return; // Exit the function
             } else {
@@ -656,24 +663,28 @@ const nomsg= document.getElementById('no-message');
         });
         function openBottomSheet() {
             const bottomSheet = document.getElementById('bottomSheet');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
             bottomSheet.classList.remove('hidden');
             bottomSheet.classList.add('show');
+            overlay.classList.remove('hidden'); // Show the overlay
         }
 
         function closeBottomSheet() {
             const bottomSheet = document.getElementById('bottomSheet');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
             bottomSheet.classList.remove('show');
             setTimeout(() => {
                 bottomSheet.classList.add('hidden');
+                overlay.classList.add('hidden'); // Hide the overlay
             }, 300);
         }
         function toggleInputField(upi) {
-            debugger 
-          
+            debugger
+
             const priceInput = document.getElementById('price');
             const val = document.getElementById('upi-input');
             val.classList.add('hidden');
-            const nomsg= document.getElementById('no-message');
+            const nomsg = document.getElementById('no-message');
             const errorMessage = document.getElementById('error-message');
 
             // Check if the amount is entered
@@ -681,7 +692,7 @@ const nomsg= document.getElementById('no-message');
                 nomsg.classList.add('hidden');
                 errorMessage.classList.remove('hidden');
                 priceInput.classList.add('border-red-500');
-            
+
                 upi.checked = false; // Uncheck the UPI radio button
                 return; // Exit the function
             } else {
@@ -718,6 +729,7 @@ const nomsg= document.getElementById('no-message');
             const upiIdSheet = document.getElementById('upiIdSheet');
             upiIdSheet.classList.remove('hidden');
             upiIdSheet.classList.add('show');
+            overlay.classList.remove('hidden');
         }
 
         function closeUpiIdSheet() {
@@ -725,6 +737,7 @@ const nomsg= document.getElementById('no-message');
             upiIdSheet.classList.remove('show');
             setTimeout(() => {
                 upiIdSheet.classList.add('hidden');
+                overlay.classList.add('hidden');
             }, 300);
         }
 
@@ -744,7 +757,7 @@ const nomsg= document.getElementById('no-message');
             const accountSheet = document.getElementById('accountSheet');
             accountSheet.classList.remove('hidden');
             accountSheet.classList.add('show');
-
+            overlay.classList.remove('hidden');
             // Uncheck all radio buttons
             const accountRadios = document.querySelectorAll('input[name="selectedAccount"]');
             accountRadios.forEach(radio => {
@@ -812,7 +825,7 @@ const nomsg= document.getElementById('no-message');
             const accountSheet = document.getElementById('accountSheet');
             accountSheet.classList.remove('hidden');
             accountSheet.classList.add('show');
-
+            overlay.classList.remove('hidden');
             // Uncheck all radio buttons
             const accountRadios = document.querySelectorAll('input[name="selectedAccount"]');
             accountRadios.forEach(radio => {
@@ -824,6 +837,7 @@ const nomsg= document.getElementById('no-message');
             accountSheet.classList.remove('show');
             setTimeout(() => {
                 accountSheet.classList.add('hidden');
+                overlay.classList.add('hidden');
             }, 300);
 
             // Uncheck all radio buttons
