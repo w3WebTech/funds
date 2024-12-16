@@ -76,6 +76,7 @@
         .custom-bg {
             background-color: #4269B6;
         }
+
         .loader {
             position: relative;
             overflow: hidden;
@@ -318,8 +319,8 @@
                                     </div>
                                     <div class="bg-white rounded-lg shadow-lg w-full mx-4 my-3 p-6">
                                         <button type="button" id="proceedButton"
-                                        class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm  "
-                                        onclick="proceedWithTest()">PROCEED</button>
+                                            class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm  "
+                                            onclick="proceedWithTest()">PROCEED</button>
                                     </div>
                                     <div class="flex justify-center my-6">
                                         <div class="">
@@ -437,11 +438,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="bg-white rounded-lg shadow-lg w-full mx-5 my-3 p-6">
                                         <button type="button" id="proceedButton"
-                                        class="rounded-md custom-bg w-full py-2.5 text-sm font-semibold text-white shadow-sm  "
-                                        onclick="proceedWithTest()">PROCEED</button>
+                                            class="rounded-md custom-bg w-full py-2.5 text-sm font-semibold text-white shadow-sm  "
+                                            onclick="proceedWithTest()">PROCEED</button>
                                     </div>
                                     <div class="flex justify-center my-6">
                                         <div class="">
@@ -475,14 +476,14 @@
                     </div>
                     <div class="flex justify-end">
                         <button type="button" id="proceedButton"
-                        class="rounded-md custom-bg w-full py-2.5 text-sm font-semibold text-white shadow-sm  "
-                        onclick="proceedWithTest()">PROCEED</button>
+                            class="rounded-md custom-bg w-full py-2.5 text-sm font-semibold text-white shadow-sm  "
+                            onclick="proceedWithTest()">PROCEED</button>
                     </div>
                 </div>
             </div>
             <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
             <div id="bottomSheet" class="hidden">
-                <div class="bg-gray-100 flex justify-center items-center">
+                <div class="bg-gray-100 flex justify-center items-center rounded-t-lg">
                     <div class="bg-white w-full max-w-md rounded-lg shadow-lg p-4">
                         <h1 class="text-center text-lg font-semibold mb-4">Transaction Details</h1>
                         <div class="flex justify-around border-b mb-4">
@@ -830,7 +831,7 @@
             }
 
             // Show or hide the UPI input field based on the UPI radio button state
-          
+
         }
 
         function toggleInputFieldMobile(upi) {
@@ -930,37 +931,33 @@
             // Add your transaction processing logic here
         }
 
-        function selectAccount(accountName) {
-            const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
-            selectedAccountDisplay.textContent = accountName + " BANK LTD"; // Update the display text
-
-            // Check the corresponding radio button
-            const accountRadio = document.querySelector(`input[name = "selectedAccount"][value = "${accountName}"]`);
-            if (accountRadio) {
-                accountRadio.checked = true; // Update the checked state
-            }
-
-            // Close the account sheet only if it is currently visible
-            const accountSheet = document.getElementById('accountSheet');
-            if (accountSheet.classList.contains('show')) {
-                closeAccountSheet();
-            }
-        }
-
         function openAccountSheet() {
             const accountSheet = document.getElementById('accountSheet');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
             accountSheet.classList.remove('hidden');
             accountSheet.classList.add('show');
-            overlay.classList.remove('hidden');
+            overlay.classList.remove('hidden'); // Show the overlay
         }
 
         function closeAccountSheet() {
             const accountSheet = document.getElementById('accountSheet');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
             accountSheet.classList.remove('show');
             setTimeout(() => {
                 accountSheet.classList.add('hidden');
-                overlay.classList.add('hidden');
+                overlay.classList.add('hidden'); // Hide the overlay
             }, 300);
+        }
+
+        // Add click event listener to the overlay to close the account sheet
+        document.getElementById('overlay').addEventListener('click', closeAccountSheet);
+        function selectAccount() {
+            const selectedAccount = document.querySelector('input[name="selectedAccount"]:checked');
+            if (selectedAccount) {
+                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
+                selectedAccountDisplay.textContent = selectedAccount.nextElementSibling.textContent;
+                closeAccountSheet();
+            }
         }
     </script>
 </body>
