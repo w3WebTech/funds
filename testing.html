@@ -114,16 +114,16 @@
         <div class="block md:hidden bg-blue-600 sm:relative sm:h-[500px]">
             <div class="flex justify-center items-center text-center ">
                 <div class="w-screen mx-4">
-                <div class="mx-auto bg-white p-3 m-4 mb-20  rounded-md">
-                    <nav class="flex">
-                        <button id="tab1-mobile"
-                            class="tab-button whitespace-nowrap rounded-md custom-bg text-white px-10 py-2 text-base font-medium focus:outline-none"
-                            onclick="changeTab('tab1-mobile')">Add Funds</button>
-                        <button id="tab2-mobile"
-                            class="tab-button rounded-md bg-gray-100 px-10 py-2 text-base font-medium text-gray-500 focus:outline-none"
-                            onclick="changeTab('tab2-mobile')">Withdrawal</button>
-                    </nav>
-                </div>
+                    <div class="mx-auto bg-white p-3 m-4 mb-20  rounded-md">
+                        <nav class="flex">
+                            <button id="tab1-mobile"
+                                class="tab-button whitespace-nowrap rounded-md custom-bg text-white px-10 py-2 text-base font-medium focus:outline-none"
+                                onclick="changeTab('tab1-mobile')">Add Funds</button>
+                            <button id="tab2-mobile"
+                                class="tab-button rounded-md bg-gray-100 px-10 py-2 text-base font-medium text-gray-500 focus:outline-none"
+                                onclick="changeTab('tab2-mobile')">Withdrawal</button>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
@@ -461,11 +461,39 @@
             </div>
             <div id="upiIdSheet" class="hidden">
                 <div class="p-4">
-                    <div class="flex justify-between">
-                        <div></div>
-                        <div onclick="closeUpiIdSheet()" class="px-10 font-bold text-lg">x</div>
+
+                    <div class="">
+                        <h2 class="text-xl font-semibold mb-2">
+                            Enter UPI ID
+                        </h2>
+                        <p class="text-gray-600 mb-4 text-xs">
+                            Use UPI ID linked with bank account registered with Goodwill
+                        </p>
+                        <div class="border rounded p-4 ">
+                            <input class="w-full p-2 border border-gray-300 rounded mb-4" placeholder="Enter UPI ID"
+                                type="text" />
+                            <div class="mb-4 bg-blue-100">
+                                <input type="radio" id="account1" name="selectedAccount" value="ICICI"
+                                    class="custom-radio" />
+                                <label for="account1"
+                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-university text-gray-500 mr-5 text-2xl"></i>
+                                        <div>
+                                            <div class="text-gray-700 font-semibold text-sm">ICICI BANK LTD
+                                            </div>
+                                            <div class="text-gray-500 text-sm">●●●● 17436</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-circle-check text-green-500 text-2xl"></i>
+                                </label>
+                            </div>
+                            <button class="w-full bg-blue-600 text-white py-2 rounded">
+                                PROCEED
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <label for="upiid" class="block text-sm font-medium text-gray-900">Enter UPI Id</label>
                         <div class="mt-2">
                             <div
@@ -480,7 +508,7 @@
                         <button type="button" id="proceedButton"
                             class="rounded-md custom-bg w-full py-2.5 text-sm font-semibold text-white shadow-sm  "
                             onclick="proceedWithTest()">PROCEED</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
@@ -776,11 +804,7 @@
             }
         }
 
-        function openUpiIdSheet() {
-            const upiIdSheet = document.getElementById('upiIdSheet');
-            upiIdSheet.classList.remove('hidden');
-            upiIdSheet.classList.add('show');
-        }
+
 
         function openBottomSheet() {
             const bottomSheet = document.getElementById('bottomSheet');
@@ -911,14 +935,26 @@
             }
         }
 
+        function openUpiIdSheet() {
+            const upiIdSheet = document.getElementById('upiIdSheet');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
+            upiIdSheet.classList.remove('hidden');
+            upiIdSheet.classList.add('show');
+            overlay.classList.remove('hidden'); // Show the overlay
+        }
+
         function closeUpiIdSheet() {
             const upiIdSheet = document.getElementById('upiIdSheet');
+            const overlay = document.getElementById('overlay'); // Get the overlay element
             upiIdSheet.classList.remove('show');
             setTimeout(() => {
                 upiIdSheet.classList.add('hidden');
-                overlay.classList.add('hidden');
+                overlay.classList.add('hidden'); // Hide the overlay
             }, 300);
         }
+
+        // Add click event listener to the overlay to close the UPI ID sheet
+        document.getElementById('overlay').addEventListener('click', closeUpiIdSheet);
 
         function proceedWithUpiId() {
             const upiPrice = document.getElementById('upiPrice').value.trim();
