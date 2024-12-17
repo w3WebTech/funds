@@ -127,15 +127,15 @@
         </div>
         <div class="flex min-h-screen">
             <div class="absolute top-20">
-                <div class="flex flex-col space-y-4 mx-3 my-3">
-                    <div class="mx-auto  p-3 m-4 ">
+                <div class="3">
+                    <div class="flex justify-center items-center text-center">
                         <div id="content1-mobile" class="tab-content active">
-                            <div class="mb-4">
+                            <div class="mb-4 w-screen">
                                 <div>
-                                    <div class="bg-white rounded-lg shadow-lg mx-4 my-3 p-6 w-full">
+                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3 ">
                                         <div class="py-2 text-xl text-gray-900">Welcome <span
                                                 class="font-semibold">RAJAESWARAN</span></div>
-                                        <label for="price" class="block text-sm text-gray-900">Enter Amount</label>
+                                        <label for="price" class=" text-sm text-gray-900">Enter Amount</label>
                                         <div class="mt-2">
                                             <div
                                                 class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue-500">
@@ -143,7 +143,7 @@
                                                     class="shrink-0 select-none text-base text-gray-400 font-bold text-lg px-2">
                                                     ₹</div>
                                                 <input type="number" name="price" id="price"
-                                                    class="px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                                                    class=" px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
                                                     placeholder="0.00" aria-describedby="price-currency">
                                             </div>
                                         </div>
@@ -151,7 +151,7 @@
                                             minimum of ₹50 for bank transfer.</div>
                                         <div id="no-message" class="text-white text-sm">Please fill this field</div>
                                     </div>
-                                    <div class="bg-white rounded-lg shadow-lg mx-4 my-3 p-6 w-full">
+                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
                                         <div class="block md:hidden">
                                             <div class="flex items-center my-2">
                                                 <label for="price" class="block text-sm">Choose Bank A/C</label>
@@ -235,7 +235,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-lg shadow-lg mx-4 p-6 w-full">
+                                    <div class="bg-white rounded-lg shadow-lg  m-4 p-3">
                                         <div class="flex items-center">
                                             <label for="transferMode" class="block text-sm text-gray-900">Select Payment
                                                 Method</label>
@@ -317,12 +317,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-lg shadow-lg w-full mx-4 my-3 p-6">
+                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
                                         <button type="button" id="proceedButton"
                                             class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm  "
                                             onclick="proceedWithTest()">PROCEED</button>
                                     </div>
-                                    <div class="flex justify-center my-6">
+                                    <div class="flex justify-center  m-4 p-3">
                                         <div class="">
                                             <button type="button"
                                                 class="rounded-md bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm hover:bg-white/20 mx-1"
@@ -484,7 +484,7 @@
             <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
             <div id="bottomSheet" class="hidden">
                 <div class="bg-gray-100 flex justify-center items-center rounded-t-2xl">
-                    <div class="bg-gray-100 w-full max-w-md rounded-lg shadow-lg p-4">
+                    <div class="bg-white w-full max-w-md rounded-lg shadow-lg p-4">
                         <h1 class="text-center text-lg font-semibold mb-4">Transaction Details</h1>
                         <div class="flex justify-around border-b mb-4">
                             <button class="text-blue-600 border-b-2 border-blue-600 pb-2">Fund Added</button>
@@ -569,14 +569,14 @@
                 </div>
             </div>
             <div id="accountSheet" class="hidden">
-                <div class="p-4 bg-gray-100">
+                <div class="p-4 bg-gray-100 rounded-t-2xl">
                     <div class="flex justify-between">
                         <div>
                             <h2 class="text-lg font-semibold mb-2 px-4 text-xl">Choose bank</h2>
                         </div>
                     </div>
                     <div class=" ">
-                        <div class="bg-white mb-10 w-full">
+                        <div class=" mb-10 w-full">
                             <div class="p-4 ">
                                 <div>
                                     <div class="mb-4 bg-blue-100" onclick="selectAccount('ICICI BANK LTD')">
@@ -595,7 +595,7 @@
                                             <i class="fa-solid fa-circle-check text-green-500 text-2xl"></i>
                                         </label>
                                     </div>
-                                    <div class="mb-4" onclick="selectAccount('HDFC BANK LTD')">
+                                    <div class="mb-4 bg-white" onclick="selectAccount('HDFC BANK LTD')">
                                         <input type="radio" id="account2" name="selectedAccount" value="HDFC"
                                             class="custom-radio" />
                                         <label for="account2"
@@ -610,7 +610,7 @@
                                             <i class="fas fa-check-circle check-icon"></i>
                                         </label>
                                     </div>
-                                    <div class="mb-4" onclick="selectAccount('SBI BANK LTD')">
+                                    <div class="mb-4 bg-white" onclick="selectAccount('SBI BANK LTD')">
                                         <input type="radio" id="account3" name="selectedAccount" value="SBI"
                                             class="custom-radio" />
                                         <label for="account3"
