@@ -269,7 +269,7 @@
                                                         <i class="fas fa-check-circle check-icon"></i>
                                                     </label>
                                                 </div> -->
-                                                <div>
+                                                <div class="transfer-option">
                                                     <input type="radio" id="upi" name="transferMode" value="UPI"
                                                         class="custom-radio" onclick="toggleInputFieldWeb(this)" />
                                                     <label for="upi"
@@ -498,8 +498,7 @@
                                 </label>
                             </div>
                             <button type="button" id="proceedButton"
-                            class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm  "
-                            >PROCEED</button>
+                                class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm  ">PROCEED</button>
                         </div>
                     </div>
                     <!-- <div class="mb-4">
@@ -532,7 +531,7 @@
                                 onclick="changeTransactionTab('fundsWithdrawn')">Funds Withdrawn</button>
                         </div>
                         <div id="transactionContent" class="space-y-4 bg-white p-4">
-                            <div id="fundsAdded" >
+                            <div id="fundsAdded">
                                 <!-- Add your funds added transactions here -->
                                 <div class="flex items-center justify-between">
                                     <div>
@@ -570,7 +569,7 @@
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <div class="text-gray-500 text-sm">22-12-2023</div>
@@ -590,7 +589,7 @@
                                 </div>
                                 <!-- Add more transactions as needed -->
                             </div>
-                            <div id="fundsWithdrawn" >
+                            <div id="fundsWithdrawn">
                                 <!-- Add your funds withdrawn transactions here -->
                                 <div class="flex items-center justify-between">
                                     <div>
@@ -840,10 +839,10 @@
             }
             const amount = parseFloat(priceInput.value);
             if (amount > 35000) {
-                document.getElementById('qrcode').disabled = true;
+
                 document.getElementById('upi').disabled = true;
             } else {
-                document.getElementById('qrcode').disabled = false;
+
                 document.getElementById('upi').disabled = false;
             }
 
@@ -894,10 +893,10 @@
 
             const amount = parseFloat(priceInput.value);
             if (amount > 35000) {
-                document.getElementById('qrcode').disabled = true;
+
                 document.getElementById('upi').disabled = true;
             } else {
-                document.getElementById('qrcode').disabled = false;
+
                 document.getElementById('upi').disabled = false;
             }
 
@@ -927,10 +926,10 @@
 
             const amount = parseFloat(priceInput.value);
             if (amount > 35000) {
-                document.getElementById('qrcode').disabled = true;
+
                 document.getElementById('upi').disabled = true;
             } else {
-                document.getElementById('qrcode').disabled = false;
+
                 document.getElementById('upi').disabled = false;
             }
 
@@ -965,10 +964,10 @@
 
             const amount = parseFloat(priceInput.value);
             if (amount > 35000) {
-                document.getElementById('qrcode').disabled = true;
+
                 document.getElementById('upi').disabled = true;
             } else {
-                document.getElementById('qrcode').disabled = false;
+
                 document.getElementById('upi').disabled = false;
             }
 
