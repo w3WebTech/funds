@@ -9,7 +9,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
     <style>
+        .shimmer-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ffffff;
+            /* Solid white background */
+           
+            z-index: 100;
+            /* Ensure it is above other content */
+        }
+
+        .shimmer-item {
+           
+            margin: 10px 0;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            /* background-size: 200% 100%; */
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
         .tab-content {
             display: none;
         }
@@ -116,6 +149,15 @@
 </head>
 
 <body class="bg-gray-100 h-screen md:overflow-hidden">
+    <div id="shimmer" class="shimmer-effect flex flex-col  items-center ">
+        <div class="shimmer-item rounded-lg  " style="width: 90%;height: 80px;"></div>
+        
+        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 200px;"></div>
+        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 100px;"></div>
+        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 250px;"></div>
+        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 50px;"></div>
+        <div class="shimmer-item my-2  rounded-lg" style="width:90%;height: 50px;"></div>
+    </div>
     <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
 
     <!-- Small device -->
@@ -713,8 +755,68 @@
             </div>
         </div>
     </div>
-
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script> -->
     <script>
+        const currentDate = new Date().toISOString();
+
+        // async function clientEncryption(encryptionData, actionType) {
+        //     const encryptMethod = 'AES-128-CBC';
+        //     const secretKey = 'J0E'; // user defined private key
+        //     const secretIv = 'rLv'; // user defined secret key
+
+        //     // Generate key and IV
+        //     const key = await window.crypto.subtle.importKey(
+        //         'raw',
+        //         new TextEncoder().encode(secretKey),
+        //         { name: encryptMethod, length: 128 },
+        //         false,
+        //         ['encrypt', 'decrypt']
+        //     );
+
+        //     const iv = new TextEncoder().encode(secretIv).slice(0, 16); // Ensure IV is 16 bytes
+
+        //     if (actionType === 'encrypt') {
+        //         const encryptedData = await window.crypto.subtle.encrypt(
+        //             { name: encryptMethod, iv: iv },
+        //             key,
+        //             new TextEncoder().encode(encryptionData)
+        //         );
+
+        //         // Convert ArrayBuffer to Base64
+        //         return btoa(String.fromCharCode(...new Uint8Array(encryptedData)));
+        //     } else if (actionType === 'decrypt') {
+        //         const decryptedData = await window.crypto.subtle.decrypt(
+        //             { name: encryptMethod, iv: iv },
+        //             key,
+        //             Uint8Array.from(atob(encryptionData), c => c.charCodeAt(0))
+        //         );
+
+        //         return new TextDecoder().decode(decryptedData);
+        //     }
+        // }
+        sendEncryptedDate()
+        async function sendEncryptedDate() {
+            debugger
+
+
+            try {
+                // Construct the API URL with the encrypted date as the key
+                const apiUrl = `https://smartpayz.gwcindia.in/gwc-techexcel/client-master-techexcel-live.php?src=SMARTPAY&key=QkYxMFlpcEtzODRnNTdyTFNZbFdkZz09&cid=GZ10219`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'GET', // Use GET since you're sending parameters in the URL
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const responseData = await response.json(); // Parse the response
+                console.log('Response from API:', responseData);
+            } catch (error) {
+                console.error('Error sending data:', error);
+            }
+        }
         let selectedAccount = "ICICI"; // Set the initial selected account value
 
         // Function to set the initial selected account
@@ -730,8 +832,14 @@
             }
         }
 
-        // Call the function to set the initial selected account when the page loads
-        window.onload = setInitialSelectedAccount;
+        window.onload = function () {
+            setTimeout(() => {
+                const shimmer = document.getElementById('shimmer');
+                shimmer.style.display = ' none'; // Hide the shimmer after 3 seconds
+            }, 3000);
+            setInitialSelectedAccount
+        };
+
 
         function changeTab(tab) {
             const isMobile = window.innerWidth < 768; // Check if the device is mobile
