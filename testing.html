@@ -13,20 +13,17 @@
 
     <style>
         .shimmer-effect {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+
+
             background-color: #ffffff;
             /* Solid white background */
-           
+
             z-index: 100;
             /* Ensure it is above other content */
         }
 
         .shimmer-item {
-           
+
             margin: 10px 0;
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
             /* background-size: 200% 100%; */
@@ -149,15 +146,7 @@
 </head>
 
 <body class="bg-gray-100 h-screen md:overflow-hidden">
-    <div id="shimmer" class="shimmer-effect flex flex-col  items-center ">
-        <div class="shimmer-item rounded-lg  " style="width: 90%;height: 80px;"></div>
-        
-        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 200px;"></div>
-        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 100px;"></div>
-        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 250px;"></div>
-        <div class="shimmer-item my-2 rounded-lg " style="width:90%;height: 50px;"></div>
-        <div class="shimmer-item my-2  rounded-lg" style="width:90%;height: 50px;"></div>
-    </div>
+
     <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
 
     <!-- Small device -->
@@ -204,90 +193,53 @@
                                             minimum of ₹50 for bank transfer.</div>
                                         <div id="no-message" class="text-white text-sm">Please fill this field</div>
                                     </div>
-                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
-                                        <div class="block md:hidden">
-                                            <div class="flex items-center my-2">
-                                                <label for="price" class="block text-sm">Choose Bank A/C</label>
+                                    <div>
+
+                                        <div id="shimmer" class=" flex flex-col  items-center ">
+
+                                            <div class="bg-white rounded-lg shadow-lg   m-4 p-3 ">
+                                                <div class="flex items-center my-2">
+                                                    <label for="price" class="block text-sm">Choose Bank A/C</label>
+                                                </div>
+                                                <div class="bg-gray-200 rounded-lg animate-pulse dark:bg-gray-700 my-2  rounded-lg"
+                                                    style="width:100%;height: 60px;">
+                                                </div>
                                             </div>
-                                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                                <div>
-                                                    <div onclick="openAccountSheet()">
-                                                        <label for="account3"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg bg-gray-100">
-                                                            <div class="flex items-center">
-                                                                <i
-                                                                    class="fas fa-university text-gray-900 mr-4 text-2xl"></i>
-                                                                <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm"
-                                                                        id="selectedAccountDisplay">SBI BANK LTD</div>
-                                                                    <div class="text-gray-900 text-sm">●●●● 12345</div>
-                                                                </div>
+
+                                        </div>
+                                        <div id="noshimmer">
+                                            <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
+                                                <div class="block md:hidden">
+                                                    <div class="flex items-center my-2">
+                                                        <label for="price" class="block text-sm">Choose Bank A/C</label>
+                                                    </div>
+                                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                                        <div>
+                                                            <div onclick="openAccountSheet()">
+                                                                <label for="account3"
+                                                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg bg-gray-100">
+                                                                    <div class="flex items-center">
+                                                                        <i
+                                                                            class="fas fa-university text-gray-900 mr-4 text-2xl"></i>
+                                                                        <div>
+                                                                            <div class="text-gray-700 font-semibold text-sm"
+                                                                                id="selectedAccountDisplay">SBI BANK LTD
+                                                                            </div>
+                                                                            <div class="text-gray-900 text-sm">●●●●
+                                                                                12345</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <i class="fa-solid fa-angle-down text-gray-400"></i>
+                                                                </label>
                                                             </div>
-                                                            <i class="fa-solid fa-angle-down text-gray-400"></i>
-                                                        </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="hidden md:block mt-5">
-                                        <div class="flex items-center my-2">
-                                            <label for="price" class="block text-sm text-gray-900 px-5">Choose Bank
-                                                A/C</label>
-                                        </div>
-                                        <div class="mt-2 mx-14">
-                                            <div class="account-options grid grid-cols-3 gap-4">
-                                                <div>
-                                                    <input type="radio" id="account1" name="selectedAccount"
-                                                        value="ICICI" class="custom-radio" />
-                                                    <label for="account1"
-                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                        <div class="flex items-center">
-                                                            <i class="fas fa-university text-gray-900 mr-2"></i>
-                                                            <div>
-                                                                <div class="text-gray-700 font-semibold text-sm">ICICI
-                                                                    BANK LTD</div>
-                                                                <div class="text-gray-500 text-sm">●●●● 17436</div>
-                                                            </div>
-                                                        </div>
-                                                        <i class="fas fa-check-circle check-icon"></i>
-                                                    </label>
-                                                </div>
-                                                <div>
-                                                    <input type="radio" id="account2" name="selectedAccount"
-                                                        value="HDFC" class="custom-radio" />
-                                                    <label for="account2"
-                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                        <div class="flex items-center">
-                                                            <i class="fas fa-university text-gray-900 mr-2"></i>
-                                                            <div>
-                                                                <div class="text-gray-700 font-semibold text-sm">HDFC
-                                                                    BANK LTD</div>
-                                                                <div class="text-gray-500 text-sm">●●●● 689095</div>
-                                                            </div>
-                                                        </div>
-                                                        <i class="fas fa-check-circle check-icon"></i>
-                                                    </label>
-                                                </div>
-                                                <div>
-                                                    <input type="radio" id="account3" name="selectedAccount" value="SBI"
-                                                        class="custom-radio" />
-                                                    <label for="account3"
-                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                        <div class="flex items-center">
-                                                            <i class="fas fa-university text-gray-900 mr-2"></i>
-                                                            <div>
-                                                                <div class="text-gray-700 font-semibold text-sm">SBI
-                                                                    BANK LTD</div>
-                                                                <div class="text-gray-500 text-sm">●●●● 12345</div>
-                                                            </div>
-                                                        </div>
-                                                        <i class="fas fa-check-circle check-icon"></i>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+
                                     <div class="bg-white rounded-lg shadow-lg  m-4 p-3">
                                         <div class="flex items-center">
                                             <label for="transferMode" class="block text-sm text-gray-900">Select Payment
@@ -531,7 +483,7 @@
                                     <div class="flex items-center">
                                         <i class="fas fa-university text-gray-500 mr-5 text-2xl"></i>
                                         <div>
-                                            <div class="text-gray-700 font-semibold text-sm">ICICI BANK LTD
+                                            <div class="text-gray-700 font-semibold text-sm">ICICI BANKdd LTD
                                             </div>
                                             <div class="text-gray-500 text-sm">●●●● 17436</div>
                                         </div>
@@ -811,7 +763,14 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                const responseData = await response.json(); // Parse the response
+                const responseData = await response.json();
+                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
+                selectedAccountDisplay.innerHTML = apiResponse.primaryBank.name;
+
+                // Optionally, you can also display the account number
+                const accountNumberDisplay = selectedAccountDisplay.nextElementSibling;
+                accountNumberDisplay.innerHTML = apiResponse.primaryBank.accountNumber;
+
                 console.log('Response from API:', responseData);
             } catch (error) {
                 console.error('Error sending data:', error);
@@ -833,11 +792,18 @@
         }
 
         window.onload = function () {
+            const shimmer = document.getElementById('shimmer');
+            const Noshimmer = document.getElementById('noshimmer');
+            shimmer.style.display = 'block';
+            Noshimmer.style.display = "none"
+
             setTimeout(() => {
-                const shimmer = document.getElementById('shimmer');
-                shimmer.style.display = ' none'; // Hide the shimmer after 3 seconds
+
+                shimmer.style.display = 'none';
+                Noshimmer.style.display = ' block';  // Hide the shimmer after 3 seconds
             }, 3000);
-            setInitialSelectedAccount
+            setInitialSelectedAccount()
+            sendEncryptedDate();
         };
 
 
