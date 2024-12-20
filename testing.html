@@ -12,16 +12,6 @@
 
 
     <style>
-        .shimmer-effect {
-
-
-            background-color: #ffffff;
-            /* Solid white background */
-
-            z-index: 100;
-            /* Ensure it is above other content */
-        }
-
         .shimmer-item {
 
             margin: 10px 0;
@@ -30,14 +20,27 @@
             animation: shimmer 1.5s infinite;
         }
 
+        /* Shimmer Effect */
         @keyframes shimmer {
             0% {
-                background-position: 200% 0;
+                background-position: -200px 0;
             }
 
             100% {
-                background-position: -200% 0;
+                background-position: 200px 0;
             }
+        }
+
+        .shimmer-effect {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 400px 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Optional: Add a hover effect */
+        .bg-white:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
         }
 
         .tab-content {
@@ -195,17 +198,15 @@
                                     </div>
                                     <div>
 
-                                        <div id="shimmer" class=" flex flex-col  items-center ">
-
-                                            <div class="bg-white rounded-lg shadow-lg   m-4 p-3 ">
+                                        <div id="shimmer" class="flex flex-col items-center">
+                                            <div
+                                                class="bg-white rounded-lg shadow-lg m-4 p-3 transition-transform transform hover:scale-105">
                                                 <div class="flex items-center my-2">
                                                     <label for="price" class="block text-sm">Choose Bank A/C</label>
                                                 </div>
-                                                <div class="bg-gray-200 rounded-lg animate-pulse dark:bg-gray-700 my-2  rounded-lg"
-                                                    style="width:100%;height: 60px;">
-                                                </div>
+                                                <div class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                                                    style="width:100%; height: 60px;"></div>
                                             </div>
-
                                         </div>
                                         <div id="noshimmer">
                                             <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
@@ -711,42 +712,6 @@
     <script>
         const currentDate = new Date().toISOString();
 
-        // async function clientEncryption(encryptionData, actionType) {
-        //     const encryptMethod = 'AES-128-CBC';
-        //     const secretKey = 'J0E'; // user defined private key
-        //     const secretIv = 'rLv'; // user defined secret key
-
-        //     // Generate key and IV
-        //     const key = await window.crypto.subtle.importKey(
-        //         'raw',
-        //         new TextEncoder().encode(secretKey),
-        //         { name: encryptMethod, length: 128 },
-        //         false,
-        //         ['encrypt', 'decrypt']
-        //     );
-
-        //     const iv = new TextEncoder().encode(secretIv).slice(0, 16); // Ensure IV is 16 bytes
-
-        //     if (actionType === 'encrypt') {
-        //         const encryptedData = await window.crypto.subtle.encrypt(
-        //             { name: encryptMethod, iv: iv },
-        //             key,
-        //             new TextEncoder().encode(encryptionData)
-        //         );
-
-        //         // Convert ArrayBuffer to Base64
-        //         return btoa(String.fromCharCode(...new Uint8Array(encryptedData)));
-        //     } else if (actionType === 'decrypt') {
-        //         const decryptedData = await window.crypto.subtle.decrypt(
-        //             { name: encryptMethod, iv: iv },
-        //             key,
-        //             Uint8Array.from(atob(encryptionData), c => c.charCodeAt(0))
-        //         );
-
-        //         return new TextDecoder().decode(decryptedData);
-        //     }
-        // }
-        sendEncryptedDate()
         async function sendEncryptedDate() {
             debugger
 
@@ -801,7 +766,7 @@
 
                 shimmer.style.display = 'none';
                 Noshimmer.style.display = ' block';  // Hide the shimmer after 3 seconds
-            }, 3000);
+            }, 2000);
             setInitialSelectedAccount()
             sendEncryptedDate();
         };
