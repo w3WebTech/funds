@@ -10,6 +10,37 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        .shimmer-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ffffff;
+            /* Solid white background */
+
+            z-index: 100;
+            /* Ensure it is above other content */
+        }
+
+        .shimmer-item {
+
+          
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            /* background-size: 200% 100%; */
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
         .tab-content {
             display: none;
         }
@@ -207,6 +238,24 @@
 </head>
 
 <body class="bg-gray-100 h-screen overflow-hidden">
+    <div id="shimmer" class="shimmer-effect flex items-center">
+             <div class="shimmer-item rounded-lg mx-5" style="width: 25%; height: 90%;"></div>
+                <div class="shimmer-item my-2 rounded-lg mx-5 flex flex-col items-center text-center justify-center" style="width: 70%; height: 90%;">
+                    <div class=" rounded-lg  " style="width: 90%;height: 80px;"></div>
+        
+                    <div class=" my-2 rounded-lg " style="width:90%;height: 200px;background-color: #e0e0e0;"></div>
+                    <div class=" my-2 rounded-lg " style="width:90%;height: 100px;background-color: #e0e0e0;"></div>
+                    <div class=" my-2 rounded-lg " style="width:90%;height: 250px;background-color: #e0e0e0;"></div>
+                 
+                    <div class=" my-2 rounded-lg " style="width:90%;height: 50px;background-color: #e0e0e0;"></div>
+                    
+                </div>
+                <!--</div>
+                <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 250px;"></div>
+                <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div>
+                <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div> -->
+
+    </div>
     <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
 
     <!--smal device-->
@@ -905,7 +954,13 @@
         }
 
         // Call the function to set the initial selected account when the page loads
-        window.onload = setInitialSelectedAccount;
+        window.onload = function () {
+            setTimeout(() => {
+                const shimmer = document.getElementById('shimmer');
+                shimmer.style.display = 'none'; // Hide the shimmer after 3 seconds
+            }, 3000);
+            setInitialSelectedAccount(); // Call the function to set the initial selected account
+        };
         function proceedWithTest() {
             const button = document.getElementById('proceedButton');
 
