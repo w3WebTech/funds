@@ -172,12 +172,12 @@
         </div>
         <div class="flex min-h-screen">
             <div class="absolute top-20">
-                <div class="3">
+                <div class="">
                     <div class="">
                         <div id="content1-mobile" class="tab-content active">
                             <div class="mb-4 w-screen">
                                 <div>
-                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3 ">
+                                    <div class="bg-white rounded-lg shadow-lg   m-4 mx-2  p-3 ">
                                         <div class="py-2 text-xl text-gray-900">Welcome <span
                                                 class="font-semibold">RAJAESWARAN</span></div>
                                         <label for="price" class=" text-sm text-gray-900">Enter Amount</label>
@@ -200,16 +200,21 @@
 
                                         <div id="shimmer" class="flex flex-col items-center">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg m-4 p-3 transition-transform transform hover:scale-105">
+                                                class="bg-white rounded-lg shadow-lg m-4 mx-2 p-3 transition-transform transform hover:scale-105">
                                                 <div class="flex items-center my-2">
                                                     <label for="price" class="block text-sm">Choose Bank A/C</label>
                                                 </div>
-                                                <div class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
-                                                    style="width:100%; height: 60px;"></div>
+                                                <div class="bg-gray-100 rounded-md px-3 py-2">
+                                                    <div class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                                                        style="width:100%; height:14px;"></div>
+                                                        <div class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                                                        style="width:50%; height: 14px;"></div>
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div id="noshimmer">
-                                            <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
+                                            <div class="bg-white rounded-lg shadow-lg mx-2 m-4 p-3">
                                                 <div class="block md:hidden">
                                                     <div class="flex items-center my-2">
                                                         <label for="price" class="block text-sm">Choose Bank A/C</label>
@@ -241,7 +246,7 @@
                                     </div>
 
 
-                                    <div class="bg-white rounded-lg shadow-lg  m-4 p-3">
+                                    <div class="bg-white rounded-lg shadow-lg  m-4 mx-2  p-3">
                                         <div class="flex items-center">
                                             <label for="transferMode" class="block text-sm text-gray-900">Select Payment
                                                 Method</label>
@@ -323,12 +328,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
+                                    <div class="bg-white rounded-lg shadow-lg mx-2   m-4 p-3">
                                         <button type="button" id="proceedButton"
                                             class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm  "
                                             onclick="proceedWithTest()">PROCEED</button>
                                     </div>
-                                    <div class="flex justify-center  m-4 p-3">
+                                    <div class="flex justify-center  m-4 mx-2 p-3">
                                         <div class="">
                                             <button type="button"
                                                 class="rounded-md bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm hover:bg-white/20 mx-1"
@@ -341,7 +346,7 @@
                         <div id="content2-mobile" class="tab-content">
                             <div class="mb-4 w-screen">
                                 <div>
-                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3 ">
+                                    <div class="bg-white rounded-lg shadow-lg  mx-2 m-4 p-3 ">
                                         <div class="py-2 text-xl text-gray-900">Welcome <span
                                                 class="font-semibold">RAJAESWARAN</span></div>
                                         <label for="price" class=" text-sm text-gray-900">Enter Amount</label>
@@ -360,7 +365,7 @@
                                             minimum of ₹50 for bank transfer.</div>
                                         <div id="no-message" class="text-white text-sm">Please fill this field</div>
                                     </div>
-                                    <div class="bg-white rounded-lg shadow-lg   m-4 p-3">
+                                    <div class="bg-white rounded-lg shadow-lg  mx-2 m-4 p-3">
                                         <div class="block md:hidden">
                                             <div class="flex items-center my-2">
                                                 <label for="price" class="block text-sm">Choose Bank A/C</label>
@@ -761,6 +766,8 @@
             const Noshimmer = document.getElementById('noshimmer');
             shimmer.style.display = 'block';
             Noshimmer.style.display = "none"
+
+
 
             setTimeout(() => {
 
