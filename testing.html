@@ -159,13 +159,13 @@
         <div class="block md:hidden bg-blue-600 sm:relative sm:h-[500px]">
             <div class="flex justify-center items-center text-center ">
                 <div class="w-screen mx-4">
-                    <div class="mx-auto bg-white p-3 px-2 m-4 mb-20  rounded-md">
+                    <div class="mx-auto bg-white p-2 m-4 mb-20 rounded-md">
                         <nav class="flex">
                             <button id="tab1-mobile"
-                                class="tab-button whitespace-nowrap rounded-md custom-bg text-white px-14 py-2 text-base font-medium focus:outline-none"
+                                class="tab-button flex-1 whitespace-nowrap rounded-md custom-bg text-white px-4 py-2 text-base font-medium focus:outline-none"
                                 onclick="changeTab('tab1-mobile')">Add Funds</button>
                             <button id="tab2-mobile"
-                                class="tab-button rounded-md bg-gray-100 px-14 py-2 text-base font-medium text-gray-500 focus:outline-none"
+                                class="tab-button flex-1 rounded-md bg-gray-100 px-4 py-2 text-base font-medium text-gray-500 focus:outline-none"
                                 onclick="changeTab('tab2-mobile')">Withdrawal</button>
                         </nav>
                     </div>
@@ -179,23 +179,18 @@
                         <div id="content1-mobile" class="tab-content active">
                             <div class="mb-4 w-screen">
                                 <div>
-                                    <div class="bg-white rounded-lg shadow-lg   m-4 mx-3  p-3 ">
-                                        <div class="py-2 text-xl text-gray-900">Welcome <span
-                                                class="font-semibold">RAJAESWARAN</span></div>
-                                        <label for="price" class=" text-sm text-gray-900">Enter Amount</label>
+                                    <div class="bg-white rounded-lg shadow-lg m-4 mx-3 p-3">
+                                        <div class="py-2 text-xl text-gray-900">Welcome <span class="font-semibold">RAJAESWARAN</span></div>
+                                        <label for="price" class="text-sm text-gray-900">Enter Amount</label>
                                         <div class="mt-2">
-                                            <div
-                                                class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue-500">
-                                                <div
-                                                    class="shrink-0 select-none text-base text-gray-400 font-bold text-lg px-2">
-                                                    ₹</div>
+                                            <div class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue-500">
+                                                <div class="shrink-0 select-none text-base text-gray-400 font-bold text-lg px-2">₹</div>
                                                 <input type="number" name="price" id="price"
-                                                    class=" px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                                                    class="px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
                                                     placeholder="0.00" aria-describedby="price-currency">
                                             </div>
                                         </div>
-                                        <div id="error-message" class="text-red-500 text-sm hidden">Please enter a
-                                            minimum of ₹50 for bank transfer.</div>
+                                        <div id="error-message" class="text-red-500 text-sm hidden">Please enter a minimum of ₹50 for bank transfer.</div>
                                         <div id="no-message" class="text-white text-sm">Please fill this field</div>
                                     </div>
                                     <div>
