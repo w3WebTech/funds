@@ -1,782 +1,355 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Example</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tab-content {
+            display: none;
+        }
 
-
-
-    <link href="style.css" rel="stylesheet">
-    <!-- <link href="css/main5739.css?version=4.5.0" rel="stylesheet"> -->
+        .tab-content.active {
+            display: block;
+        }
+    </style>
 </head>
-<style>
-    .form-check-input {
-        margin-top: 3px;
-    }
-
-    .form-check-label {
-        cursor: pointer !important;
-    }
-
-    .form-check-input {
-        cursor: pointer !important;
-    }
-
-    /* Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-
-
-    .form-check {
-        padding-right: 2rem !important;
-    }
-</style>
 
 <body>
-    <div class="header dashboard-header">
-        <div class="header_left">
-            <img src="images/logo.png" class="logo">
-            <h4 class="welcome header_right_text">
-                Welcome <label class="name"> RAJA ESWARAN ! </label>
-            </h4>
-        </div>
-        <div class="header_right">
-            <h4 class="header_right_text">
-                <label style="cursor: pointer" onclick="window.location.href='logout.php'" class="phone logout">
-                    Logout
-                </label>
 
-            </h4>
-        </div>
+    <div class="text-sm font-medium text-center text-gray-500  dark:text-gray-400 dark:border-gray-700">
+        <ul class="grid grid-cols-2">
+            <li class="me-2">
+                <a href="#"
+                    class="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500"
+                    aria-current="page" onclick="showTab('profile')">Open & Upcoming </a>
+            </li>
+            <li class="me-2">
+                <a href="#"
+                    class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    onclick="showTab('dashboard')">Your Applications</a>
+            </li>
+        </ul>
     </div>
-    <h4 class="mobile col-sm-2">
-        <div class="element-box" style="margin-bottom: 0">
-            <img src="images/bars.svg" onclick="showmenu()" style="width: 1.5rem;float:left;margin-left:5%"> Welcome
-            <label class="name"> RAJA ESWARAN ! </label>
-        </div>
-    </h4>
-    <div class="dashboard" onscroll="scrollFunction()">
-        <div class="scrollpage">
-            <div class="element-wrapper" style="width: 100%">
 
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div
-                            class="menu-w color-scheme-light color-style-default menu-position-side menu-side-left menu-layout-compact sub-menu-style-over sub-menu-color-bright selected-menu-color-light menu-activated-on-hover">
-                            <h1 class="menu-page-header ">Page Header</h1>
+    <div id="profile" class="tab-content active">
+        <h2 class="text-xl font-bold px-4">Open Ipo's<span
+                class="inline-flex items-center rounded-md bg-red-100 px-1.5 py-0.5 text-xs font-medium text-red-700">9</span>
+        </h2>
 
-                            <ul class="main-menu">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
 
-                                <li class="sub-header"><span>IPO</span></li>
-                                <li class="selected has-sub-menu "><a href="open-ipo.php?active=1" class="">
-                                        <div class="icon-w">
-                                            <div class="os-icon os-icon-layout"></div>
-                                        </div><span>Open IPO</span>
-                                    </a>
-
-                                </li>
-                                <li class="has-sub-menu "><a href="Upcoming-ipo.php?active=2" class="">
-                                        <div class="icon-w">
-                                            <div class="os-icon os-icon-layers"></div>
-                                        </div><span>Upcoming IPO</span>
-                                    </a>
-                                </li>
-                                <li class="has-sub-menu "><a href="closed-ipo.php?active=3" class="">
-                                        <div class="icon-w">
-                                            <div class="os-icon os-icon-layers"></div>
-                                        </div><span>Closed IPO</span>
-                                    </a>
-                                </li>
-                                <li class="has-sub-menu "><a href="inProcessIPO.php?active=4" class="">
-                                        <div class="icon-w">
-                                            <div class="os-icon os-icon-layers"></div>
-                                        </div><span>In Process IPO</span>
-                                    </a>
-                                </li>
-                                <li class="has-sub-menu "><a href="allottedIPO.php?active=5" class="">
-                                        <div class="icon-w">
-                                            <div class="os-icon os-icon-layers"></div>
-                                        </div><span>IPO Order Book</span>
-                                    </a>
-                                </li>
-                                <li class="has-sub-menu "><a href="blockedIPO.php?active=6" class="">
-                                        <div class="icon-w">
-                                            <div class="os-icon os-icon-layers"></div>
-                                        </div><span>Blocked IPO</span>
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </div>
-                        <button onclick="topFunction()" id="myBtn" title="Go to top">⇧</button>
-                        <script>
-                            var mybutton = document.getElementById("myBtn");
-
-                            // When the user scrolls down 20px from the top of the document, show the button
-
-
-                            function scrollFunction() {
-
-                                if ($(".dashboard").scrollTop() > 50) {
-                                    mybutton.style.display = "block";
-                                } else {
-                                    mybutton.style.display = "none";
-                                }
-                            }
-
-                            // When the user clicks on the ,button scroll to the top of the document
-                            function topFunction() {
-
-                                $(".dashboard").scrollTop(0);
-                            }
-
-                            /* Anything that gets to the document
-                            will hide the dropdown */
-
-
-
-                            /* Clicks within the dropdown won't make
-                               it past the dropdown itself */
-                            function showmenu() {
-                                if ($(".main-menu").is(":visible")) {
-                                    // $('').hide().fadeOut(800).delay(1000);
-                                    $('.main-menu').fadeOut("fast");
-                                } else {
-                                    $('.main-menu').fadeIn("fast");
-                                }
-                            }
-                        </script>
-                    </div>
-
-
-
-                    
-
-                    <div class="col-sm-4  element-box" style="margin-bottom: 0">
-
-                        <div class="element-wrapper compact" style="padding-bottom: 1rem;">
-
-                            <h6 class="element-header tableheader"> Details of IDENTICAL <a href="#"></a></h6>
-                            <div class="element-box-tp">
-                                <table class="table table-clean">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="value">Issue Open</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value">18-12-2024</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="value">Issue End</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value">20-12-2024</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="value">Issue size (No. of shares)</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value">2646000</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="value">Issue price</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value">51.00 - 54.00</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="value">Market Lot/Min. Qty.</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value">2000</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="value">Tick size</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value">1</div>
-                                            </td>
-                                        </tr>
-                                        <!-- <tr>
-                                            <td>
-                                                <div class="value">Discount</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value"></div>
-                                            </td>
-                                        </tr> -->
-                                        <tr>
-                                            <td>
-                                                <div class="value">Note</div>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="value">You can Apply upto 5 Lakhs</div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <br>
-                                <!-- <a class="centered-load-more-link" href="" target="_blank"><span>Prospectus</span></a> -->
+                <ul role="list" class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2 clickable-div
+                    " data-target="ipoDetails.html">
+                        <div class="flex items-center gap-x-4  border-gray-900/5 py-2 px-3">
+                            <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="Tuple"
+                                class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                            <div>
+                                <div class="text-sm/6 font-medium text-gray-900">ventive Hospitality Ltd</div>
+                                <div
+                                    class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+                                    MAINBOARD</div>
                             </div>
-                        </div>
 
-                    </div>
-
-                    <div class="col-lg-6 pdl ">
-                        <div class="element-box" style="margin-bottom:0;min-height:500px">
-
-                            <h6 class="element-header tableheader"> DP Details</a></h6>
-
-                            <form id="upicall" style="margin-block-end:0" action="postvalues.php">
-                                <br>
-
-
-
-                                <div class="row">
-
-
-                                    <div class="col-sm-12">
-
-                                        <div class="row">
-                                            <!-- <div class="col-sm-4">
-                                                    <label for="">Depository Name <strong></strong></label>
-                                                </div> -->
-                                            <div class="col-sm-6">
-                                                <label for="">Depository ID -<strong> 1208420000553061</strong></label>
-
-                                            </div>
-                                            <div class="col-sm-8">
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    </br>
-
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-sm-12">
-                                        <h6 class="element-header tableheader">Choose Investor</h6>
-                                        <br>
-                                        <div class="row" style="margin-left: 0px;">
-
-                                            <div class="col-6 col-sm-3" style="margin-bottom: 20px;">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-subCatCode"
-                                                            name="ipo-category-NIB-subCatCode" value="IND">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-minValue"
-                                                            name="ipo-category-NIB-minValue" value="200001">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-maxUpiLimit"
-                                                            name="ipo-category-NIB-maxUpiLimit" value="500000">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-allowCutOff"
-                                                            name="ipo-category-NIB-allowCutOff" value="0">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-maxValue"
-                                                            name="ipo-category-NIB-maxValue" value="54">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-discountPrice"
-                                                            name="ipo-category-NIB-discountPrice" value="">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-maxPrice"
-                                                            name="ipo-category-NIB-maxPrice" value="94824000">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-NIB-discountType"
-                                                            name="ipo-category-NIB-discountType" value="">
-                                                        <input class="form-check-input" type="radio" id="ipo-category"
-                                                            name="ipo-category" onchange="total()" value="NIB"
-                                                            required>IND-NIB <br> <br><small>Min :200001<br>Max
-                                                            :500000</small> </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-sm-3" style="margin-bottom: 20px;">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-subCatCode"
-                                                            name="ipo-category-RETAIL-subCatCode" value="IND">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-minValue"
-                                                            name="ipo-category-RETAIL-minValue" value="0">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-maxUpiLimit"
-                                                            name="ipo-category-RETAIL-maxUpiLimit" value="200000">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-allowCutOff"
-                                                            name="ipo-category-RETAIL-allowCutOff" value="1">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-maxValue"
-                                                            name="ipo-category-RETAIL-maxValue" value="54">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-discountPrice"
-                                                            name="ipo-category-RETAIL-discountPrice" value="">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-maxPrice"
-                                                            name="ipo-category-RETAIL-maxPrice" value="200000">
-                                                        <input class="form-check-input" type="hidden"
-                                                            id="ipo-category-RETAIL-discountType"
-                                                            name="ipo-category-RETAIL-discountType" value="">
-                                                        <input class="form-check-input" type="radio" id="ipo-category"
-                                                            name="ipo-category" onchange="total()" value="RETAIL"
-                                                            required>IND-RETAIL <br> <br><small>Min :0<br>Max
-                                                            :200000</small> </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <strong style="font-size: 82%; font-weight: 700;">Generic Term
-                                            Definitions</strong><br>
-                                        <small>IND => Individual, NIB => Non-Institutional Bidders</small><br>
-                                        <small>EMP-EMPRET => Employee Retail, SHA-SHARET => Shareholder
-                                            Retail</small><br>
-                                        <small>Min => Minimum Allowed Limit, Max => Maximum Allowed
-                                            Limit</small><br><br>
-
-
-
-                                    </div>
-                                </div>
-                                <h6 class="element-header tableheader"> Apply Now</h6>
-
-                                <div class="row">
-
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input class="form-control" placeholder="UPI" type="text" required
-                                                    name="UPI" minlength="3" autocomplete="off" value="r.rubymdu">
-                                                <div class="input-group-prepend">
-                                                    <!-- <div class="input-group-text" style="margin-top: auto">@</div> -->
-                                                </div>
-                                                <select class="form-control" required name="UPI-type">
-                                                    <option value="">@ Select UPI Code</option>
-                                                    <option selected value="okicici">@okicici</option>
-
-                                                    <option value="barodampay">@barodampay</option>
-                                                    <option value="obc">@obc</option>
-                                                    <option value="idbi">@idbi</option>
-                                                    <option value="cnrb">@cnrb</option>
-                                                    <option value="rbl">@rbl</option>
-                                                    <option value="upi">@upi</option>
-                                                    <option value="allbank">@allbank</option>
-                                                    <option value="axisbank">@axisbank</option>
-                                                    <option value="indus">@indus</option>
-                                                    <option value="federal">@federal</option>
-                                                    <option value="sbi">@sbi</option>
-                                                    <option value="citi">@citi</option>
-                                                    <option value="citigold">@citigold</option>
-                                                    <option value="okhdfcbank">@okhdfcbank</option>
-                                                    <option value="hdfcbank">@hdfcbank</option>
-                                                    <option value="okaxis">@okaxis</option>
-                                                    <option value="oksbi">@oksbi</option>
-                                                    <option value="okicici">@okicici</option>
-                                                    <option value="hsbc">@hsbc</option>
-                                                    <option value="icici">@icici</option>
-                                                    <option value="ybl">@ybl</option>
-                                                    <option value="ibl">@ibl</option>
-                                                    <option value="sib">@sib</option>
-                                                    <option value="kbl">@kbl</option>
-                                                    <option value="axl">@axl</option>
-                                                    <option value="csbpay">@csbpay</option>
-                                                    <option value="paytm">@paytm</option>
-                                                    <option value="kotak">@kotak</option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="flex-wrap:inherit">
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <small>LOT</small>
-                                            <input class="form-control" style="margin-bottom: 5px;" autocomplete="off"
-                                                placeholder="Lot" type="number" min="1" name="qty1" value="1" required
-                                                onkeyup="req(this.name)"
-                                                oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                                            <small>1 lot = 2000 qty</small> <br>
-                                            <small id="orderQty">Order Qty : 2000</small>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <small>&nbsp;</small>
-
-                                            <select class="form-control" required id="method1" name="method1"
-                                                onchange="pricechange(this.name)">
-                                                <option value="">Select Price type</option>
-                                                <option value="bid">Bid at Cut of Price</option>
-                                                <option value="manual">Manual</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <small>&nbsp;</small>
-
-                                            <input class="form-control" autocomplete="off"
-                                                onblur="validatePrice(this.value)" placeholder="price" type="number"
-                                                min="51" max="54" name="price1" readonly required
-                                                onkeyup="req(this.name)"
-                                                oninput="this.value=this.value.replace(/[^0-9]/g,'');">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <br>
-
-                                <div class="form-group row">
-                                    <label class="col-form-label col-sm-8" for="" style="text-align: right;"> Total
-                                        Amount Payable</label>
-
-
-
-                                    <div class="col-sm-4">
-                                        <input class="form-control" placeholder="Total amount" type="text"
-                                            name="totalamount" readonly required>
-                                        <input type="hidden" name="ipoid" value="4686">
-                                    </div>
-                                    <label class="col-form-label col-sm-12"
-                                        style="text-align: right;font-size: 15px;"><b>Note: </b>Discount will be
-                                        automatically applied in mandate request creation</label>
-                                </div>
-
-                                <div class="form-check">
-
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" required><small>I hereby
-                                            undertake that i have read the Red Herring Prospectus and I am an eligible
-                                            UPI bidder as per the applicable provisions of the SEBI (issue of Capital
-                                            and Disclosure Requirement) Regulation, 2009. </small></label>
-                                </div>
-                                <br>
-                                <div class="text-center">
-                                    <button class="btn btn-primary" type="submit" id="submit"> Submit</button>
-                                </div>
-                            </form>
-                            <br>
 
                         </div>
+                        <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                            <div class="flex justify-between gap-x-4 py-3">
+                                <div>
+                                    <dt class="text-gray-500">Closes On</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> 13 Dec 2022</time></dd>
+                                </div>
+                                <div>
+                                    <dt class="text-gray-500">Minimum Investment</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> ₹ 14,502.00 /12</time></dd>
+                                </div>
 
-                    </div>
-                </div>
+
+                            </div>
+                            <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100 ">
+                                <dt class="text-gray-500"><span
+                                        class="inline-flex items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">day
+                                        1</span></dt>
+                                <dt>
+                                    <div class="font-medium text-gray-900">Overall Subscriptions </div>
+                                </dt>
+                                <dd class="flex items-start gap-x-2">
+
+                                    <div class="font-semibold test-ld text-green-400">
+                                        O.71X</div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2
+                    clickable-div
+                    " data-target="ipoDetails.html">
+                        <div class="flex items-center gap-x-4  border-gray-900/5 py-2 px-3">
+                            <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="Tuple"
+                                class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                            <div>
+                                <div class="text-sm/6 font-medium text-gray-900">ventive Hospitality Ltd</div>
+                                <div
+                                    class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+                                    MAINBOARD</div>
+                            </div>
+
+
+                        </div>
+                        <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                            <div class="flex justify-between gap-x-4 py-3">
+                                <div>
+                                    <dt class="text-gray-500">Closes On</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> 13 Dec 2022</time></dd>
+                                </div>
+                                <div>
+                                    <dt class="text-gray-500">Minimum Investment</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> ₹ 14,502.00 /12</time></dd>
+                                </div>
+
+
+                            </div>
+                            <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100 ">
+                                <dt class="text-gray-500"><span
+                                        class="inline-flex items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">day
+                                        1</span></dt>
+                                <dt>
+                                    <div class="font-medium text-gray-900">Overall Subscriptions </div>
+                                </dt>
+                                <dd class="flex items-start gap-x-2">
+
+                                    <div class="font-semibold test-ld text-green-400">
+                                        O.71X</div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2
+                    clickable-div
+                    " data-target="ipoDetails.html">
+                        <div class="flex items-center gap-x-4  border-gray-900/5 py-2 px-3">
+                            <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="Tuple"
+                                class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                            <div>
+                                <div class="text-sm/6 font-medium text-gray-900">ventive Hospitality Ltd</div>
+                                <div
+                                    class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+                                    MAINBOARD</div>
+                            </div>
+
+
+                        </div>
+                        <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                            <div class="flex justify-between gap-x-4 py-3">
+                                <div>
+                                    <dt class="text-gray-500">Closes On</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> 13 Dec 2022</time></dd>
+                                </div>
+                                <div>
+                                    <dt class="text-gray-500">Minimum Investment</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> ₹ 14,502.00 /12</time></dd>
+                                </div>
+
+
+                            </div>
+                            <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100 ">
+                                <dt class="text-gray-500"><span
+                                        class="inline-flex items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">day
+                                        1</span></dt>
+                                <dt>
+                                    <div class="font-medium text-gray-900">Overall Subscriptions </div>
+                                </dt>
+                                <dd class="flex items-start gap-x-2">
+
+                                    <div class="font-semibold test-ld text-green-400">
+                                        O.71X</div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2
+                    clickable-div
+                    " data-target="ipoDetails.html">
+                        <div class="flex items-center gap-x-4  border-gray-900/5 py-2 px-3">
+                            <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="Tuple"
+                                class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                            <div>
+                                <div class="text-sm/6 font-medium text-gray-900">ventive Hospitality Ltd</div>
+                                <div
+                                    class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+                                    MAINBOARD</div>
+                            </div>
+
+
+                        </div>
+                        <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                            <div class="flex justify-between gap-x-4 py-3">
+                                <div>
+                                    <dt class="text-gray-500">Closes On</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> 13 Dec 2022</time></dd>
+                                </div>
+                                <div>
+                                    <dt class="text-gray-500">Minimum Investment</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> ₹ 14,502.00 /12</time></dd>
+                                </div>
+
+
+                            </div>
+                            <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100 ">
+                                <dt class="text-gray-500"><span
+                                        class="inline-flex items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">day
+                                        1</span></dt>
+                                <dt>
+                                    <div class="font-medium text-gray-900">Overall Subscriptions </div>
+                                </dt>
+                                <dd class="flex items-start gap-x-2">
+
+                                    <div class="font-semibold test-ld text-green-400">
+                                        O.71X</div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2
+                    clickable-div
+                    " data-target="ipoDetails.html">
+                        <div class="flex items-center gap-x-4  border-gray-900/5 py-2 px-3">
+                            <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="Tuple"
+                                class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                            <div>
+                                <div class="text-sm/6 font-medium text-gray-900">ventive Hospitality Ltd</div>
+                                <div
+                                    class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+                                    MAINBOARD</div>
+                            </div>
+
+
+                        </div>
+                        <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                            <div class="flex justify-between gap-x-4 py-3">
+                                <div>
+                                    <dt class="text-gray-500">Closes On</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> 13 Dec 2022</time></dd>
+                                </div>
+                                <div>
+                                    <dt class="text-gray-500">Minimum Investment</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> ₹ 14,502.00 /12</time></dd>
+                                </div>
+
+
+                            </div>
+                            <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100 ">
+                                <dt class="text-gray-500"><span
+                                        class="inline-flex items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">day
+                                        1</span></dt>
+                                <dt>
+                                    <div class="font-medium text-gray-900">Overall Subscriptions </div>
+                                </dt>
+                                <dd class="flex items-start gap-x-2">
+
+                                    <div class="font-semibold test-ld text-green-400">
+                                        O.71X</div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </li>
+                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2
+                    clickable-div
+                    " data-target="ipoDetails.html">
+                        <div class="flex items-center gap-x-4  border-gray-900/5 py-2 px-3">
+                            <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="Tuple"
+                                class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                            <div>
+                                <div class="text-sm/6 font-medium text-gray-900">ventive Hospitality Ltd</div>
+                                <div
+                                    class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+                                    MAINBOARD</div>
+                            </div>
+
+
+                        </div>
+                        <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                            <div class="flex justify-between gap-x-4 py-3">
+                                <div>
+                                    <dt class="text-gray-500">Closes On</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> 13 Dec 2022</time></dd>
+                                </div>
+                                <div>
+                                    <dt class="text-gray-500">Minimum Investment</dt>
+                                    <dd class="text-gray-700"><time datetime="2022-12-13"> ₹ 14,502.00 /12</time></dd>
+                                </div>
+
+
+                            </div>
+                            <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100 ">
+                                <dt class="text-gray-500"><span
+                                        class="inline-flex items-center rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600">day
+                                        1</span></dt>
+                                <dt>
+                                    <div class="font-medium text-gray-900">Overall Subscriptions </div>
+                                </dt>
+                                <dd class="flex items-start gap-x-2">
+
+                                    <div class="font-semibold test-ld text-green-400">
+                                        O.71X</div>
+                                </dd>
+                            </div>
+                        </dl>
+                    </li>
+                </ul>
             </div>
         </div>
 
+    </div>
+
+    <div id="dashboard" class="tab-content">
+        <h2 class="text-xl font-bold">Dashboard Content</h2>
+        <p>This is the content for the Dashboard tab. Here you can display analytics, statistics, and other relevant
+            information.</p>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('a');
+            tabs.forEach(tab => {
+                tab.classList.remove('text-blue-600', 'border-blue-600', 'dark:text-blue-500', 'dark:border-blue-500');
+            });
+
+            // Show the selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to the clicked tab
+            const activeTab = Array.from(tabs).find(tab => tab.textContent.trim() === tabName.charAt(0).toUpperCase() + tabName.slice(1));
+            if (activeTab) {
+                activeTab.classList.add('text-blue-600', 'border-blue-600', 'dark:text-blue-500', 'dark:border-blue-500');
+            }
+        }
+
+        // Set the initial active tab
+        showTab('profile');
+        const clickableDivs = document.querySelectorAll('.clickable-div');
+
+        // Add click event listener to each div
+        clickableDivs.forEach(div => {
+            div.addEventListener('click', function () {
+                const targetPage = this.getAttribute('data-target');
+                window.location.href = targetPage; // Navigate to the target page
+            });
+        });
+    </script>
 
 </body>
 
 </html>
-<script src="js/jquery.min.js"></script>
-<script src="js/daterangepicker.js"></script>
-<script src="js/modal.js"></script>
-<script src="js/perfect-scrollbar.jquery.min.js"></script>
-<script src="js/popover-new.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/tab.js"></script>
-<script src="js/tooltip.js"></script>
-<script src="js/util.js"></script>
-<script src="js/main5739.js?version=4.5.0"></script>
-
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    function changedep(depid) {
-        if (depid == "CDSL") {
-            $("input[name=depositoryText").prop('placeholder', "Beneficiary Id");
-        } else if (depid == "NSDL") {
-            $("input[name=depositoryText").prop('placeholder', "Client Id & DP Id");
-        }
-    }
-
-    function agree() {
-        document.getElementById("agree").style.display = "none";
-        document.getElementById("OTP").style.display = "block";
-    }
-
-    function submit() {
-        var OTP = document.getElementById("inputotp").value;
-        var n = OTP.length;
-        if (n == 6) {
-
-            document.getElementById("sucess").innerHTML = "Thank you ";
-            document.getElementById("E_OTP").style.display = "none";
-
-        } else {
-            document.getElementById("sucess").innerHTML = "";
-            document.getElementById("E_OTP").style.display = "block";
-
-        }
-
-    }
-
-    function req(reqname) {
-
-        if (reqname == 'qty1') {
-            var lotValue = document.getElementsByName(reqname)[0].value;
-            var lotSize = '2000';
-            var totalQty = lotValue * lotSize;
-            document.getElementById("orderQty").innerHTML = "Order Qty : " + totalQty;
-
-
-        }
-
-
-        // var name = $("input[name=" +  + "]").val();
-        var name = document.getElementsByName(reqname)[0].value;
-        var step = reqname.substring(reqname.length - 1);
-        // alert(name);
-        if (name != "") {
-            if (step == 2) {
-                $("input[name=qty2]").prop('required', true);
-                $("select[name=method2]").prop('required', true);
-                $("input[name=price2]").prop('required', true);
-            } else if (step == 3) {
-                $("input[name=qty3]").prop('required', true);
-                $("select[name=method3]").prop('required', true);
-                $("input[name=price3]").prop('required', true);
-            }
-        } else {
-            if (step == 2) {
-                $("input[name=qty2]").prop('required', false);
-                $("select[name=method2]").prop('required', false);
-                $("input[name=price2]").prop('required', false);
-            } else if (step == 3) {
-                $("input[name=qty3]").prop('required', false);
-                $("select[name=method3]").prop('required', false);
-                $("input[name=price3]").prop('required', false);
-            }
-        }
-
-        var price = $("input[name=price1]").val();
-        var qty = $("input[name=qty1]").val();
-        var minqty = "2000";
-
-        console.log(qty);
-        if (price == "" && qty == "") {
-            $("select[name=method1]").prop('value', "");
-            $("select[name=method1]").prop('disabled', true);
-            document.getElementsByName('qty1')[0].setCustomValidity('');
-        }
-        //  else if (qty == "") {
-        //     document.getElementsByName('qty1')[0].setCustomValidity('Please fill out this field.');
-        //     $("select[name=method1]").prop('disabled', true);
-        // } 
-        else if (qty % minqty == 0) {
-            document.getElementsByName('qty1')[0].setCustomValidity("");
-            $("select[name=method1]").prop('disabled', false);
-        } else {
-            // document.getElementsByName('qty1')[0].setCustomValidity('Enter multiplication of min lot');
-            $("select[name=method1]").prop('disabled', false);
-            // return false;
-        }
-
-        var pricecheck = reqname.substring(0, reqname.length - 1);
-
-        if (pricecheck != "price") {
-
-            if (qty % minqty != 0) {
-
-                // $('#submit').trigger('click');
-            }
-        }
-        total();
-    }
-
-    function pricechange(reqname) {
-
-        var name = document.getElementsByName(reqname)[0].value;
-        var step = reqname.substring(reqname.length - 1);
-        // alert(name);
-        if (name == 'bid') {
-            var price = "54";
-            $("input[name=price" + step + "]").prop('readonly', true);
-            $("input[name=price" + step + "]").prop('value', price);
-        } else if (name == 'manual') {
-            $("input[name=price" + step + "]").prop('readonly', false);
-        } else {
-            $("input[name=price" + step + "]").prop('readonly', false);
-            $("input[name=price" + step + "]").prop('value', "");
-        }
-        total();
-    }
-
-    function total(fromsubmit) {
-
-        var Minqty = '2000';
-        var qty1 = document.getElementsByName("qty1")[0].value;
-        // var qty2 = document.getElementsByName("qty2")[0].value;
-        // var qty3 = document.getElementsByName("qty3")[0].value;
-        var price1 = document.getElementsByName("price1")[0].value;
-        // var price2 = document.getElementsByName("price2")[0].value;
-        // var price3 = document.getElementsByName("price3")[0].value;
-        var amount1 = qty1 * Minqty * price1;
-        var amount2 = 0;
-        var amount3 = 0;
-        // var amount3 = qty3 * price3;
-        var totalamount = amount1 + amount2 + amount3;
-
-        var cutOfValue = document.getElementsByName('method1')[0].value;
-
-        var categoryVal = $('input[name="ipo-category"]:checked').val();
-
-        var getCatMaxPrice = $('input[name="ipo-category-' + categoryVal + '-maxPrice"]').val();
-        var getCatMaxPrice = $('input[name="ipo-category-' + categoryVal + '-maxPrice"]').val();
-        var getCatdiscountType = $('input[name="ipo-category-' + categoryVal + '-discountType"]').val();
-        var getCatdiscountPrice = $('input[name="ipo-category-' + categoryVal + '-discountPrice"]').val();
-        var getCatmaxValue = $('input[name="ipo-category-' + categoryVal + '-maxValue"]').val();
-        var getCatallowCutOff = $('input[name="ipo-category-' + categoryVal + '-allowCutOff"]').val();
-        var getCatmaxUpiLimit = $('input[name="ipo-category-' + categoryVal + '-maxUpiLimit"]').val();
-        var getCatminValue = $('input[name="ipo-category-' + categoryVal + '-minValue"]').val();
-
-        // console.warn('---STARTS---');
-        // console.warn(categoryVal);
-        // console.warn(totalamount);
-        // console.warn(getCatminValue);
-        // console.warn(getCatmaxUpiLimit);
-        // console.warn(getCatallowCutOff);
-        // console.warn(cutOfValue);
-        // console.warn('---ENDS---');
-
-        if (getCatallowCutOff == 0) {
-
-            var sortBySelect = document.querySelector("#method1");
-
-            sortBySelect.value = "manual";
-
-            sortBySelect.dispatchEvent(new Event("change"));
-
-            $('#method1').attr('disabled', true);
-        } else {
-
-            $('#method1').attr('disabled', false);
-
-        }
-
-        if (fromsubmit == true) {
-
-            if (totalamount > getCatmaxUpiLimit) {
-                swal({
-                    text: "Note : Please modify the lot quantity, so the Total Amount Payable Should be less than or Equal to " + getCatmaxUpiLimit + " For Selected Category.",
-                    icon: "warning",
-                    button: "OK",
-                    closeOnEsc: false,
-                    closeOnClickOutside: false,
-
-                });
-
-                return false;
-
-            }
-
-            if (totalamount < getCatminValue) {
-                swal({
-                    text: "1 - Note : Please modify the lot quantity, so the Total Amount Payable Should be higher than or Equal to " + getCatminValue + " For Selected Category.",
-                    icon: "warning",
-                    button: "OK",
-                    closeOnEsc: false,
-                    closeOnClickOutside: false,
-
-                });
-                return false;
-            }
-
-        }
-
-        // $(':input[type="submit"]').prop('disabled', true);
-        $("input[name=totalamount]").prop('value', totalamount);
-        return true;
-    }
-
-    $("#upicall").submit(function (e) {
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-        var totReturn = total(true);
-        if (totReturn) {
-            var form = $(this);
-            var url = form.attr('action');
-            document.getElementById('submit').innerHTML = '<img src="images/Pulse-1s-200px.gif" style="width:30px"> Please wait Processing your application';
-            $("#submit").prop("disabled", true);
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: form.serialize(), // serializes the form's elements.
-                dataType: 'json',
-                success: function (data) {
-                    // alert(data);
-                    document.getElementById('submit').innerHTML = "submit";
-                    $("#submit").prop("disabled", false);
-                    if (data.status == "ok") {
-                        swal("success!", "Note : You will receive mandate request. Please login to your UPI App Approve the mandate ! ", "success");
-                        setTimeout(function () {
-                            window.location.href = "ipo-status.php?active=4";
-                        }, 3000);
-                    } else {
-                        swal("Failed!", data.errtxt, "error");
-                        setTimeout(function () {
-                            window.location.href = "open-ipo.php";
-                        }, 3000);
-                    }
-                }
-            });
-
-        }
-    });
-
-    $('input[name="depositoryText"]').on('keypress', function (event) {
-        var regex = new RegExp("^[a-zA-Z0-9]+$");
-        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-        if (!regex.test(key)) {
-            event.preventDefault();
-            return false;
-        }
-    });
-
-    function validatePrice(price) {
-
-        var minprice = '51';
-        var maxprice = '54';
-
-        if (price < minprice || price > maxprice) {
-            $('#submit').trigger('click');
-        }
-
-    }
-    $('input[name="UPI"]').on('keypress', function (event) {
-        var regex = new RegExp("[^ @]+$");
-        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-        if (!regex.test(key)) {
-            event.preventDefault();
-            return false;
-        }
-    });
-
-    // orderQty
-</script>
