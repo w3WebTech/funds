@@ -197,11 +197,11 @@
 
                                         <div id="shimmer" class="flex flex-col items-center">
                                             <div
-                                                class="bg-white rounded-lg shadow-lg m-4 mx-3 p-3 transition-transform transform hover:scale-105">
+                                                class="bg-white rounded-lg shadow-lg m-4 mx-3 p-2 transition-transform transform hover:scale-105">
                                                 <div class="flex items-center my-2">
                                                     <label for="price" class="block text-sm">Choose Bank A/C</label>
                                                 </div>
-                                                <div class="bg-gray-100 rounded-md px-3 py-2">
+                                                <div class="bg-gray-100 rounded-md px-3 py-1.5">
                                                     <div class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
                                                         style="width:100%; height:14px;"></div>
                                                     <div class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
@@ -716,9 +716,9 @@
             </div>
             <div id="transactionModeSheet" class="hidden">
                 <div class="p-4 bg-gray-100 rounded-t-2xl mb-10">
-                    <h2 class="text-lg font-semibold mb-2">Select Transaction Mode</h2>
+                    <h2 class="text-lg font-semibold mb-2 px-4 text-xl">Select Transaction Mode</h2>
                     <div class="flex flex-col">
-                        <div class="mb-4" onclick="selectTransactionMode()">
+                        <div class="mb-4  bg-blue-100" onclick="selectTransactionMode()">
                             <input type="radio" id="upi" name="transactionMode" value="UPI" class="custom-radio"
                                 checked />
                             <label for="upi"
@@ -732,7 +732,7 @@
                                 </div>
                             </label>
                         </div>
-                        <div class="mb-4" onclick="selectTransactionMode()">
+                        <div class="mb-4 bg-white " onclick="selectTransactionMode()">
                             <input type="radio" id="netbanking" name="transactionMode" value="Net Banking"
                                 class="custom-radio" />
                             <label for="netbanking"
@@ -746,7 +746,7 @@
                                 </div>
                             </label>
                         </div>
-                        <div class="mb-4" onclick="selectTransactionMode()">
+                        <div class="mb-4 bg-white " onclick="selectTransactionMode()">
                             <input type="radio" id="paytm" name="transactionMode" value="Paytm" class="custom-radio" />
                             <label for="paytm"
                                 class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
