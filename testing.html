@@ -729,7 +729,9 @@
                                         <div class="text-gray-700 font-semibold text-sm">UPI</div>
                                         <div class="text-gray-500 text-sm">via Gpay</div>
                                     </div>
+                                    
                                 </div>
+                                <i class="fa-solid fa-circle-check text-green-500 text-2xl"></i>
                             </label>
                         </div>
                         <div class="mb-4 bg-white " onclick="selectTransactionMode()">
@@ -824,7 +826,7 @@ accountNumberDisplay.innerHTML = responseData.primaryBank.accountNumber; // Use 
             setTimeout(() => {
 
                 shimmer.style.display = 'none';
-                Noshimmer.style.display = ' block';  // Hide the shimmer after 3 seconds
+                Noshimmer.style.display = ' block';  
             }, 2000);
             setInitialSelectedAccount()
             sendEncryptedDate();
