@@ -255,6 +255,7 @@
                 <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div>
                 <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div> -->
 
+
     </div>
     <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
 
@@ -353,7 +354,7 @@
                                                     class="shrink-0 select-none text-base text-gray-500 sm:text-lg px-5">
                                                     ₹
                                                 </div>
-                                                <input type="number" name="price" id="price1"
+                                                <input type="number" name="price" id="price"
                                                     class="px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
                                                     placeholder="0.00" aria-describedby="price-currency">
                                             </div>
@@ -927,40 +928,49 @@
     </div>
     <script>
         let selectedAccount = "ICICI"; // Set the initial selected account value
-
+        document.addEventListener('DOMContentLoaded', function () {
         // Function to set the initial selected account
         function setInitialSelectedAccount() {
             if (window.innerWidth < 768) {
-                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
-                selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
+                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay1'); // Ensure this ID exists
+                if (selectedAccountDisplay) {
+                    selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
+                }
+                const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${selectedAccount}"]`);
+                if (accountRadio) {
+                    accountRadio.checked = true; // Update the checked state
+                }
+            } else {
+                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay1'); // Ensure this ID exists
+                if (selectedAccountDisplay) {
+                    selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
+                }
                 const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${selectedAccount}"]`);
                 if (accountRadio) {
                     accountRadio.checked = true; // Update the checked state
                 }
             }
-            else {
-                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay1');
-                selectedAccountDisplay1.textContent = selectedAccount + " BANK LTD";
-                const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${selectedAccount}"]`);
-                if (accountRadio) {
-                    accountRadio.checked = true; // Update the checked state
-                }
-            }
-
-            // Update the display text
-
-            // Check the corresponding radio button
-
         }
 
         // Call the function to set the initial selected account when the page loads
-        window.onload = function () {
-            setTimeout(() => {
-                const shimmer = document.getElementById('shimmer');
+        setTimeout(() => {
+            const shimmer = document.getElementById('shimmer');
+            if (shimmer) {
                 shimmer.style.display = 'none'; // Hide the shimmer after 3 seconds
-            }, 3000);
-            setInitialSelectedAccount(); // Call the function to set the initial selected account
-        };
+            }
+        }, 3000);
+        
+        setInitialSelectedAccount(); // Call the function to set the initial selected account
+
+        // Add event listeners only if the elements exist
+        const priceInput = document.getElementById('price');
+        if (priceInput) {
+            priceInput.addEventListener('input', validateAndProceed);
+        }
+
+       
+       
+    });
         function proceedWithTest() {
             const button = document.getElementById('proceedButton');
 
@@ -1021,7 +1031,7 @@
         }
 
         function changeTabWeb(tab) {
-            debugger
+            
             const contents = document.querySelectorAll('.tab-content');
 
             // Hide all content
@@ -1085,7 +1095,7 @@
             // }
         }
         function openUpiIdSheet() {
-            debugger
+          
             const upiIdSheet = document.getElementById('upiIdSheet');
             upiIdSheet.classList.remove('hidden');
             upiIdSheet.classList.add('show');
@@ -1317,7 +1327,7 @@
         }
 
         document.getElementById('price').addEventListener('input', validateAndProceed);
-        document.getElementById('price1').addEventListener('input', validateAndProceed1);
+
 
         function validateAndProceed() {
             const priceInput = document.getElementById('price');
@@ -1339,28 +1349,9 @@
                 document.getElementById('upi').disabled = false;
             }
         }
-        function validateAndProceed1() {
-            const priceInput = document.getElementById('price1');
-            const errorMessage = document.getElementById('error-message1');
-            if (priceInput.value.trim() === '') {
-                errorMessage.classList.remove('hidden');
-                priceInput.classList.add('border-red-500');
-                return false;
-            } else {
-                errorMessage.classList.add('hidden');
-                priceInput.classList.remove('border-red-500');
-            }
-            const amount = parseFloat(priceInput.value);
-            if (amount > 35000) {
-                document.getElementById('qrcode1').disabled = true;
-                document.getElementById('upi1').disabled = true;
-            } else {
-                document.getElementById('qrcode1').disabled = false;
-                document.getElementById('upi1').disabled = false;
-            }
-        }
+
         function selectAccount(accountName) {
-            debugger
+          
             console.log(accountName);
             const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
             if (lastSelectedAccount !== accountName) {

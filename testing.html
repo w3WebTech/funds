@@ -771,46 +771,45 @@
         const currentDate = new Date().toISOString();
 
         async function sendEncryptedDate() {
-            debugger
+    try {
+        const apiUrl = `https://smartpayz.gwcindia.in/gwc-techexcel/client-master-techexcel-live.php?src=SMARTPAY&key=QkYxMFlpcEtzODRnNTdyTFNZbFdkZz09&cid=GZ10219`;
 
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+        });
 
-            try {
-                // Construct the API URL with the encrypted date as the key
-                const apiUrl = `https://smartpayz.gwcindia.in/gwc-techexcel/client-master-techexcel-live.php?src=SMARTPAY&key=QkYxMFlpcEtzODRnNTdyTFNZbFdkZz09&cid=GZ10219`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'GET', // Use GET since you're sending parameters in the URL
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const responseData = await response.json();
-                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
-                selectedAccountDisplay.innerHTML = apiResponse.primaryBank.name;
-
-                // Optionally, you can also display the account number
-                const accountNumberDisplay = selectedAccountDisplay.nextElementSibling;
-                accountNumberDisplay.innerHTML = apiResponse.primaryBank.accountNumber;
-
-                console.log('Response from API:', responseData);
-            } catch (error) {
-                console.error('Error sending data:', error);
-            }
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        let selectedAccount = "ICICI"; // Set the initial selected account value
 
-        // Function to set the initial selected account
+        const responseData = await response.json();
+        const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
+        if(responseData.primaryBank){
+            selectedAccountDisplay.innerHTML = responseData.primaryBank.name; // Use responseData instead of apiResponse
+
+// Optionally, you can also display the account number
+const accountNumberDisplay = selectedAccountDisplay.nextElementSibling;
+accountNumberDisplay.innerHTML = responseData.primaryBank.accountNumber; // Use responseData instead of apiResponse
+        }
+   
+
+        console.log('Response from API:', responseData);
+    } catch (error) {
+        console.error('Error sending data:', error);
+    }
+}
+        let selectedAccount = "ICICI"; 
+
+      
         function setInitialSelectedAccount() {
             const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
-            if (selectedAccountDisplay) { // Check if the element exists
-                selectedAccountDisplay.textContent = selectedAccount + " BANK LTD"; // Update the display text
+            if (selectedAccountDisplay) { 
+                selectedAccountDisplay.textContent = selectedAccount + " BANK LTD"; 
             }
-            // Check the corresponding radio button
+           
             const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${selectedAccount}"]`);
             if (accountRadio) {
-                accountRadio.checked = true; // Update the checked state
+                accountRadio.checked = true; 
             }
         }
 
@@ -830,13 +829,13 @@
             setInitialSelectedAccount()
             sendEncryptedDate();
             const upiRadio = document.getElementById('upi');
-            upiRadio.checked = true; // Set UPI as the default selected mode
-            updateTransactionModeDisplay(); // Update the display to show the selected mode
+            upiRadio.checked = true; 
+            updateTransactionModeDisplay(); 
         };
 
 
         function changeTab(tab) {
-            const isMobile = window.innerWidth < 768; // Check if the device is mobile
+            const isMobile = window.innerWidth < 768; 
             if (isMobile) {
                 changeTabMobile(tab);
             } else {
@@ -1227,27 +1226,27 @@
 
         // Function to update the display of the selected transaction mode
         function updateTransactionModeDisplay() {
-            const selectedMode = document.querySelector('input[name="transactionMode"]:checked');
-            const transactionModeDisplay = document.getElementById('transactionModeDisplay');
-            const transsub = document.getElementById('transsub');
+    const selectedMode = document.querySelector('input[name="transactionMode"]:checked');
+    const transactionModeDisplay = document.getElementById('transactionModeDisplay');
+    const transsub = document.getElementById('transsub');
 
-            if (selectedMode) {
-                // Update the display based on the selected transaction mode
-                if (selectedMode.value === "UPI") {
-                    transactionModeDisplay.textContent = "UPI"; // Update for UPI
-                    transsub.textContent = "via Gpay"; // Update for UPI
-                } else if (selectedMode.value === "Net Banking") {
-                    transactionModeDisplay.textContent = "Net Banking"; // Update for Net Banking
-                    transsub.textContent = "via Razorpay"; // Update for Net Banking
-                } else if (selectedMode.value === "Paytm") {
-                    transactionModeDisplay.textContent = "Paytm"; // Update for Paytm
-                    transsub.textContent = "via Paytm"; // Update for Paytm
-                }
-
-                // Show the selected mode
-                document.getElementById('selectedTransactionMode').classList.remove('hidden');
-            }
+    if (selectedMode && transactionModeDisplay && transsub) { // Check if elements exist
+        // Update the display based on the selected transaction mode
+        if (selectedMode.value === "UPI") {
+            transactionModeDisplay.textContent = "UPI"; // Update for UPI
+            transsub.textContent = "via Gpay"; // Update for UPI
+        } else if (selectedMode.value === "Net Banking") {
+            transactionModeDisplay.textContent = "Net Banking"; // Update for Net Banking
+            transsub.textContent = "via Razorpay"; // Update for Net Banking
+        } else if (selectedMode.value === "Paytm") {
+            transactionModeDisplay.textContent = "Paytm"; // Update for Paytm
+            transsub.textContent = "via Paytm"; // Update for Paytm
         }
+
+        // Show the selected mode
+       // document.getElementById('selectedTransactionMode').classList.remove('hidden');
+    }
+}
 
         // Add event listeners to radio buttons
         document.querySelectorAll('input[name="transactionMode"]').forEach((radio) => {
