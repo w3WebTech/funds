@@ -10,18 +10,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .shimmer-effect {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ffffff;
-            /* Solid white background */
-
-            z-index: 100;
-            /* Ensure it is above other content */
-        }
+   
 
         .shimmer-item {
 
@@ -234,29 +223,12 @@
                 font-size: 11px
             }
         }
+   
     </style>
 </head>
 
 <body class="bg-gray-100 h-screen overflow-hidden">
-    <div id="shimmer" class="shimmer-effect flex items-center">
-             <div class="shimmer-item rounded-lg mx-5" style="width: 25%; height: 90%;"></div>
-                <div class="shimmer-item my-2 rounded-lg mx-5 flex flex-col items-center text-center justify-center" style="width: 70%; height: 90%;">
-                    <div class=" rounded-lg  " style="width: 90%;height: 80px;"></div>
-        
-                    <div class=" my-2 rounded-lg " style="width:90%;height: 200px;background-color: #e0e0e0;"></div>
-                    <div class=" my-2 rounded-lg " style="width:90%;height: 100px;background-color: #e0e0e0;"></div>
-                    <div class=" my-2 rounded-lg " style="width:90%;height: 250px;background-color: #e0e0e0;"></div>
-                 
-                    <div class=" my-2 rounded-lg " style="width:90%;height: 50px;background-color: #e0e0e0;"></div>
-                    
-                </div>
-                <!--</div>
-                <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 250px;"></div>
-                <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div>
-                <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div> -->
 
-
-    </div>
     <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
 
     <!--smal device-->
@@ -359,11 +331,11 @@
                                                     placeholder="0.00" aria-describedby="price-currency">
                                             </div>
                                         </div>
-                                        <div id="error-message1" class="text-red-500 text-sm hidden mx-14">Please enter
+                                        <div id="error-message" class="text-red-500 text-sm hidden mx-14">Please enter
                                             a
                                             minimum of ₹50 for bank transfer.
                                         </div>
-                                        <div id="no-message1" class="text-white text-sm ">Please fill this field
+                                        <div id="no-message" class="text-white text-sm ">Please fill this field
                                         </div>
                                         <div class="block md:hidden mt-5">
                                             <div class="flex items-center my-2">
@@ -393,70 +365,88 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class=" hidden md:block mt-5">
-                                            <div class="flex items-center my-2 ">
-                                                <label for="price" class="block text-sm  text-gray-900 px-5"><i
-                                                        class="fas fa-university text-gray-400 mr-5"></i>Select
-                                                    Account</label>
-                                            </div>
-                                            <div class="mt-2 mx-14">
-                                                <div class="account-options grid grid-cols-3 gap-4 ">
-                                                    <div>
-                                                        <input type="radio" id="account1" name="selectedAccount"
-                                                            value="ICICI" class="custom-radio" />
-                                                        <label for="account1"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                            <div class="flex items-center">
-                                                                <i class="fas fa-university text-gray-900 mr-2"></i>
-                                                                <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm">
-                                                                        ICICI
-                                                                        BANK
-                                                                        LTD</div>
-                                                                    <div class="text-gray-500 text-sm">●●●● 17436</div>
+                                        <div>
+                                            <div class="hidden md:block mt-5" id="noshimmer">
+                                                <div class="flex items-center my-2">
+                                                    <label for="price" class="block text-sm text-gray-900 px-5">
+                                                        <i class="fas fa-university text-gray-400 mr-5"></i>Select Account
+                                                    </label>
+                                                </div>
+                                                <div class="mt-2 mx-14">
+                                                    <div class="account-options grid grid-cols-3 gap-4">
+                                                        <div>
+                                                            <input type="radio" id="account1" name="selectedAccount" value="ICICI" class="custom-radio" />
+                                                            <label for="account1" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                                <div class="flex items-center">
+                                                                    <i class="fas fa-university text-gray-900 mr-2"></i>
+                                                                    <div>
+                                                                        <div class="text-gray-700 font-semibold text-sm">ICICI BANK LTD</div>
+                                                                        <div class="text-gray-500 text-sm">●●●● 17436</div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <i class="fas fa-check-circle check-icon"></i>
-                                                        </label>
-                                                    </div>
-                                                    <div>
-                                                        <input type="radio" id="account2" name="selectedAccount"
-                                                            value="HDFC" class="custom-radio" />
-                                                        <label for="account2"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                            <div class="flex items-center">
-                                                                <i class="fas fa-university text-gray-900 mr-2"></i>
-                                                                <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm">
-                                                                        HDFC
-                                                                        BANK
-                                                                        LTD</div>
-                                                                    <div class="text-gray-500 text-sm">●●●● 689095</div>
+                                                                <i class="fas fa-check-circle check-icon"></i>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="account2" name="selectedAccount" value="HDFC" class="custom-radio" />
+                                                            <label for="account2" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                                <div class="flex items-center">
+                                                                    <i class="fas fa-university text-gray-900 mr-2"></i>
+                                                                    <div>
+                                                                        <div class="text-gray-700 font-semibold text-sm">HDFC BANK LTD</div>
+                                                                        <div class="text-gray-500 text-sm">●●●● 689095</div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <i class="fas fa-check-circle check-icon"></i>
-                                                        </label>
-                                                    </div>
-                                                    <div>
-                                                        <input type="radio" id="account3" name="selectedAccount"
-                                                            value="SBI" class="custom-radio" />
-                                                        <label for="account3"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                            <div class="flex items-center">
-                                                                <i class="fas fa-university text-gray-900 mr-2"></i>
-                                                                <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm">SBI
-                                                                        BANK
-                                                                        LTD</div>
-                                                                    <div class="text-gray-500 text-sm">●●●● 12345</div>
+                                                                <i class="fas fa-check-circle check-icon"></i>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="account3" name="selectedAccount" value="SBI" class="custom-radio" />
+                                                            <label for="account3" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                                <div class="flex items-center">
+                                                                    <i class="fas fa-university text-gray-900 mr-2"></i>
+                                                                    <div>
+                                                                        <div class="text-gray-700 font-semibold text-sm">SBI BANK LTD</div>
+                                                                        <div class="text-gray-500 text-sm">●●●● 12345</div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <i class="fas fa-check-circle check-icon"></i>
-                                                        </label>
+                                                                <i class="fas fa-check-circle check-icon"></i>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div id="shimmer" class="shimmer-effect flex items-center">
+                                                <div class="flex items-center my-2">
+                                                    <label for="price" class="block text-sm text-gray-900 px-5">
+                                                        <i class="fas fa-university text-gray-400 mr-5"></i>Select Account
+                                                    </label>
+                                                </div>
+                                             <div class="flex mx-12">
+                                                <div class=" my-2 rounded-lg mx-2" style="width:200px;height: 60px;background-color: #e0e0e0;">
+                                                    <div class=" my-2 rounded-lg mx-2" style="width:170px;height: 10px;background-color: rgb(196, 188, 188);"></div>
+                                                    <div class=" my-2 rounded-lg mx-2" style="width:100px;height: 10px;background-color: rgb(196, 188, 188);"></div>
+                                                </div>
+                                                <div class=" my-2 rounded-lg mx-2" style="width:200px;height: 60px;background-color: #e0e0e0;">
+                                                    <div class=" my-2 rounded-lg mx-2" style="width:170px;height: 10px;background-color: rgb(196, 188, 188);"></div>
+                                                    <div class=" my-2 rounded-lg mx-2" style="width:100px;height: 10px;background-color: rgb(196, 188, 188);"></div>
+                                                </div>
+                                                <div class=" my-2 rounded-lg mx-2" style="width:200px;height: 60px;background-color: #e0e0e0;">
+                                                    <div class=" my-2 rounded-lg mx-2" style="width:170px;height: 10px;background-color: rgb(196, 188, 188);"></div>
+                                                    <div class=" my-2 rounded-lg mx-2" style="width:100px;height: 10px;background-color: rgb(196, 188, 188);"></div>
+                                                </div>
+                                             </div>
+                                               
+
+                                                   <!--</div>
+                                                   <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 250px;"></div>
+                                                   <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div>
+                                                   <div class="shimmer-item my-2 rounded-lg" style="width: 60%; height: 50px;"></div> -->
+                                   
+                                   
+                                       </div>
                                         </div>
+                                     
                                         <div class="">
                                             <div class="flex items-center my-4">
                                                 <label for="transferMode" class="block text-sm  text-gray-900 px-5"><i
@@ -580,7 +570,7 @@
                                                     class="shrink-0 select-none text-base text-gray-500 sm:text-lg px-5">
                                                     ₹
                                                 </div>
-                                                <input type="number" name="price" id="price1"
+                                                <input type="number" name="price" id="price"
                                                     class="px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
                                                     placeholder="0.00" aria-describedby="price-currency">
                                             </div>
@@ -590,54 +580,22 @@
                                         </div>
                                         <div id="no-message" class="text-white text-sm ">Please fill this field
                                         </div>
-                                        <div class="block md:hidden mt-5">
+                                        
+                                        <div class="hidden md:block mt-5">
                                             <div class="flex items-center my-2">
-                                                <label for="price" class="block text-sm font-medium text-gray-900"><i
-                                                        class="fas fa-university text-gray-500 mr-2"></i>Select
-                                                    Account</label>
-                                            </div>
-                                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
-                                                <div>
-                                                    <div onclick="openAccountSheet()">
-                                                        <label for="account3"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                                            <div class="flex items-center">
-                                                                <i class="fas fa-university text-gray-900 mr-2"></i>
-                                                                <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm"
-                                                                        id="selectedAccountDisplay1">SBI BANK
-                                                                        LTD</div>
-                                                                    <div class="text-gray-500 text-sm">●●●● 12345</div>
-                                                                </div>
-                                                            </div>
-                                                            <i class="fas fa-check-circle check-icon"></i>
-                                                        </label>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class=" hidden md:block mt-5">
-                                            <div class="flex items-center my-2 ">
-                                                <label for="price" class="block text-sm  text-gray-900 px-5"><i
-                                                        class="fas fa-university text-gray-400 mr-5"></i>Select
-                                                    Account</label>
+                                                <label for="price" class="block text-sm text-gray-900 px-5">
+                                                    <i class="fas fa-university text-gray-400 mr-5"></i>Select Account
+                                                </label>
                                             </div>
                                             <div class="mt-2 mx-14">
-                                                <div class="account-options grid grid-cols-3 gap-4 ">
+                                                <div class="account-options grid grid-cols-3 gap-4">
                                                     <div>
-                                                        <input type="radio" id="account1" name="selectedAccount"
-                                                            value="ICICI" class="custom-radio" />
-                                                        <label for="account1"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <input type="radio" id="account1" name="selectedAccount" value="ICICI" class="custom-radio" />
+                                                        <label for="account1" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                             <div class="flex items-center">
                                                                 <i class="fas fa-university text-gray-900 mr-2"></i>
                                                                 <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm">
-                                                                        ICICI
-                                                                        BANK
-                                                                        LTD</div>
+                                                                    <div class="text-gray-700 font-semibold text-sm">ICICI BANK LTD</div>
                                                                     <div class="text-gray-500 text-sm">●●●● 17436</div>
                                                                 </div>
                                                             </div>
@@ -645,17 +603,12 @@
                                                         </label>
                                                     </div>
                                                     <div>
-                                                        <input type="radio" id="account2" name="selectedAccount"
-                                                            value="HDFC" class="custom-radio" />
-                                                        <label for="account2"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <input type="radio" id="account2" name="selectedAccount" value="HDFC" class="custom-radio" />
+                                                        <label for="account2" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                             <div class="flex items-center">
                                                                 <i class="fas fa-university text-gray-900 mr-2"></i>
                                                                 <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm">
-                                                                        HDFC
-                                                                        BANK
-                                                                        LTD</div>
+                                                                    <div class="text-gray-700 font-semibold text-sm">HDFC BANK LTD</div>
                                                                     <div class="text-gray-500 text-sm">●●●● 689095</div>
                                                                 </div>
                                                             </div>
@@ -663,16 +616,12 @@
                                                         </label>
                                                     </div>
                                                     <div>
-                                                        <input type="radio" id="account3" name="selectedAccount"
-                                                            value="SBI" class="custom-radio" />
-                                                        <label for="account3"
-                                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <input type="radio" id="account3" name="selectedAccount" value="SBI" class="custom-radio" />
+                                                        <label for="account3" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                             <div class="flex items-center">
                                                                 <i class="fas fa-university text-gray-900 mr-2"></i>
                                                                 <div>
-                                                                    <div class="text-gray-700 font-semibold text-sm">SBI
-                                                                        BANK
-                                                                        LTD</div>
+                                                                    <div class="text-gray-700 font-semibold text-sm">SBI BANK LTD</div>
                                                                     <div class="text-gray-500 text-sm">●●●● 12345</div>
                                                                 </div>
                                                             </div>
@@ -741,7 +690,9 @@
                             <button id="fundsWithdrawnTab" class="tab-button text-gray-500 pb-2"
                                 onclick="changeTransactionTab('fundsWithdrawn')">Funds Withdrawn</button>
                         </div>
-                        <div id="transactionContent" class="space-y-4 bg-white p-4">
+                        <div
+                        
+                        id="transactionContent" class="space-y-4 bg-white p-4">
                             <div id="fundsAdded">
                                 <!-- Add your funds added transactions here -->
                                 <div class="flex items-center justify-between">
@@ -1059,10 +1010,10 @@
             }
         }
         function toggleUpiIdSheet(upi) {
-            const priceInput = document.getElementById('price1'); // Ensure this is the correct input field
+            const priceInput = document.getElementById('price'); // Ensure this is the correct input field
             const upiInput = document.getElementById('upi-input');
-            const nomsg = document.getElementById('no-message1'); // Ensure this is the correct message
-            const errorMessage = document.getElementById('error-message1'); // Ensure this is the correct message
+            const nomsg = document.getElementById('no-message'); // Ensure this is the correct message
+            const errorMessage = document.getElementById('error-message'); // Ensure this is the correct message
 
             // Check if the amount is entered
             if (priceInput.value.trim() === '') {
@@ -1109,6 +1060,7 @@
             }
         });
         function openBottomSheet() {
+            debugger
             const bottomSheet = document.getElementById('bottomSheet');
             const overlay = document.getElementById('overlay'); // Get the overlay element
             bottomSheet.classList.remove('hidden');
@@ -1118,6 +1070,7 @@
             // Set the initial tab to be shown
             changeTransactionTab('fundsAdded'); // Show the funds added tab by default
         }
+        document.getElementById('overlay').addEventListener('click', closeBottomSheet);
         function changeTransactionTab(tab) {
             const fundsAdded = document.getElementById('fundsAdded');
             const fundsWithdrawn = document.getElementById('fundsWithdrawn');
@@ -1149,10 +1102,11 @@
             }, 300);
         }
         function toggleInputField(upi) {
-            const priceInput = document.getElementById('price1'); // Ensure this is the correct input field
+            debugger
+            const priceInput = document.getElementById('price'); // Ensure this is the correct input field
             const upiInput = document.getElementById('upi-input');
-            const nomsg = document.getElementById('no-message1'); // Ensure this is the correct message
-            const errorMessage = document.getElementById('error-message1'); // Ensure this is the correct message
+            const nomsg = document.getElementById('no-message'); // Ensure this is the correct message
+            const errorMessage = document.getElementById('error-message'); // Ensure this is the correct message
 
             // Check if the amount is entered
             if (priceInput.value.trim() === '') {
@@ -1223,10 +1177,10 @@
         }
 
         function toggleInputFieldWeb(upi) {
-            const priceInput = document.getElementById('price1'); // Ensure this is the correct input field
+            const priceInput = document.getElementById('price'); // Ensure this is the correct input field
             const upiInput = document.getElementById('upi-input');
-            const nomsg = document.getElementById('no-message1'); // Ensure this is the correct message
-            const errorMessage = document.getElementById('error-message1'); // Ensure this is the correct message
+            const nomsg = document.getElementById('no-message'); // Ensure this is the correct message
+            const errorMessage = document.getElementById('error-message'); // Ensure this is the correct message
 
             // Check if the amount is entered
             if (priceInput.value.trim() === '') {
@@ -1329,6 +1283,23 @@
         document.getElementById('price').addEventListener('input', validateAndProceed);
 
 
+        window.onload = function () {
+            const shimmer = document.getElementById('shimmer');
+            const Noshimmer = document.getElementById('noshimmer');
+            shimmer.style.display = 'block';
+            Noshimmer.style.display = "none"
+
+
+
+            setTimeout(() => {
+
+                shimmer.style.display = 'none';
+                Noshimmer.style.display = ' block';  
+            }, 2000);
+           
+          
+
+        };
         function validateAndProceed() {
             const priceInput = document.getElementById('price');
             const errorMessage = document.getElementById('error-message');
