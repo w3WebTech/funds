@@ -3,14 +3,17 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Fund Transfer</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-   
+     body {
+        overflow: hidden; /* Prevents overflow */
+        min-height: 100vh; /* Ensures the body takes full height */
+    }
 
         .shimmer-item {
 
@@ -302,11 +305,11 @@
                                 <div class="mx-auto">
                                     <nav class="flex">
                                         <button id="tab1-md"
-                                            class="tab-button whitespace-nowrap  rounded-md custom-bg text-white px-10 py-2 text-base font-medium focus:outline-none"
+                                            class="tab-button whitespace-nowrap  rounded-md custom-bg text-white px-20 py-2 text-base font-medium focus:outline-none"
                                             onclick="changeTab('tab1-md')">Add Funds</button>
-                                        <button id="tab2-md"
+                                      <!-- <button id="tab2-md"
                                             class="tab-button rounded-md bg-gray-100 px-10 py-2 text-base font-medium text-gray-500  focus:outline-none"
-                                            onclick="changeTab('tab2-md')">Withdrawal</button>
+                                            onclick="changeTab('tab2-md')">Withdrawal</button>--> 
                                     </nav>
                                 </div>
                             </div>
@@ -373,8 +376,10 @@
                                                     </label>
                                                 </div>
                                                 <div class="mt-2 mx-14">
-                                                    <div class="account-options grid grid-cols-3 gap-4">
-                                                        <div>
+                                                    <div class="account-options grid grid-cols-3 gap-4"
+                                                    >
+                                                           <div  style="width:230px;height: 60px;"
+                                                        >
                                                             <input type="radio" id="account1" name="selectedAccount" value="ICICI" class="custom-radio" />
                                                             <label for="account1" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                                 <div class="flex items-center">
@@ -387,7 +392,8 @@
                                                                 <i class="fas fa-check-circle check-icon"></i>
                                                             </label>
                                                         </div>
-                                                        <div>
+                                                           <div  style="width:230px;height: 60px;"
+                                                        >
                                                             <input type="radio" id="account2" name="selectedAccount" value="HDFC" class="custom-radio" />
                                                             <label for="account2" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                                 <div class="flex items-center">
@@ -400,7 +406,8 @@
                                                                 <i class="fas fa-check-circle check-icon"></i>
                                                             </label>
                                                         </div>
-                                                        <div>
+                                                           <div  style="width:230px;height: 60px;"
+                                                        >
                                                             <input type="radio" id="account3" name="selectedAccount" value="SBI" class="custom-radio" />
                                                             <label for="account3" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
                                                                 <div class="flex items-center">
@@ -423,15 +430,15 @@
                                                     </label>
                                                 </div>
                                              <div class="flex mx-12">
-                                                <div class=" my-2 rounded-lg mx-2" style="width:200px;height: 60px;background-color: #e0e0e0;">
+                                                <div class=" my-2 rounded-lg mx-2" style="width:240px;height: 60px;background-color: #e0e0e0;">
                                                     <div class=" my-2 rounded-lg mx-2" style="width:170px;height: 10px;background-color: #ecebeb;"></div>
                                                     <div class=" my-2 rounded-lg mx-2" style="width:100px;height: 10px;background-color: #ecebeb;"></div>
                                                 </div>
-                                                <div class=" my-2 rounded-lg mx-2" style="width:200px;height: 60px;background-color: #e0e0e0;">
+                                                <div class=" my-2 rounded-lg mx-2" style="width:240px;height: 60px;background-color: #e0e0e0;">
                                                     <div class=" my-2 rounded-lg mx-2" style="width:170px;height: 10px;background-color: #ecebeb;"></div>
                                                     <div class=" my-2 rounded-lg mx-2" style="width:100px;height: 10px;background-color: #ecebeb;"></div>
                                                 </div>
-                                                <div class=" my-2 rounded-lg mx-2" style="width:200px;height: 60px;background-color: #e0e0e0;">
+                                                <div class=" my-2 rounded-lg mx-2" style="width:240px;height: 60px;background-color: #e0e0e0;">
                                                     <div class=" my-2 rounded-lg mx-2" style="width:170px;height: 10px;background-color: #ecebeb;"></div>
                                                     <div class=" my-2 rounded-lg mx-2" style="width:100px;height: 10px;background-color: #ecebeb
                                                     
@@ -460,7 +467,8 @@
                                             </div>
                                             <div class="my-2 mx-14">
                                                 <div class="grid grid-cols-1 md:grid-cols-4 md:gap-4">
-                                                    <div class="transfer-option">
+                                                    <div class="transfer-option" style="width:170px;height: 60px;"
+                                                    >
                                                         <input type="radio" id="qrcode" name="transferMode"
                                                             value="QR Code" class="custom-radio"
                                                             onclick="toggleInputField(this)" />
@@ -478,7 +486,8 @@
                                                             <i class="fas fa-check-circle check-icon"></i>
                                                         </label>
                                                     </div>
-                                                    <div class="transfer-option">
+                                                    <div class="transfer-option" style="width:170px;height: 60px;"
+                                                    >
                                                         <input type="radio" id="upi" name="transferMode" value="UPI"
                                                             class="custom-radio" onclick="toggleInputFieldWeb(this)" />
                                                         <label for="upi"
@@ -494,7 +503,8 @@
                                                             <i class="fas fa-check-circle check-icon"></i>
                                                         </label>
                                                     </div>
-                                                    <div class="transfer-option">
+                                                    <div class="transfer-option" style="width:170px;height: 60px;"
+                                                    >
                                                         <input type="radio" id="netbankingrazorpay" name="transferMode"
                                                             value="Net Banking (Razorpay)" class="custom-radio"
                                                             onclick="toggleInputField(this)" />
@@ -532,12 +542,12 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div id="upi-input"
+                                                <!-- <div id="upi-input"
                                                     class="flex items-center rounded-md bg-white m-1 border border-gray-300 focus-within:border-blue-500 hidden">
                                                     <input type="text" name="upiPrice" id="upiPrice"
                                                         class="px-2 grow m-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
                                                         placeholder="Enter UPI id" aria-describedby="price-currency">
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
 
@@ -827,54 +837,49 @@
                         <div class="bg-white w-full ">
 
                             <div class="p-4">
-                                <div>
-                                    <div class="mb-4" onclick="selectAccount('ICICI BANK LTD')">
-                                        <input type="radio" id="account1" name="selectedAccount" value="ICICI"
-                                            class="custom-radio" />
-                                        <label for="account1"
-                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                            <div class="flex items-center">
-                                                <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                <div>
-                                                    <div class="text-gray-700 font-semibold text-sm">ICICI BANK LTD
-                                                    </div>
-                                                    <div class="text-gray-500 text-sm">●●●● 17436</div>
-                                                </div>
-                                            </div>
-                                            <i class="fas fa-check-circle check-icon"></i>
-                                        </label>
-                                    </div>
-                                    <div class="mb-4" onclick="selectAccount('HDFC BANK LTD')">
-                                        <input type="radio" id="account2" name="selectedAccount" value="HDFC"
-                                            class="custom-radio" />
-                                        <label for="account2"
-                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                            <div class="flex items-center">
-                                                <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                <div>
-                                                    <div class="text-gray-700 font-semibold text-sm">HDFC BANK LTD</div>
-                                                    <div class="text-gray-500 text-sm">●●●● 689095</div>
-                                                </div>
-                                            </div>
-                                            <i class="fas fa-check-circle check-icon"></i>
-                                        </label>
-                                    </div>
-                                    <div class="mb-4" onclick="selectAccount('SBI BANK LTD')">
-                                        <input type="radio" id="account3" name="selectedAccount" value="SBI"
-                                            class="custom-radio" />
-                                        <label for="account3"
-                                            class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
-                                            <div class="flex items-center">
-                                                <i class="fas fa-university text-gray-100 mr-2"></i>
-                                                <div>
-                                                    <div class="text-gray-700 font-semibold text-sm">SBI BANK LTD</div>
-                                                    <div class="text-gray-500 text-sm">●●●● 12345</div>
-                                                </div>
-                                            </div>
-                                            <i class="fas fa-check-circle check-icon"></i>
-                                        </label>
-                                    </div>
-                                </div>
+                              <!-- Add this element to display the selected account -->
+<div class="text-gray-700 font-semibold text-sm" id="selectedAccountDisplay">SBI BANK LTD</div>
+
+<!-- Update the account selection section -->
+<div class="mb-4" onclick="selectAccount('ICICI BANK LTD')">
+    <input type="radio" id="account1" name="selectedAccount" value="ICICI" class="custom-radio" />
+    <label for="account1" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+        <div class="flex items-center">
+            <i class="fas fa-university text-gray-100 mr-2"></i>
+            <div>
+                <div class="text-gray-700 font-semibold text-sm">ICICI BANK LTD</div>
+                <div class="text-gray-500 text-sm">●●●● 17436</div>
+            </div>
+        </div>
+        <i class="fas fa-check-circle check-icon"></i>
+    </label>
+</div>
+<div class="mb-4" onclick="selectAccount('HDFC BANK LTD')">
+    <input type="radio" id="account2" name="selectedAccount" value="HDFC" class="custom-radio" />
+    <label for="account2" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+        <div class="flex items-center">
+            <i class="fas fa-university text-gray-100 mr-2"></i>
+            <div>
+                <div class="text-gray-700 font-semibold text-sm">HDFC BANK LTD</div>
+                <div class="text-gray-500 text-sm">●●●● 689095</div>
+            </div>
+        </div>
+        <i class="fas fa-check-circle check-icon"></i>
+    </label>
+</div>
+<div class="mb-4" onclick="selectAccount('SBI BANK LTD')">
+    <input type="radio" id="account3" name="selectedAccount" value="SBI" class="custom-radio" />
+    <label for="account3" class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+        <div class="flex items-center">
+            <i class="fas fa-university text-gray-100 mr-2"></i>
+            <div>
+                <div class="text-gray-700 font-semibold text-sm">SBI BANK LTD</div>
+                <div class="text-gray-500 text-sm">●●●● 12345</div>
+            </div>
+        </div>
+        <i class="fas fa-check-circle check-icon"></i>
+    </label>
+</div>
                             </div>
                         </div>
                     </div>
@@ -887,26 +892,25 @@
         document.addEventListener('DOMContentLoaded', function () {
         // Function to set the initial selected account
         function setInitialSelectedAccount() {
-            if (window.innerWidth < 768) {
-                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay1'); // Ensure this ID exists
-                if (selectedAccountDisplay) {
-                    selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
-                }
-                const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${selectedAccount}"]`);
-                if (accountRadio) {
-                    accountRadio.checked = true; // Update the checked state
-                }
-            } else {
-                const selectedAccountDisplay = document.getElementById('selectedAccountDisplay1'); // Ensure this ID exists
-                if (selectedAccountDisplay) {
-                    selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
-                }
-                const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${selectedAccount}"]`);
-                if (accountRadio) {
-                    accountRadio.checked = true; // Update the checked state
-                }
-            }
+    const selectedAccountDisplay = document.getElementById('selectedAccountDisplay'); // Correct ID
+    if (window.innerWidth < 768) {
+        if (selectedAccountDisplay) {
+            selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
         }
+        const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${selectedAccount}"]`);
+        if (accountRadio) {
+            accountRadio.checked = true; // Update the checked state
+        }
+    } else {
+        if (selectedAccountDisplay) {
+            selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
+        }
+        const accountRadio = document.querySelector(`input[name ="selectedAccount"][value="${selectedAccount}"]`);
+        if (accountRadio) {
+            accountRadio.checked = true; // Update the checked state
+        }
+    }
+}
 
         // Call the function to set the initial selected account when the page loads
         setTimeout(() => {
@@ -924,7 +928,13 @@
             priceInput.addEventListener('input', validateAndProceed);
         }
 
-       
+        const inputs = document.querySelectorAll('input, button');
+
+        inputs.forEach(input => {
+    input.addEventListener('click', function (event) {
+      return false;
+    });
+});
        
     });
         function proceedWithTest() {
@@ -1327,28 +1337,26 @@
         }
 
         function selectAccount(accountName) {
-          
-            console.log(accountName);
-            const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
-            if (lastSelectedAccount !== accountName) {
-                selectedAccount = accountName;
-                selectedAccountDisplay.textContent = accountName;
-                lastSelectedAccount = accountName;
-                console.log(lastSelectedAccount);
+            debugger
+    const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
+    if (lastSelectedAccount !== accountName) {
+        selectedAccount = accountName;
+        selectedAccountDisplay.textContent = accountName; // Update the display
+        lastSelectedAccount = accountName;
 
-                // Check the corresponding radio button
-                const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${accountName}"]`);
-                if (accountRadio) {
-                    accountRadio.checked = true; // Update the checked state
-                }
-
-                // Close the account sheet only if it is currently visible
-                const accountSheet = document.getElementById('accountSheet');
-                if (accountSheet.classList.contains('show')) {
-                    closeAccountSheet();
-                }
-            }
+        // Check the corresponding radio button
+        const accountRadio = document.querySelector(`input[name="selectedAccount"][value="${accountName}"]`);
+        if (accountRadio) {
+            accountRadio.checked = true; // Update the checked state
         }
+
+        // Close the account sheet only if it is currently visible
+        const accountSheet = document.getElementById('accountSheet');
+        if (accountSheet.classList.contains('show')) {
+            closeAccountSheet();
+        }
+    }
+}
         function openAccountSheet() {
             const accountSheet = document.getElementById('accountSheet');
             accountSheet.classList.remove('hidden');
