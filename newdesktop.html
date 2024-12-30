@@ -942,6 +942,28 @@
        
     });
         function proceedWithTest() {
+            const priceInput = document.getElementById("price");
+        const errorMessage = document.getElementById("error-message");
+        const nomsg = document.getElementById("no-message");
+        // Check if the amount is entered
+        if (priceInput.value.trim() === "") {
+          nomsg.classList.add("hidden");
+          errorMessage.classList.remove("hidden");
+          priceInput.classList.add("border-red-500");
+
+          upi.checked = false; // Uncheck the UPI radio button
+          return; // Exit the function
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          priceInput.classList.remove("border-red-500");
+        }
+        const amount = parseFloat(priceInput.value);
+        if (amount > 35000) {
+          document.getElementById("upi").disabled = true;
+        } else {
+          document.getElementById("upi").disabled = false;
+        }
             const button = document.getElementById('proceedButton');
 
             // Change button text
@@ -1303,22 +1325,25 @@
 
 
         window.onload = function () {
-            const shimmer = document.getElementById('shimmer');
-            const Noshimmer = document.getElementById('noshimmer');
-            shimmer.style.display = 'block';
-            Noshimmer.style.display = "none"
+    const shimmer = document.getElementById('shimmer');
+    const Noshimmer = document.getElementById('noshimmer');
+    shimmer.style.display = 'block';
+    Noshimmer.style.display = "none";
 
+    setTimeout(() => {
+        shimmer.style.display = 'none';
+        Noshimmer.style.display = 'block';  
+    }, 2000);
 
+    // Set the UPI radio button as checked by default
+    const upiRadio = document.getElementById('upi');
+    if (upiRadio) {
+        upiRadio.checked = true; // Check the UPI radio button
+    }
 
-            setTimeout(() => {
-
-                shimmer.style.display = 'none';
-                Noshimmer.style.display = ' block';  
-            }, 2000);
-           
-          
-
-        };
+    // Update the transaction mode display
+    updateTransactionModeDisplay();
+};
         function validateAndProceed() {
             const priceInput = document.getElementById('price');
             const errorMessage = document.getElementById('error-message');

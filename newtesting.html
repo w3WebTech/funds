@@ -172,27 +172,22 @@
 
     <!-- Small device -->
     <div class="block md:hidden">
-      <!-- <div class="block md:hidden bg-blue-600 sm:relative sm:h-[500px]">
-            <div class="flex justify-center items-center text-center ">
-                <div class="w-screen mx-4">
-                    <div class="mx-auto bg-white p-3 mx-3 m-4 mb-20 rounded-md">
-                        <nav class="flex">
-                            <button id="tab1-mobile"
-                                class="tab-button flex-1 whitespace-nowrap rounded-md custom-bg text-white px-4 py-2 text-base font-medium focus:outline-none"
-                                onclick="changeTab('tab1-mobile')">Add Funds</button>
-                            <button id="tab2-mobile"
-                                class="tab-button flex-1 rounded-md bg-gray-100 px-4 py-2 text-base font-medium text-gray-500 focus:outline-none"
-                                onclick="changeTab('tab2-mobile')">Withdrawal</button>
-                        </nav>
-                    </div>
+      <div class="block md:hidden bg-blue-600 sm:relative sm:h-[500px]">
+        <div class="flex justify-center items-center text-center ">
+            <div class="w-screen mx-4">
+                <div class="mx-auto p-3 mx-3 m-4 mb-20 rounded-md">
+                    <nav class="flex justify-center">
+                      <div class="text-xl text-white p-4 font-semibold flex justify-center">
+                        Add Funds
+                      </div>
+                    </nav>
                 </div>
             </div>
-        </div> -->
-      <div class="text-xl text-gray-900 p-4 font-semibold flex justify-center">
-        Add Funds
-      </div>
+        </div>
+    </div>
+       
       <div class="flex min-h-screen">
-        <div>
+        <div class="absolute top-20">
           <div class="">
             <div class="">
               <div id="content1-mobile" class="tab-content active">
@@ -230,7 +225,7 @@
                       >
                         Please enter a minimum of ₹50 for bank transfer.
                       </div>
-                      <div id="no-message" class="text-white text-sm h-3"></div>
+                      <div id="no-message" class="text-white text-sm h-4"></div>
                     </div>
                     <div>
                       <div id="shimmer" class="flex flex-col items-center">
@@ -1156,6 +1151,28 @@
         }
       }
       function proceedWithTest() {
+        const priceInput = document.getElementById("price");
+        const errorMessage = document.getElementById("error-message");
+        const nomsg = document.getElementById("no-message");
+        // Check if the amount is entered
+        if (priceInput.value.trim() === "") {
+          nomsg.classList.add("hidden");
+          errorMessage.classList.remove("hidden");
+          priceInput.classList.add("border-red-500");
+
+          upi.checked = false; // Uncheck the UPI radio button
+          return; // Exit the function
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          priceInput.classList.remove("border-red-500");
+        }
+        const amount = parseFloat(priceInput.value);
+        if (amount > 35000) {
+          document.getElementById("upi").disabled = true;
+        } else {
+          document.getElementById("upi").disabled = false;
+        }
         const button = document.getElementById("proceedButton");
 
         // Change button text
@@ -1542,6 +1559,7 @@
         function selectTransactionMode() {
           debugger
     const priceInput = document.getElementById("price");
+    const nomsg = document.getElementById("no-message");
     const errorMessage = document.getElementById("error-message");
     const selectedMode = document.querySelector('input[name="transactionMode"]:checked');
     const transactionModeDisplay = document.getElementById("transactionModeDisplay");
@@ -1549,10 +1567,12 @@
 
     // Check if price input is empty
     if (priceInput.value.trim() === "") {
+      nomsg.classList.add("hidden");
         errorMessage.classList.remove("hidden");
         priceInput.classList.add("border-red-500");
        
     } else {
+      nomsg.classList.remove("hidden");
         errorMessage.classList.add("hidden");
         priceInput.classList.remove("border-red-500");
     }
@@ -1591,11 +1611,14 @@
 }
 document.getElementById("price").addEventListener("input", function() {
     const amount = parseFloat(this.value);
+    const nomsg = document.getElementById("no-message");
     const errorMessage = document.getElementById("error-message");
     if (isNaN(amount) || amount < 50) {
+      noMessage.classList.add("hidden");
         errorMessage.classList.remove("hidden");
         this.classList.add("border-red-500");
     } else {
+      noMessage.classList.remove("hidden");
         errorMessage.classList.add("hidden");
         this.classList.remove("border-red-500");
     }
