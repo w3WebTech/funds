@@ -1540,6 +1540,7 @@
         .addEventListener("click", closeTransactionModeSheet);
 
         function selectTransactionMode() {
+          debugger
     const priceInput = document.getElementById("price");
     const errorMessage = document.getElementById("error-message");
     const selectedMode = document.querySelector('input[name="transactionMode"]:checked');
@@ -1550,7 +1551,7 @@
     if (priceInput.value.trim() === "") {
         errorMessage.classList.remove("hidden");
         priceInput.classList.add("border-red-500");
-        return; // Exit the function
+       
     } else {
         errorMessage.classList.add("hidden");
         priceInput.classList.remove("border-red-500");
@@ -1571,13 +1572,20 @@
             if (selectedMode.value === "UPI") {
                 transactionModeDisplay.textContent = "UPI";
                 transsub.textContent = "via Gpay";
+               
             } else if (selectedMode.value === "Net Banking") {
                 transactionModeDisplay.textContent = "Net Banking";
-                transsub.textContent = "via Razorpay"; // Update for Net Banking
+                transsub.textContent = "via Razorpay"; 
+               
             } else if (selectedMode.value === "Paytm") {
                 transactionModeDisplay.textContent = "Paytm";
-                transsub.textContent = "via Paytm"; // Update for Paytm
+                transsub.textContent = "via Paytm";
+                
             }
+            const transactionModeSheet = document.getElementById(
+          "transactionModeSheet"
+        );
+        closeTransactionModeSheet();
         }
     }
 }
