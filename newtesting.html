@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fund Transfer</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      .shimmer-item {
+        margin: 10px 0;
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          #e0e0e0 50%,
+          #f0f0f0 75%
+        );
+        /* background-size: 200% 100%; */
+        animation: shimmer 1.5s infinite;
+      }
+
+      /* Shimmer Effect */
+      @keyframes shimmer {
+        0% {
+          background-position: -200px 0;
+        }
+
+        100% {
+          background-position: 200px 0;
+        }
+      }
+
+      .shimmer-effect {
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          #e0e0e0 50%,
+          #f0f0f0 75%
+        );
+        background-size: 400px 100%;
+        animation: shimmer 1.5s infinite;
+      }
+
+      /* Optional: Add a hover effect */
+      .bg-white:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition: box-shadow 0.3s ease;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .tab-contentbottom {
+        display: none;
+      }
+
+      .tab-contentbottom.active {
+        display: block;
+      }
+
+      .border-red-500 {
+        border-color: #f56565;
+      }
+
+      .custom-radio {
+        display: none;
+      }
+
+      .custom-radio-label {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid rgb(218, 218, 218);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+
+      .custom-radio:checked + .custom-radio-label .check-icon {
+        display: block;
+      }
+
+      .custom-radio-label .check-icon {
+        display: none;
+        color: green;
+        margin-left: 10px;
+      }
+
+      @media (min-width: 768px) {
+        #accountSheet {
+          display: none;
+        }
+      }
+
+      #bottomSheet,
+      #accountSheet,
+      #upiIdSheet,
+      #transactionModeSheet {
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        transition: bottom 0.3s ease;
+        z-index: 50;
+      }
+
+      #bottomSheet.show,
+      #accountSheet.show,
+      #upiIdSheet.show,
+      #transactionModeSheet.show {
+        bottom: 0;
+      }
+
+      .custom-bg {
+        background-color: #4269b6;
+      }
+
+      .loader {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .loader::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+        /* Light overlay for loading effect */
+        animation: loading 1s linear;
+      }
+
+      @keyframes loading {
+        0% {
+          left: -100%;
+        }
+
+        100% {
+          left: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-blue-50 h-screen md:overflow-hidden">
+    <div
+      id="overlay"
+      class="hidden fixed inset-0 bg-black opacity-50 z-40"
+    ></div>
+
+    <!-- Small device -->
+    <div class="block md:hidden">
+      <!-- <div class="block md:hidden bg-blue-600 sm:relative sm:h-[500px]">
+            <div class="flex justify-center items-center text-center ">
+                <div class="w-screen mx-4">
+                    <div class="mx-auto bg-white p-3 mx-3 m-4 mb-20 rounded-md">
+                        <nav class="flex">
+                            <button id="tab1-mobile"
+                                class="tab-button flex-1 whitespace-nowrap rounded-md custom-bg text-white px-4 py-2 text-base font-medium focus:outline-none"
+                                onclick="changeTab('tab1-mobile')">Add Funds</button>
+                            <button id="tab2-mobile"
+                                class="tab-button flex-1 rounded-md bg-gray-100 px-4 py-2 text-base font-medium text-gray-500 focus:outline-none"
+                                onclick="changeTab('tab2-mobile')">Withdrawal</button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+      <div class="text-xl text-gray-900 p-4 font-semibold flex justify-center">
+        Add Funds
+      </div>
+      <div class="flex min-h-screen">
+        <div>
+          <div class="">
+            <div class="">
+              <div id="content1-mobile" class="tab-content active">
+                <div class="mb-4 w-screen">
+                  <div>
+                    <div class="bg-white rounded-lg shadow-lg m-4 mx-3 p-3">
+                      <div class="py-2 text-xl text-gray-900">
+                        Welcome <span class="font-semibold">RAJAESWARAN</span>
+                      </div>
+                      <label for="price" class="text-sm text-gray-900"
+                        >Enter Amount</label
+                      >
+                      <div class="mt-2">
+                        <div
+                          class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue-500"
+                        >
+                          <div
+                            class="shrink-0 select-none text-base text-gray-400 font-bold text-lg px-2"
+                          >
+                            ₹
+                          </div>
+                          <input
+                            type="number"
+                            name="price"
+                            id="price"
+                            class="px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                            placeholder="0.00"
+                            aria-describedby="price-currency"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        id="error-message"
+                        class="text-red-500 text-sm hidden"
+                      >
+                        Please enter a minimum of ₹50 for bank transfer.
+                      </div>
+                      <div id="no-message" class="text-white text-sm h-3"></div>
+                    </div>
+                    <div>
+                      <div id="shimmer" class="flex flex-col items-center">
+                        <!-- <div
+                          class="bg-white rounded-lg shadow-lg m-4 mx-3 p-2 transition-transform transform hover:scale-105"
+                        >
+                          <div class="flex items-center my-2">
+                            <label for="price" class="block text-sm"
+                              >Choose Bank A/C</label
+                            >
+                          </div>
+                          <div class="bg-gray-100 rounded-md shadow-lg mx-3 m-4 p-3">
+                            <div
+                              class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                              style="width: 100%; height: 10px"
+                            ></div>
+                            <div
+                              class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                              style="width: 50%; height: 10px"
+                            ></div>
+                          </div>
+                        </div> -->
+                        <div class="bg-white rounded-lg shadow-lg mx-3 m-4 p-3">
+                          <div class="block md:hidden">
+                            <div class="flex items-center my-2">
+                              <label for="price" class="block text-sm"
+                                >Choose Bank A/C</label
+                              >
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                              <div class="bg-gray-100 rounded-md shadow-lg border border-gray-200 p-2">
+                                <div
+                                  class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
+                                  style="width: 100%; height: 10px"
+                                ></div>
+                                <div
+                                  class="bg-gray-200 rounded-lg animate-pulse shimmer-effect my-2"
+                                  style="width: 50%; height: 10px"
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="noshimmer">
+                        <div class="bg-white rounded-lg shadow-lg mx-3 m-4 p-3">
+                          <div class="block md:hidden">
+                            <div class="flex items-center my-2">
+                              <label for="price" class="block text-sm"
+                                >Choose Bank A/C</label
+                              >
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                              <div>
+                                <div onclick="openAccountSheet()">
+                                  <label
+                                    for="account3"
+                                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg bg-gray-100"
+                                  >
+                                    <div class="flex items-center">
+                                      <i
+                                        class="fas fa-university text-gray-900 mr-4 text-2xl"
+                                      ></i>
+                                      <div>
+                                        <div
+                                          class="text-gray-700 font-semibold text-sm"
+                                          id="selectedAccountDisplay"
+                                        >
+                                          SBI BANK LTD
+                                        </div>
+                                        <div class="text-gray-900 text-sm">
+                                          ●●●● 12345
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <i
+                                      class="fa-solid fa-angle-down text-gray-400"
+                                    ></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg m-4 mx-3 p-3">
+                      <div class="flex items-center my-2">
+                        <label
+                          for="transferMode"
+                          class="block text-sm text-gray-900"
+                          >Select Payment Method</label
+                        >
+                      </div>
+                      <!-- <div class="my-2">
+                                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                              
+                                                <div class="transfer-option">
+                                                    <input type="radio" id="upi" name="transferMode" value="UPI"
+                                                        class="custom-radio" onclick="toggleInputFieldWeb(this)" />
+                                                    <label for="upi"
+                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <div class="flex items-center">
+                                                            <i class="fas fa-mobile-alt text-gray-900 mr-2"></i>
+                                                            <div>
+                                                                <div class="text-gray-700 font-semibold text-sm">UPI
+                                                                </div>
+                                                                <div class="text-gray-500 text-sm">via Gpay</div>
+                                                            </div>
+                                                        </div>
+                                                        <i class="fas fa-check-circle check-icon"></i>
+                                                    </label>
+                                                </div>
+                                                <div class="transfer-option">
+                                                    <input type="radio" id="netbankingrazorpay" name="transferMode"
+                                                        value="Net Banking (Razorpay)" class="custom-radio"
+                                                        onclick="toggleInputField(this)" />
+                                                    <label for="netbankingrazorpay"
+                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <div class="flex items-center">
+                                                            <i class="fas fa-university text-gray-900 mr-2"></i>
+                                                            <div>
+                                                                <div class="text-gray-700 font-semibold text-sm">Net
+                                                                    Banking</div>
+                                                                <div class="text-gray-500 text-sm">via Razorpay</div>
+                                                            </div>
+                                                        </div>
+                                                        <i class="fas fa-check-circle check-icon"></i>
+                                                    </label>
+                                                </div>
+                                                <div class="transfer-option">
+                                                    <input type="radio" id="netbankingpaytm" name="transferMode"
+                                                        value="Net Banking (Paytm)" class="custom-radio"
+                                                        onclick="toggleInputField(this)" />
+                                                    <label for="netbankingpaytm"
+                                                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg">
+                                                        <div class="flex items-center">
+                                                            <i class="fas fa-university text-gray-900 mr-2"></i>
+                                                            <div>
+                                                                <div class="text-gray-700 font-semibold text-sm">Net
+                                                                    Banking</div>
+                                                                <div class="text-gray-500 text-sm">via Paytm</div>
+                                                            </div>
+                                                        </div>
+                                                        <i class="fas fa-check-circle check-icon"></i>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div id="upi-input"
+                                                class="flex items-center rounded-md bg-white m-1 border border-gray-300 focus-within:border-blue-500 hidden">
+                                                <input type="text" name="upiPrice" id="upiPrice"
+                                                    class="px-2 grow m-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                                                    placeholder="Enter UPI id" aria-describedby="price-currency">
+                                            </div>
+                                        </div> -->
+
+                      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                          <div onclick="openTransactionModeSheet()">
+                            <label
+                              for="account3"
+                              class="custom-radio-label flex items-center justify-between p-4 rounded-lg bg-gray-100"
+                            >
+                              <div class="flex items-center">
+                                <i
+                                  class="fas fa-university text-gray-900 mr-4 text-2xl"
+                                ></i>
+                                <div>
+                                  <div
+                                    class="text-gray-700 font-semibold text-sm"
+                                    id="transactionModeDisplay"
+                                  >
+                                    UPI
+                                  </div>
+                                  <div
+                                    class="text-gray-900 text-sm"
+                                    id="transsub"
+                                  >
+                                    via Gpay
+                                  </div>
+                                </div>
+                              </div>
+                              <i
+                                class="fa-solid fa-angle-down text-gray-400"
+                              ></i>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg mx-3 m-4 p-3">
+                      <button
+                        type="button"
+                        id="proceedButton"
+                        class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm"
+                        onclick="proceedWithTest()"
+                      >
+                        PROCEED
+                      </button>
+                    </div>
+                    <div class="flex justify-center m-4 mx-3 p-3">
+                      <div class="">
+                        <button
+                          type="button"
+                          class="rounded-md bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm hover:bg-white/20 mx-1"
+                          onclick="openBottomSheet()"
+                        >
+                          TRANSACTION DETAILS >
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="content2-mobile" class="tab-content">
+                <div class="mb-4 w-screen">
+                  <div>
+                    <div class="bg-white rounded-lg shadow-lg mx-3 m-4 p-3">
+                      <div class="py-2 text-xl text-gray-900">
+                        Welcome <span class="font-semibold">RAJAESWARAN</span>
+                      </div>
+                      <label for="price" class="text-sm text-gray-900"
+                        >Enter Amount</label
+                      >
+                      <div class="mt-2">
+                        <div
+                          class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue-500"
+                        >
+                          <div
+                            class="shrink-0 select-none text-base text-gray-400 font-bold text-lg px-2"
+                          >
+                            ₹
+                          </div>
+                          <input
+                            type="number"
+                            name="price"
+                            id="price"
+                            class="px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                            placeholder="0.00"
+                            aria-describedby="price-currency"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        id="error-message"
+                        class="text-red-500 text-sm hidden"
+                      >
+                        Please enter a minimum of ₹50 for bank transfer.
+                      </div>
+                      <div id="no-message" class="text-transparent text-sm">
+                        Please fill this field
+                      </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg mx-3 m-4 p-3">
+                      <div class="block md:hidden">
+                        <div class="flex items-center my-2">
+                          <label for="price" class="block text-sm"
+                            >Choose Bank A/C</label
+                          >
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <div>
+                            <div onclick="openAccountSheet()">
+                              <label
+                                for="account3"
+                                class="custom-radio-label flex items-center justify-between p-4 rounded-lg bg-gray-100"
+                              >
+                                <div class="flex items-center">
+                                  <i
+                                    class="fas fa-university text-gray-900 mr-4 text-2xl"
+                                  ></i>
+                                  <div>
+                                    <div
+                                      class="text-gray-700 font-semibold text-sm"
+                                      id="selectedAccountDisplay"
+                                    >
+                                      SBI BANK LTD
+                                    </div>
+                                    <div class="text-gray-900 text-sm">
+                                      ●●●● 12345
+                                    </div>
+                                  </div>
+                                </div>
+                                <i
+                                  class="fa-solid fa-angle-down text-gray-400"
+                                ></i>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hidden md:block mt-5">
+                      <div class="flex items-center my-2">
+                        <label
+                          for="price"
+                          class="block text-sm text-gray-900 px-5"
+                          >Choose Bank A/C</label
+                        >
+                      </div>
+                      <div class="mt-2 mx-14">
+                        <div class="account-options grid grid-cols-3 gap-4">
+                          <div>
+                            <input
+                              type="radio"
+                              id="account1"
+                              name="selectedAccount"
+                              value="ICICI"
+                              class="custom-radio"
+                            />
+                            <label
+                              for="account1"
+                              class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                            >
+                              <div class="flex items-center">
+                                <i
+                                  class="fas fa-university text-gray-900 mr-2"
+                                ></i>
+                                <div>
+                                  <div
+                                    class="text-gray-700 font-semibold text-sm"
+                                  >
+                                    ICICI BANK LTD
+                                  </div>
+                                  <div class="text-gray-500 text-sm">
+                                    ●●●● 17436
+                                  </div>
+                                </div>
+                              </div>
+                              <i class="fas fa-check-circle check-icon"></i>
+                            </label>
+                          </div>
+                          <div>
+                            <input
+                              type="radio"
+                              id="account2"
+                              name="selectedAccount"
+                              value="HDFC"
+                              class="custom-radio"
+                            />
+                            <label
+                              for="account2"
+                              class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                            >
+                              <div class="flex items-center">
+                                <i
+                                  class="fas fa-university text-gray-900 mr-2"
+                                ></i>
+                                <div>
+                                  <div
+                                    class="text-gray-700 font-semibold text-sm"
+                                  >
+                                    HDFC BANK LTD
+                                  </div>
+                                  <div class="text-gray-500 text-sm">
+                                    ●●●● 689095
+                                  </div>
+                                </div>
+                              </div>
+                              <i class="fas fa-check-circle check-icon"></i>
+                            </label>
+                          </div>
+                          <div>
+                            <input
+                              type="radio"
+                              id="account3"
+                              name="selectedAccount"
+                              value="SBI"
+                              class="custom-radio"
+                            />
+                            <label
+                              for="account3"
+                              class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                            >
+                              <div class="flex items-center">
+                                <i
+                                  class="fas fa-university text-gray-900 mr-2"
+                                ></i>
+                                <div>
+                                  <div
+                                    class="text-gray-700 font-semibold text-sm"
+                                  >
+                                    SBI BANK LTD
+                                  </div>
+                                  <div class="text-gray-500 text-sm">
+                                    ●●●● 12345
+                                  </div>
+                                </div>
+                              </div>
+                              <i class="fas fa-check-circle check-icon"></i>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg m-4 p-3">
+                      <button
+                        type="button"
+                        id="proceedButton"
+                        class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm"
+                        onclick="proceedWithTest()"
+                      >
+                        PROCEED
+                      </button>
+                    </div>
+                    <div class="flex justify-center m-4 p-3">
+                      <div class="">
+                        <button
+                          type="button"
+                          class="rounded-md bg-white/10 px-5 py-2.5 text-sm font-semibold text-blue-700 shadow-sm hover:bg-white/20 mx-1"
+                          onclick="openBottomSheet()"
+                        >
+                          VIEW TRANSACTION >
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="upiIdSheet" class="hidden">
+          <div class="p-4">
+            <div class="mb-10">
+              <h2 class="text-xl font-semibold mb-2">Enter UPI ID</h2>
+              <p class="text-gray-600 mb-4 text-xs">
+                Use UPI ID linked with bank account registered with Goodwill
+              </p>
+              <div class="border rounded p-4">
+                <input
+                  class="w-full p-2 border border-gray-300 rounded mb-4"
+                  placeholder="Enter UPI ID"
+                  type="text"
+                />
+                <div class="mb-4 bg-blue-100">
+                  <input
+                    type="radio"
+                    id="account1"
+                    name="selectedAccount"
+                    value="ICICI"
+                    class="custom-radio"
+                  />
+                  <label
+                    for="account1"
+                    class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                  >
+                    <div class="flex items-center">
+                      <i
+                        class="fas fa-university text-gray-500 mr-5 text-2xl"
+                      ></i>
+                      <div>
+                        <div class="text-gray-700 font-semibold text-sm">
+                          ICICI BANK LTD
+                        </div>
+                        <div class="text-gray-500 text-sm">●●●● 17436</div>
+                      </div>
+                    </div>
+                    <i
+                      class="fa-solid fa-circle-check text-green-500 text-2xl"
+                    ></i>
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  id="proceedButton"
+                  class="rounded-md custom-bg w-full p-3 text-sm font-semibold text-white shadow-sm"
+                >
+                  PROCEED
+                </button>
+              </div>
+            </div>
+            <!-- <div class="mb-4">
+                        <label for="upiid" class="block text-sm font-medium text-gray-900">Enter UPI Id</label>
+                        <div class="mt-2">
+                            <div
+                                class="flex items-center rounded-md bg-white border border-gray-300 focus-within:border-blue-500">
+                                <input type="text" name="upiid" id="upiid"
+                                    class="px-2 block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                                    placeholder="Enter UPI ID">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" id="proceedButton"
+                            class="rounded-md custom-bg w-full py-2.5 text-sm font-semibold text-white shadow-sm  "
+                            onclick="proceedWithTest()">PROCEED</button>
+                    </div> -->
+          </div>
+        </div>
+        <div
+          id="overlay"
+          class="hidden fixed inset-0 bg-black opacity-50 z-40"
+        ></div>
+        <div id="bottomSheet" class="hidden">
+          <div
+            class="bg-gray-100 flex justify-center items-center rounded-t-2xl"
+          >
+            <div
+              class="bg-gray-100 w-full max-w-md rounded-lg shadow-lg p-4 mb-10"
+            >
+              <h1 class="text-center text-lg font-semibold mb-4">
+                Transaction Details
+              </h1>
+              <div class="flex justify-around border-b mb-4">
+                <button
+                  id="fundsAddedTab"
+                  class="tab-button text-blue-600 border-b-2 border-blue-600 pb-2"
+                  onclick="changeTransactionTab('fundsAdded')"
+                >
+                  Fund Added
+                </button>
+                <button
+                  id="fundsWithdrawnTab"
+                  class="tab-button text-gray-500 pb-2"
+                  onclick="changeTransactionTab('fundsWithdrawn')"
+                >
+                  Funds Withdrawn
+                </button>
+              </div>
+              <div id="transactionContent" class="space-y-4 bg-white py-6 p-4">
+                <div id="fundsAdded">
+                  <!-- Add your funds added transactions here -->
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-gray-500 text-sm">06-03-2024</div>
+                      <div class="flex items-center space-x-2">
+                        <img
+                          alt="Google Pay logo"
+                          class="w-10 h-10"
+                          src="https://storage.googleapis.com/a1aa/image/6arvnfdj7fgoIk2b6UXpCAtfewd4BIskeBSvFbz6nxhxYgQfE.jpg"
+                        />
+                        <div>
+                          <div class="font-semibold">NSDL PAYMENT BANK</div>
+                          <div class="text-gray-500 text-sm">●●●●● 67897</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-semibold">₹ 100</div>
+                      <div class="text-green-500 text-sm">SUCCESS</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-gray-500 text-sm">06-03-2024</div>
+                      <div class="flex items-center space-x-2">
+                        <img
+                          alt="Google Pay logo"
+                          class="w-10 h-10"
+                          src="https://storage.googleapis.com/a1aa/image/6arvnfdj7fgoIk2b6UXpCAtfewd4BIskeBSvFbz6nxhxYgQfE.jpg"
+                        />
+                        <div>
+                          <div class="font-semibold">NSDL PAYMENT BANK</div>
+                          <div class="text-gray-500 text-sm">●●●●● 67897</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-semibold">₹ 100</div>
+                      <div class="text-green-500 text-sm">SUCCESS</div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-gray-500 text-sm">22-12-2023</div>
+                      <div class="flex items-center space-x-2">
+                        <img
+                          alt="Google Pay logo"
+                          class="w-10 h-10"
+                          src="https://storage.googleapis.com/a1aa/image/6arvnfdj7fgoIk2b6UXpCAtfewd4BIskeBSvFbz6nxhxYgQfE.jpg"
+                        />
+                        <div>
+                          <div class="font-semibold">HDFC BANK LTD</div>
+                          <div class="text-gray-500 text-sm">●●●●● 689095</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-semibold">₹ 150</div>
+                      <div class="text-green-500 text-sm">SUCCESS</div>
+                    </div>
+                  </div>
+                  <!-- Add more transactions as needed -->
+                </div>
+                <div id="fundsWithdrawn">
+                  <!-- Add your funds withdrawn transactions here -->
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-gray-500 text-sm">22-12-2023</div>
+                      <div class="flex items-center space-x-2">
+                        <img
+                          alt="Google Pay logo"
+                          class="w-10 h-10"
+                          src="https://storage.googleapis.com/a1aa/image/6arvnfdj7fgoIk2b6UXpCAtfewd4BIskeBSvFbz6nxhxYgQfE.jpg"
+                        />
+                        <div>
+                          <div class="font-semibold">HDFC BANK LTD</div>
+                          <div class="text-gray-500 text-sm">●●●●● 689095</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-semibold">₹ 150</div>
+                      <div class="text-green-500 text-sm">SUCCESS</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-gray-500 text-sm">22-12-2023</div>
+                      <div class="flex items-center space-x-2">
+                        <img
+                          alt="Google Pay logo"
+                          class="w-10 h-10"
+                          src="https://storage.googleapis.com/a1aa/image/6arvnfdj7fgoIk2b6UXpCAtfewd4BIskeBSvFbz6nxhxYgQfE.jpg"
+                        />
+                        <div>
+                          <div class="font-semibold">HDFC BANK LTD</div>
+                          <div class="text-gray-500 text-sm">●●●●● 689095</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-semibold">₹ 150</div>
+                      <div class="text-green-500 text-sm">SUCCESS</div>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-gray-500 text-sm">22-12-2023</div>
+                      <div class="flex items-center space-x-2">
+                        <img
+                          alt="Google Pay logo"
+                          class="w-10 h-10"
+                          src="https://storage.googleapis.com/a1aa/image/6arvnfdj7fgoIk2b6UXpCAtfewd4BIskeBSvFbz6nxhxYgQfE.jpg"
+                        />
+                        <div>
+                          <div class="font-semibold">HDFC BANK LTD</div>
+                          <div class="text-gray-500 text-sm">●●●●● 689095</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-semibold">₹ 150</div>
+                      <div class="text-green-500 text-sm">SUCCESS</div>
+                    </div>
+                  </div>
+                  <!-- Add more transactions as needed -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="accountSheet" class="hidden">
+          <div class="p-4 bg-gray-100 rounded-t-2xl">
+            <div class="flex justify-between">
+              <div>
+                <h2 class="text-lg font-semibold mb-2 px-4 text-xl">
+                  Choose bank
+                </h2>
+              </div>
+            </div>
+            <div class=" ">
+              <div class="mb-10 w-full">
+                <div class="p-4">
+                  <div>
+                    <div
+                      class="mb-4 bg-blue-100"
+                      onclick="selectAccount('ICICI BANK LTD')"
+                    >
+                      <input
+                        type="radio"
+                        id="account1"
+                        name="selectedAccount"
+                        value="ICICI"
+                        class="custom-radio"
+                      />
+                      <label
+                        for="account1"
+                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                      >
+                        <div class="flex items-center">
+                          <i
+                            class="fas fa-university text-gray-500 mr-5 text-2xl"
+                          ></i>
+                          <div>
+                            <div class="text-gray-700 font-semibold text-sm">
+                              ICICI BANK LTD
+                            </div>
+                            <div class="text-gray-500 text-sm">●●●● 17436</div>
+                          </div>
+                        </div>
+                        <i
+                          class="fa-solid fa-circle-check text-green-500 text-2xl"
+                        ></i>
+                      </label>
+                    </div>
+                    <div
+                      class="mb-4 bg-white"
+                      onclick="selectAccount('HDFC BANK LTD')"
+                    >
+                      <input
+                        type="radio"
+                        id="account2"
+                        name="selectedAccount"
+                        value="HDFC"
+                        class="custom-radio"
+                      />
+                      <label
+                        for="account2"
+                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                      >
+                        <div class="flex items-center">
+                          <i
+                            class="fas fa-university text-gray-500 mr-5 text-2xl"
+                          ></i>
+                          <div>
+                            <div class="text-gray-700 font-semibold text-sm">
+                              HDFC BANK LTD
+                            </div>
+                            <div class="text-gray-500 text-sm">●●●● 689095</div>
+                          </div>
+                        </div>
+                        <i class="fas fa-check-circle check-icon"></i>
+                      </label>
+                    </div>
+                    <div
+                      class="mb-4 bg-white"
+                      onclick="selectAccount('SBI BANK LTD')"
+                    >
+                      <input
+                        type="radio"
+                        id="account3"
+                        name="selectedAccount"
+                        value="SBI"
+                        class="custom-radio"
+                      />
+                      <label
+                        for="account3"
+                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                      >
+                        <div class="flex items-center">
+                          <i
+                            class="fas fa-university text-gray-500 mr-5 text-2xl"
+                          ></i>
+                          <div>
+                            <div class="text-gray-700 font-semibold text-sm">
+                              SBI BANK LTD
+                            </div>
+                            <div class="text-gray-500 text-sm">●●●● 12345</div>
+                          </div>
+                        </div>
+                        <i class="fas fa-check-circle check-icon"></i>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="transactionModeSheet" class="hidden">
+          <div class="p-4 bg-gray-100 rounded-t-2xl mb-10">
+            <h2 class="text-lg font-semibold mb-2 px-4 text-xl">
+              Select Transaction Mode
+            </h2>
+            <div class="flex flex-col">
+              <div class="mb-4 bg-blue-100" onclick="selectTransactionMode()">
+                <input
+                  type="radio"
+                  id="upi"
+                  name="transactionMode"
+                  value="UPI"
+                  class="custom-radio"
+                  checked
+                />
+                <label
+                  for="upi"
+                  class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-mobile-alt text-gray-900 mr-2"></i>
+                    <div>
+                      <div class="text-gray-700 font-semibold text-sm">UPI</div>
+                      <div class="text-gray-500 text-sm">via Gpay</div>
+                    </div>
+                  </div>
+                  <i
+                    class="fa-solid fa-circle-check text-green-500 text-2xl"
+                  ></i>
+                </label>
+              </div>
+              <div class="mb-4 bg-white" onclick="selectTransactionMode()">
+                <input
+                  type="radio"
+                  id="netbanking"
+                  name="transactionMode"
+                  value="Net Banking"
+                  class="custom-radio"
+                />
+                <label
+                  for="netbanking"
+                  class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-university text-gray-900 mr-2"></i>
+                    <div>
+                      <div class="text-gray-700 font-semibold text-sm">
+                        Net Banking
+                      </div>
+                      <div class="text-gray-500 text-sm">via Razorpay</div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <div class="mb-4 bg-white" onclick="selectTransactionMode()">
+                <input
+                  type="radio"
+                  id="paytm"
+                  name="transactionMode"
+                  value="Paytm"
+                  class="custom-radio"
+                />
+                <label
+                  for="paytm"
+                  class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
+                >
+                  <div class="flex items-center">
+                    <i class="fas fa-university text-gray-900 mr-2"></i>
+                    <div>
+                      <div class="text-gray-700 font-semibold text-sm">
+                        Paytm
+                      </div>
+                      <div class="text-gray-500 text-sm">via Paytm</div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script> -->
+    <script>
+      const currentDate = new Date().toISOString();
+
+      async function sendEncryptedDate() {
+        try {
+          const apiUrl = `https://smartpayz.gwcindia.in/gwc-techexcel/client-master-techexcel-live.php?src=SMARTPAY&key=QkYxMFlpcEtzODRnNTdyTFNZbFdkZz09&cid=GZ10219`;
+
+          const response = await fetch(apiUrl, {
+            method: "GET",
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const responseData = await response.json();
+          const selectedAccountDisplay = document.getElementById(
+            "selectedAccountDisplay"
+          );
+          if (responseData.primaryBank) {
+            selectedAccountDisplay.innerHTML = responseData.primaryBank.name; // Use responseData instead of apiResponse
+
+            // Optionally, you can also display the account number
+            const accountNumberDisplay =
+              selectedAccountDisplay.nextElementSibling;
+            accountNumberDisplay.innerHTML =
+              responseData.primaryBank.accountNumber; // Use responseData instead of apiResponse
+          }
+
+          console.log("Response from API:", responseData);
+        } catch (error) {
+          console.error("Error sending data:", error);
+        }
+      }
+      let selectedAccount = "ICICI";
+
+      function setInitialSelectedAccount() {
+        const selectedAccountDisplay = document.getElementById(
+          "selectedAccountDisplay"
+        );
+        if (selectedAccountDisplay) {
+          selectedAccountDisplay.textContent = selectedAccount + " BANK LTD";
+        }
+
+        const accountRadio = document.querySelector(
+          `input[name="selectedAccount"][value="${selectedAccount}"]`
+        );
+        if (accountRadio) {
+          accountRadio.checked = true;
+        }
+      }
+
+      window.onload = function () {
+        const shimmer = document.getElementById("shimmer");
+        const Noshimmer = document.getElementById("noshimmer");
+        shimmer.style.display = "block";
+        Noshimmer.style.display = "none";
+
+        setTimeout(() => {
+          shimmer.style.display = "none";
+          Noshimmer.style.display = " block";
+        }, 2000);
+        setInitialSelectedAccount();
+        sendEncryptedDate();
+        const upiRadio = document.getElementById("upi");
+        upiRadio.checked = true;
+        updateTransactionModeDisplay();
+      };
+
+      function changeTab(tab) {
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          changeTabMobile(tab);
+        } else {
+          changeTabWeb(tab);
+        }
+      }
+      function proceedWithTest() {
+        const button = document.getElementById("proceedButton");
+
+        // Change button text
+        button.textContent = "Processing..."; // Change text to indicate processing
+
+        // Add loader class
+        button.classList.add("loader");
+
+        // Optionally, you can disable the button to prevent multiple clicks
+        button.disabled = true;
+
+        // Simulate a delay for demonstration (e.g., an API call)
+        setTimeout(() => {
+          // Reset button text and remove loader class after some time
+          button.textContent = "PROCEED"; // Reset text
+          button.classList.remove("loader"); // Remove loading animation
+          button.disabled = false; // Re-enable the button
+        }, 3000); // Change this duration as needed
+      }
+
+      function changeTabMobile(tab) {
+        const contents = document.querySelectorAll(".tab-content");
+
+        // Hide all content
+        contents.forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        const activeContentId =
+          tab === "tab1-mobile" ? "content1-mobile" : "content2-mobile";
+
+        // Show the active content
+        const activeContent = document.getElementById(activeContentId);
+        if (activeContent) {
+          activeContent.classList.add("active");
+        }
+
+        // Update tab button styles
+        const tabs = document.querySelectorAll(".tab-button");
+        tabs.forEach((t) => {
+          t.classList.remove("custom-bg", "text-white");
+          t.classList.add("text-gray-500", "bg-gray-100");
+        });
+
+        const activeTab = document.getElementById(tab);
+        if (activeTab) {
+          activeTab.classList.remove("text-gray-500", "bg-gray-100");
+          activeTab.classList.add("custom-bg", "text-white");
+        }
+      }
+
+      function changeTabWeb(tab) {
+        const contents = document.querySelectorAll(".tab-content");
+
+        // Hide all content
+        contents.forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        const activeContentId =
+          tab === "tab1-md" ? "content1-md" : "content2-md";
+
+        // Show the active content
+        const activeContent = document.getElementById(activeContentId);
+        if (activeContent) {
+          activeContent.classList.add("active");
+        }
+
+        // Update tab button styles
+        const tabs = document.querySelectorAll(".tab-button");
+        tabs.forEach((t) => {
+          t.classList.remove("custom-bg", "text-white");
+          t.classList.add("text-gray-500", "bg-gray-100");
+        });
+
+        const activeTab = document.getElementById(tab);
+        if (activeTab) {
+          activeTab.classList.add("custom-bg", "text-white");
+          activeTab.classList.remove("text-gray-500", "bg-gray-100");
+        }
+      }
+
+      function toggleUpiIdSheet(upi) {
+        const priceInput = document.getElementById("price");
+        const errorMessage = document.getElementById("error-message");
+        const nomsg = document.getElementById("no-message");
+        // Check if the amount is entered
+        if (priceInput.value.trim() === "") {
+          nomsg.classList.add("hidden");
+          errorMessage.classList.remove("hidden");
+          priceInput.classList.add("border-red-500");
+
+          upi.checked = false; // Uncheck the UPI radio button
+          return; // Exit the function
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          priceInput.classList.remove("border-red-500");
+        }
+        const amount = parseFloat(priceInput.value);
+        if (amount > 35000) {
+          document.getElementById("upi").disabled = true;
+        } else {
+          document.getElementById("upi").disabled = false;
+        }
+
+        const upiInput = document.getElementById("upi-input");
+
+        if (upi.checked) {
+          if (window.innerWidth >= 768) {
+            upiInput.classList.remove("hidden");
+          } else {
+            openUpiIdSheet();
+          }
+        } else {
+          if (window.innerWidth >= 768) {
+            upiInput.classList.add("hidden");
+          } else {
+            closeUpiIdSheet();
+          }
+        }
+      }
+
+      function closeBottomSheet() {
+        const bottomSheet = document.getElementById("bottomSheet");
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        bottomSheet.classList.remove("show");
+        setTimeout(() => {
+          bottomSheet.classList.add("hidden");
+          overlay.classList.add("hidden"); // Hide the overlay
+        }, 300);
+      }
+
+      // Add click event listener to the overlay
+      document
+        .getElementById("overlay")
+        .addEventListener("click", closeBottomSheet);
+
+      function toggleInputField(upi) {
+        const priceInput = document.getElementById("price");
+        const upiInput = document.getElementById("upi-input");
+        const nomsg = document.getElementById("no-message");
+        const errorMessage = document.getElementById("error-message");
+
+        // Check if the amount is entered
+        if (priceInput.value.trim() === "") {
+          nomsg.classList.add("hidden");
+          errorMessage.classList.remove("hidden");
+          priceInput.classList.add("border-red-500");
+
+          upi.checked = false; // Uncheck the UPI radio button
+          return; // Exit the function
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          priceInput.classList.remove("border-red-500");
+        }
+
+        const amount = parseFloat(priceInput.value);
+        if (amount > 35000) {
+          document.getElementById("upi").disabled = true;
+        } else {
+          document.getElementById("upi").disabled = false;
+        }
+
+        // Show or hide the UPI input field based on the UPI radio button state
+      }
+
+      function toggleInputFieldMobile(upi) {
+        const priceInput = document.getElementById("price");
+        const upiInput = document.getElementById("upi-input");
+        const nomsg = document.getElementById("no-message");
+        const errorMessage = document.getElementById("error-message");
+
+        // Check if the amount is entered
+        if (priceInput.value.trim() === "") {
+          nomsg.classList.add("hidden");
+          errorMessage.classList.remove("hidden");
+          priceInput.classList.add("border-red-500");
+
+          upi.checked = false; // Uncheck the UPI radio button
+          return; // Exit the function
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          priceInput.classList.remove("border-red-500");
+        }
+
+        const amount = parseFloat(priceInput.value);
+        if (amount > 35000) {
+          document.getElementById("upi").disabled = true;
+        } else {
+          document.getElementById("upi").disabled = false;
+        }
+
+        // Show or hide the UPI input field based on the UPI radio button state
+        if (upi.checked) {
+          openUpiIdSheet(); // Open the UPI ID bottom sheet
+        } else {
+          closeUpiIdSheet(); // Close the UPI ID bottom sheet
+        }
+      }
+
+      function toggleInputFieldWeb(upi) {
+        const priceInput = document.getElementById("price");
+        const upiInput = document.getElementById("upi-input");
+        const nomsg = document.getElementById("no-message");
+        const errorMessage = document.getElementById("error-message");
+
+        // Check if the amount is entered
+        if (priceInput.value.trim() === "") {
+          nomsg.classList.add("hidden");
+          errorMessage.classList.remove("hidden");
+          priceInput.classList.add("border-red-500");
+
+          upi.checked = false; // Uncheck the UPI radio button
+          return; // Exit the function
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          priceInput.classList.remove("border-red-500");
+        }
+
+        const amount = parseFloat(priceInput.value);
+        if (amount > 35000) {
+          document.getElementById("upi").disabled = true;
+        } else {
+          document.getElementById("upi").disabled = false;
+        }
+
+        // Show or hide the UPI input field based on the UPI radio button state
+        if (upi.checked) {
+          openUpiIdSheet(); // Open the UPI ID bottom sheet
+        } else {
+          closeUpiIdSheet(); // Close the UPI ID bottom sheet
+        }
+      }
+
+      function openBottomSheet() {
+        const bottomSheet = document.getElementById("bottomSheet");
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        bottomSheet.classList.remove("hidden");
+        bottomSheet.classList.add("show");
+        overlay.classList.remove("hidden"); // Show the overlay
+
+        // Set the initial tab to be shown
+        changeTransactionTab("fundsAdded"); // Show the funds added tab by default
+      }
+      function changeTransactionTab(tab) {
+        const fundsAdded = document.getElementById("fundsAdded");
+        const fundsWithdrawn = document.getElementById("fundsWithdrawn");
+        const fundsAddedTab = document.getElementById("fundsAddedTab");
+        const fundsWithdrawnTab = document.getElementById("fundsWithdrawnTab");
+
+        if (tab === "fundsAdded") {
+          fundsAdded.classList.remove("hidden");
+          fundsWithdrawn.classList.add("hidden");
+          fundsAddedTab.classList.add(
+            "border-b-2",
+            "border-blue-600",
+            "text-blue-600"
+          );
+          fundsWithdrawnTab.classList.remove(
+            "border-b-2",
+            "border-blue-600",
+            "text-blue-600"
+          );
+          fundsWithdrawnTab.classList.add("text-gray-500");
+        } else {
+          fundsWithdrawn.classList.remove("hidden");
+          fundsAdded.classList.add("hidden");
+          fundsWithdrawnTab.classList.add(
+            "border-b-2",
+            "border-blue-600",
+            "text-blue-600"
+          );
+          fundsAddedTab.classList.remove(
+            "border-b-2",
+            "border-blue-600",
+            "text-blue-600"
+          );
+          fundsAddedTab.classList.add("text-gray-500");
+        }
+      }
+
+      function openUpiIdSheet() {
+        const upiIdSheet = document.getElementById("upiIdSheet");
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        upiIdSheet.classList.remove("hidden");
+        upiIdSheet.classList.add("show");
+        overlay.classList.remove("hidden"); // Show the overlay
+      }
+
+      function closeUpiIdSheet() {
+        const upiIdSheet = document.getElementById("upiIdSheet");
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        upiIdSheet.classList.remove("show");
+        setTimeout(() => {
+          upiIdSheet.classList.add("hidden");
+          overlay.classList.add("hidden"); // Hide the overlay
+        }, 300);
+      }
+
+      // Add click event listener to the overlay to close the UPI ID sheet
+      document
+        .getElementById("overlay")
+        .addEventListener("click", closeUpiIdSheet);
+
+      function proceedWithUpiId() {
+        const upiPrice = document.getElementById("upiPrice").value.trim();
+
+        if (upiPrice === "") {
+          alert("Please enter a valid UPI ID.");
+          return;
+        }
+
+        // Proceed with the transaction
+        closeUpiIdSheet();
+        // Add your transaction processing logic here
+      }
+
+      function openAccountSheet() {
+        const accountSheet = document.getElementById("accountSheet");
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        accountSheet.classList.remove("hidden");
+        accountSheet.classList.add("show");
+        overlay.classList.remove("hidden"); // Show the overlay
+      }
+
+      function closeAccountSheet() {
+        const accountSheet = document.getElementById("accountSheet");
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        accountSheet.classList.remove("show");
+        setTimeout(() => {
+          accountSheet.classList.add("hidden");
+          overlay.classList.add("hidden"); // Hide the overlay
+        }, 300);
+      }
+
+      // Add click event listener to the overlay to close the account sheet
+      document
+        .getElementById("overlay")
+        .addEventListener("click", closeAccountSheet);
+      function selectAccount() {
+        const selectedAccount = document.querySelector(
+          'input[name="selectedAccount"]:checked'
+        );
+        if (selectedAccount) {
+          const selectedAccountDisplay = document.getElementById(
+            "selectedAccountDisplay"
+          );
+          selectedAccountDisplay.textContent =
+            selectedAccount.nextElementSibling.textContent;
+          closeAccountSheet();
+        }
+      }
+      function openTransactionModeSheet() {
+        const transactionModeSheet = document.getElementById(
+          "transactionModeSheet"
+        );
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        transactionModeSheet.classList.remove("hidden");
+        transactionModeSheet.classList.add("show");
+        overlay.classList.remove("hidden"); // Show the overlay
+      }
+
+      function closeTransactionModeSheet() {
+        const transactionModeSheet = document.getElementById(
+          "transactionModeSheet"
+        );
+        const overlay = document.getElementById("overlay"); // Get the overlay element
+        transactionModeSheet.classList.remove("show");
+        setTimeout(() => {
+          transactionModeSheet.classList.add("hidden");
+          overlay.classList.add("hidden"); // Hide the overlay
+        }, 300);
+      }
+
+      // Add click event listener to the overlay to close the transaction mode sheet
+      document
+        .getElementById("overlay")
+        .addEventListener("click", closeTransactionModeSheet);
+
+        function selectTransactionMode() {
+    const priceInput = document.getElementById("price");
+    const errorMessage = document.getElementById("error-message");
+    const selectedMode = document.querySelector('input[name="transactionMode"]:checked');
+    const transactionModeDisplay = document.getElementById("transactionModeDisplay");
+    const transsub = document.getElementById("transsub");
+
+    // Check if price input is empty
+    if (priceInput.value.trim() === "") {
+        errorMessage.classList.remove("hidden");
+        priceInput.classList.add("border-red-500");
+        return; // Exit the function
+    } else {
+        errorMessage.classList.add("hidden");
+        priceInput.classList.remove("border-red-500");
+    }
+
+    const amount = parseFloat(priceInput.value);
+    if (amount > 35000) {
+        document.getElementById("upi").disabled = true;
+    } else {
+        document.getElementById("upi").disabled = false;
+    }
+
+    if (selectedMode) {
+        console.log("Selected Transaction Mode:", selectedMode.value);
+
+        // Update the display based on the selected transaction mode
+        if (transactionModeDisplay && transsub) { // Check if elements exist
+            if (selectedMode.value === "UPI") {
+                transactionModeDisplay.textContent = "UPI";
+                transsub.textContent = "via Gpay";
+            } else if (selectedMode.value === "Net Banking") {
+                transactionModeDisplay.textContent = "Net Banking";
+                transsub.textContent = "via Razorpay"; // Update for Net Banking
+            } else if (selectedMode.value === "Paytm") {
+                transactionModeDisplay.textContent = "Paytm";
+                transsub.textContent = "via Paytm"; // Update for Paytm
+            }
+        }
+    }
+}
+document.getElementById("price").addEventListener("input", function() {
+    const amount = parseFloat(this.value);
+    const errorMessage = document.getElementById("error-message");
+    if (isNaN(amount) || amount < 50) {
+        errorMessage.classList.remove("hidden");
+        this.classList.add("border-red-500");
+    } else {
+        errorMessage.classList.add("hidden");
+        this.classList.remove("border-red-500");
+    }
+});
+
+      // Function to update the display of the selected transaction mode
+      function updateTransactionModeDisplay() {
+        const selectedMode = document.querySelector(
+          'input[name="transactionMode"]:checked'
+        );
+        const transactionModeDisplay = document.getElementById(
+          "transactionModeDisplay"
+        );
+        const transsub = document.getElementById("transsub");
+
+        if (selectedMode && transactionModeDisplay && transsub) {
+          // Check if elements exist
+          // Update the display based on the selected transaction mode
+          if (selectedMode.value === "UPI") {
+            transactionModeDisplay.textContent = "UPI"; // Update for UPI
+            transsub.textContent = "via Gpay"; // Update for UPI
+          } else if (selectedMode.value === "Net Banking") {
+            transactionModeDisplay.textContent = "Net Banking"; // Update for Net Banking
+            transsub.textContent = "via Razorpay"; // Update for Net Banking
+          } else if (selectedMode.value === "Paytm") {
+            transactionModeDisplay.textContent = "Paytm"; // Update for Paytm
+            transsub.textContent = "via Paytm"; // Update for Paytm
+          }
+
+          // Show the selected mode
+          // document.getElementById('selectedTransactionMode').classList.remove('hidden');
+        }
+      }
+
+      // Add event listeners to radio buttons
+      document
+        .querySelectorAll('input[name="transactionMode"]')
+        .forEach((radio) => {
+          radio.addEventListener("change", updateTransactionModeDisplay);
+        });
+    </script>
+  </body>
+</html>

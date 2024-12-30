@@ -150,14 +150,13 @@
     </style>
 </head>
 
-<body class="bg-blue-50
-h-screen md:overflow-hidden">
+<body class="bg-gray-100 h-screen md:overflow-hidden">
 
     <div id="overlay" class="hidden fixed inset-0 bg-black opacity-50 z-40"></div>
 
     <!-- Small device -->
     <div class="block md:hidden">
-        <!-- <div class="block md:hidden bg-blue-600 sm:relative sm:h-[500px]">
+        <div class="block md:hidden bg-blue-600 sm:relative sm:h-[500px]">
             <div class="flex justify-center items-center text-center ">
                 <div class="w-screen mx-4">
                     <div class="mx-auto bg-white p-3 mx-3 m-4 mb-20 rounded-md">
@@ -172,12 +171,9 @@ h-screen md:overflow-hidden">
                     </div>
                 </div>
             </div>
-        </div> -->
-        <div class=" text-xl text-gray-900 p-4 font-semibold flex justify-center
-        ">Add Funds
         </div>
         <div class="flex min-h-screen">
-            <div >
+            <div class="absolute top-20">
                 <div class="">
                     <div class="">
                         <div id="content1-mobile" class="tab-content active">
@@ -195,11 +191,7 @@ h-screen md:overflow-hidden">
                                             </div>
                                         </div>
                                         <div id="error-message" class="text-red-500 text-sm hidden">Please enter a minimum of ₹50 for bank transfer.</div>
-                                        <div id="no-message" class="text-white text-sm h-3
-                                        "
-                                        >
-
-                                        </div>
+                                        <div id="no-message" class="text-white text-sm">Please fill this field</div>
                                     </div>
                                     <div>
 
@@ -221,9 +213,6 @@ h-screen md:overflow-hidden">
                                         <div id="noshimmer">
                                             <div class="bg-white rounded-lg shadow-lg mx-3 m-4 p-3">
                                                 <div class="block md:hidden">
-                                      
-                                      
-                                      
                                                     <div class="flex items-center my-2">
                                                         <label for="price" class="block text-sm">Choose Bank A/C</label>
                                                     </div>
@@ -377,8 +366,7 @@ h-screen md:overflow-hidden">
                                         </div>
                                         <div id="error-message" class="text-red-500 text-sm hidden">Please enter a
                                             minimum of ₹50 for bank transfer.</div>
-                                        <div id="no-message" class="text-transparent
-                                         text-sm">Please fill this field</div>
+                                        <div id="no-message" class="text-white text-sm">Please fill this field</div>
                                     </div>
                                     <div class="bg-white rounded-lg shadow-lg  mx-3 m-4 p-3">
                                         <div class="block md:hidden">
@@ -485,9 +473,6 @@ h-screen md:overflow-hidden">
             </div>
             <div id="upiIdSheet" class="hidden">
                 <div class="p-4">
-
-
-
 
                     <div class="mb-10 ">
                         <h2 class="text-xl font-semibold mb-2">
@@ -815,9 +800,7 @@ accountNumberDisplay.innerHTML = responseData.primaryBank.accountNumber; // Use 
         console.error('Error sending data:', error);
     }
 }
-        let selectedAccount = "ICICI"; 
-
-      
+        let selectedAccount = "ICICI";
         function setInitialSelectedAccount() {
             const selectedAccountDisplay = document.getElementById('selectedAccountDisplay');
             if (selectedAccountDisplay) { 
