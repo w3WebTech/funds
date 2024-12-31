@@ -371,6 +371,67 @@
                 window.location.href = targetPage;
             });
         });
+
+        const apiUrl = 'http://localhost/new.php'; // Update with your API URL
+
+    // Fetch and display companies
+    function fetchCompanies() {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const companiesContainer = document.getElementById('companiesContainer');
+                companiesContainer.innerHTML = ''; // Clear previous content
+
+                data.forEach(company => {
+                    const companyDiv = document.createElement('div');
+                    companyDiv.classList.add('company-details');
+                    companyDiv.innerHTML = `
+                        <h2>${company.name}</h2>
+                        <p><strong>About:</strong> ${company.about}</p>
+                        <h3>IPO Details</h3>
+                        <ul>
+                            <li><strong>Bid Price Range:</strong> ${company.ipoDetails.bidPriceRange}</li>
+                            <li><strong>Lot Size:</strong> ${company.ipoDetails.lotSize}</li>
+                            <li><strong>Retail Discount:</strong> ${company.ipoDetails.retailDiscount}</li>
+                            <li><strong>Issue Size:</strong> ${company.ipoDetails.issueSize}</li>
+                            <li><strong>Offer Type:</strong> ${company.ipoDetails.offerType}</li>
+                            <li><strong>IPO Type:</strong> ${company.ipoDetails.ipoType}</li>
+                            <li><strong>Minimum Investment:</strong> ${company.ipoDetails.minimumInvestment}</li>
+                            <li><strong>Maximum Investment:</strong> ${company.ipoDetails.maximumInvestment}</li>
+                            <li><strong>Closing Date:</strong> ${company.ipoDetails.closingDate}</li>
+                            <li><strong>Overall Subscriptions:</strong> ${company.ipoDetails.overallSubscriptions}</li>
+                            <li><strong>Bidding Closes In:</strong> ${company.ipoDetails.biddingClosesIn}</li>
+                        </ul>
+                        <h3>Shareholding Patterns</h3>
+                        <p><strong>Pre-Issue:</strong> Promoter: ${company.shareholdingPatterns.preIssuePromoter}, Public: ${company.shareholdingPatterns.preIssuePublic}</p>
+                        <p><strong>Post-Issue:</strong> Promoter: ${company.shareholdingPatterns.postIssuePromoter}, Public: ${company.shareholdingPatterns.postIssuePublic}</p>
+                        <h3>Strengths</h3>
+                        <ul>
+                            ${company.strengths.map(strength => `<li>${strength}</li>`).join('')}
+                        </ul>
+                        <h3>Risks</h3>
+                        <ul>
+                            ${company.risks.map(risk => `<li>${risk}</li>`).join('')}
+                        </ul>
+                        <h3>Important Dates</h3>
+                        <ul>
+                            ${company.importantDates.map(date => `<li>${date.day}: ${date.overallSubscriptions}</li>`).join('')}
+                        </ul>
+                        <h3>Company Report</h3>
+                        <p><strong>Title:</strong> ${company.companyReport.reportTitle}</p>
+                        <p><a href="${company.companyReport.downloadLink}" target="_blank">Download Report</a></p>
+                    `;
+                    companiesContainer.appendChild(companyDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching companies:', error);
+            });
+    }
+
+    
+    // Initial fetch of companies
+    fetchCompanies();
     </script>
 
 </body>

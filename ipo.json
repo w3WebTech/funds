@@ -1,0 +1,100 @@
+{
+    "companies": [
+      {
+        "name": "Ventive Hospitality Ltd",
+        "ipoDetails": {
+          "bidPriceRange": "₹ 610.00 - ₹ 643.00",
+          "lotSize": "23 Shares",
+          "retailDiscount": "₹ 0.00",
+          "issueSize": "₹ 1,00,000 cr",
+          "offerType": "Mainboard",
+          "ipoType": "Build Booking",
+          "minimumInvestment": "₹ 14,502.00 /12",
+          "maximumInvestment": "₹ 14,502.00 /12",
+          "closingDate": "13 Dec 2022",
+          "overallSubscriptions": "O.71X ",
+          "biddingClosesIn": "3 days"
+
+          
+        },
+        "shareholdingPatterns": {
+          "preIssue": {
+            "promoterAndPromotersGroup": "99.59%",
+            "public": "0.41%",
+            "total": "100%"
+          },
+          "postIssue": {
+            "promoterAndPromotersGroup": "88.98%",
+            "public": "11.02%",
+            "total": "100%"
+          }
+        },
+        "strengths": [
+          "Strong market presence and brand recognition.",
+          "Diversified product offerings catering to various market segments."
+        ],
+        "risks": [
+          "Market volatility affecting stock performance.",
+          "Regulatory changes impacting operational costs."
+        ],
+        "importantDates": [
+          {
+            "day": "Day 1",
+            "overallSubscriptions": "O.71X"
+          }
+        ],
+        "companyReport": {
+          "reportTitle": "Ventive Hospitality Report",
+          "downloadLink": "RHP"
+        },
+        "about": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde similique autem obcaecati repellat blanditiis dicta aliquam. Cumque, libero vitae. Eum iste debitis labore culpa eos aut totam. Quo, repudiandae ut!. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi, est inventore error quasi ipsam quam totam tenetur itaque, incidunt cupiditate vero eius ratione aperiam, illo perferendis. Enim eius autem aliquid!"
+      },
+      {
+        "name": "Another Company Ltd",
+        "ipoDetails": {
+          "bidPriceRange": "₹ 500.00 - ₹ 550.00",
+          "lotSize": "15 Shares",
+          "retailDiscount": "₹ 5.00",
+          "issueSize": "₹ 50,000 cr",
+          "offerType": "Mainboard",
+          "ipoType": "Fixed Price",
+          "minimumInvestment": "₹ 8,250.00 /15",
+          "maximumInvestment": "₹ 8,250.00 /15",
+          "closingDate": "20 Dec 2022",
+          "overallSubscriptions": "1.25X",
+          "biddingClosesIn": "5 days"
+        },
+        "shareholdingPatterns": {
+          "preIssue": {
+            "promoterAndPromotersGroup": "70.00%",
+            "public": "30.00%",
+            "total": "100%"
+          },
+          "postIssue": {
+            "promoterAndPromotersGroup": "60.00%",
+            "public": "40.00%",
+            "total": "100%"
+          }
+        },
+        "strengths": [
+          "Established brand with a loyal customer base.",
+          "Strong financial performance over the last few years."
+        ],
+        "risks": [
+          "Intense competition in the market.",
+          "Economic downturn affecting consumer spending."
+        ],
+        "importantDates": [
+          {
+            "day": "Day 1",
+            "overallSubscriptions": "1.25X"
+          }
+        ],
+        "companyReport": {
+          "reportTitle": "Another Company Report",
+          "downloadLink": "RHP"
+        },
+        "about": "Another Company Ltd is a leading player in its industry, known for its innovative solutions and customer-centric approach. The company has consistently delivered strong financial results and is well-positioned for future growth."
+      }
+    ]
+  }
