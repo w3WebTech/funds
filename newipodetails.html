@@ -10,52 +10,68 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      .tab-link {
+      .tabs {
+    
+      }
+
+      .tab-titles {
+        display: flex;
+        margin-bottom: 10px;
         position: relative;
-        transition: color 0.3s ease, border-bottom 0.3s ease; /* Transition for color and border */
-        border-bottom: 1px solid transparent; /* Default invisible border */
       }
 
-      .tab-link.active {
-        color: rgb(36, 36, 78); /* Active tab text color */
-        border-bottom: 2px solid rgb(36, 36, 78); /* Border when active */
+      .tab {
+        padding: 10px;
+        cursor: pointer;
+        flex: 1;
+        text-align: center;
+        /* background-color: #f1f1f1; */
+        transition: background-color 0.3s;
       }
 
-      .tab-link::after {
+      .tab:hover {
+        /* background-color: #ddd; */
+      }
+
+      /* Hide radio buttons */
+      input[type="radio"] {
+        display: none;
+      }
+
+      /* Tab content styling */
+    /* Tab content styling */
+.tab-content .content {
+  display: none; /* Hide all content by default */
+}
+
+#tab1:checked ~ .tab-titles ~ .tab-content #content1,
+#tab2:checked ~ .tab-titles ~ .tab-content #content2 {
+  display: block; /* Show the corresponding content */
+}
+      /* Border animation */
+      .tab-titles {
+        position: relative;
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .tab-titles:before {
         content: "";
         position: absolute;
-        left: 0;
         bottom: 0;
-        height: 1px;
-        width: 100%;
-        background-color: transparent;
-        transition: transform 0.7s ease, background-color 0.7s ease;
-        transform: scaleX(0);
-        transform-origin: left;
+        left: 0;
+        width: 50%; /* Adjust to the number of tabs */
+        height: 2px;
+        background-color: #3498db;
+        transition: left 0.3s ease-in-out;
       }
 
-      .tab-link.active::after {
-        background-color: rgb(36, 36, 78); /* Active color for underline */
-        transform: scaleX(1);
+      #tab1:checked ~ .tab-titles:before {
+        left: 0%;
       }
 
-      .tab-link:hover::after {
-        background-color: rgb(36, 36, 78); /* Hover color for underline */
-        transform: scaleX(1);
-      }
-
-      .tab-content {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(20px);
-        transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out,
-          transform 0.4s ease-in-out;
-      }
-
-      .tab-content.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+      #tab2:checked ~ .tab-titles:before {
+        left: 50%;
       }
     </style>
   </head>
@@ -338,7 +354,7 @@
       <div class="bg-gray-100 h-2 my-5"></div>
       <div class="p-3 px-5">
         <div class="font-bold text-gray-700 text-xl">Strengths and Risks</div>
-        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
+        <!-- <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
           <div class="tabs mb-5 grid grid-cols-2 font-medium" data-tabs="true">
             <button
               id="strengthsTab"
@@ -371,7 +387,25 @@
           <div id="risks" class="hidden tab-content">
             <div id="risksContainer"></div>
           </div>
-        </div>
+        </div> -->
+        <div class="tabs">
+            <input type="radio" id="tab1" name="tab" checked />
+            <input type="radio" id="tab2" name="tab" />
+          
+            <div class="tab-titles">
+              <label for="tab1" class="tab">Strengths</label>
+              <label for="tab2" class="tab">Risks</label>
+            </div>
+          
+            <div class="tab-content">
+              <div class="content" id="content1">
+                <div id="strengthsContainer"></div>
+              </div>
+              <div class="content" id="content2">
+                <div id="risksContainer"></div>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="bg-gray-100 h-2 my-3"></div>
       <div class="px-5 py-2">
@@ -439,35 +473,32 @@
           window.location.href = targetPage;
         });
       });
-      function showTab(tabName) {
-  const tabs = document.querySelectorAll(".tab-content");
-  tabs.forEach((tab) => {
-    tab.classList.remove("active"); // Remove active class to trigger fade-out and sliding effect
-    tab.classList.add("hidden"); // Ensure hidden is applied to all tabs
-  });
+    //   function showTab(tabName) {
+    //     const tabs = document.querySelectorAll(".tab-content");
+    //     tabs.forEach((tab) => {
+    //       tab.classList.remove("active"); // Remove active class to trigger fade-out and sliding effect
+    //       tab.classList.add("hidden"); // Ensure hidden is applied to all tabs
+    //     });
 
-  // Show the selected tab with fade-in and slide-up effect
-  const activeTab = document.getElementById(tabName);
-  activeTab.classList.remove("hidden"); // Remove the hidden class to show the tab content
-  activeTab.classList.add("active"); // Add the active class to trigger the animation
+    //     // Show the selected tab with fade-in and slide-up effect
+    //     const activeTab = document.getElementById(tabName);
+    //     activeTab.classList.remove("hidden"); // Remove the hidden class to show the tab content
+    //     activeTab.classList.add("active"); // Add the active class to trigger the animation
 
-  const strengthsTab = document.getElementById("strengthsTab");
-  const risksTab = document.getElementById("risksTab");
+    //     const strengthsTab = document.getElementById("strengthsTab");
+    //     const risksTab = document.getElementById("risksTab");
 
-  // Add the 'active' class to the clicked tab
-  if (tabName === "strengths") {
-    strengthsTab.classList.add("active");
-    risksTab.classList.remove("active");
-  } else {
-    risksTab.classList.add("active");
-    strengthsTab.classList.remove("active");
-  }
-}
+    //     // Add the 'active' class to the clicked tab
+    //     if (tabName === "strengths") {
+    //       strengthsTab.classList.add("active");
+    //       risksTab.classList.remove("active");
+    //     } else {
+    //       risksTab.classList.add("active");
+    //       strengthsTab.classList.remove("active");
+    //     }
+    //   }
 
-
-
-
-      showTab("strengths");
+    //   showTab("strengths");
 
       function getQueryParams() {
         const params = new URLSearchParams(window.location.search);
@@ -528,8 +559,7 @@
         // Display strengths
         const strengthsContainer =
           document.getElementById("strengthsContainer");
-        strengthsContainer.innerHTML = ipoDetails.strengths
-          .map(
+        strengthsContainer.innerHTML = ipoDetails.strengths.map(
             (strength) => `
                 <div class="flex">
                     <div>
@@ -547,8 +577,7 @@
 
         // Display risks
         const risksContainer = document.getElementById("risksContainer");
-        risksContainer.innerHTML = ipoDetails.risks
-          .map(
+        risksContainer.innerHTML = ipoDetails.risks.map(
             (risk) => `
                 <div class="flex">
                     <div>
