@@ -1,294 +1,536 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IPO Details</title>
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
+    <style>
+      .tab-link {
+        position: relative;
+        transition: color 0.3s ease, border-bottom 0.3s ease; /* Transition for color and border */
+        border-bottom: 1px solid transparent; /* Default invisible border */
+      }
 
-<body>
+      .tab-link.active {
+        color: rgb(36, 36, 78); /* Active tab text color */
+        border-bottom: 2px solid rgb(36, 36, 78); /* Border when active */
+      }
+
+      .tab-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 1px;
+        width: 100%;
+        background-color: transparent;
+        transition: transform 0.7s ease, background-color 0.7s ease;
+        transform: scaleX(0);
+        transform-origin: left;
+      }
+
+      .tab-link.active::after {
+        background-color: rgb(36, 36, 78); /* Active color for underline */
+        transform: scaleX(1);
+      }
+
+      .tab-link:hover::after {
+        background-color: rgb(36, 36, 78); /* Hover color for underline */
+        transform: scaleX(1);
+      }
+
+      .tab-content {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out,
+          transform 0.4s ease-in-out;
+      }
+
+      .tab-content.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+
+  <body>
     <div>
-        <div class="flex justify-between py-6 px-3 font-bold text-xl">
-            <div class="flex justify-between">
-                <div class="clickable-div" data-target="newipo.html">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                        <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
-                    </svg>
+      <div class="flex justify-between py-6 px-3 font-bold text-xl">
+        <div class="flex justify-between">
+          <div class="clickable-div" data-target="newipo.html">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="h-6 w-6"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <div class="px-5">IPO Details</div>
+        </div>
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="h-6 w-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+            />
+          </svg>
+        </div>
+      </div>
+      <div class="bg-gray-100 h-2"></div>
+      <div class="px-3 py-2 pt-4">
+        <img
+          src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg"
+          alt="Tuple"
+          class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10"
+        />
+        <div class="text-2xl font-bold text-gray-900 py-2" id="companyName">
+          Company Name
+        </div>
+        <div class="flex gap-x-2" id="tagsContainer"></div>
+      </div>
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
+          <ul
+            role="list"
+            class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
+          >
+            <li class="overflow-hidden rounded-xl border border-gray-200 py-2">
+              <div
+                class="flex items-center gap-x-2 border-gray-900/5 py-2 px-3"
+              >
+                <div>Investor Type</div>
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="mt-1 h-6 w-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke="round"
+                      d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                    />
+                  </svg>
                 </div>
-                <div class="px-5">IPO Details</div>
-            </div>
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                </svg>
-            </div>
-        </div>
-        <div class="bg-gray-100 h-2"></div>
-        <div class="px-3 py-2 pt-4">
-            <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="Tuple" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
-            <div class="text-2xl font-bold text-gray-900 py-2" id="companyName">Company Name</div>
-            <div class="flex gap-x-2" id="tagsContainer"></div>
-        </div>
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
-                <ul role="list" class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
-                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2">
-                        <div class="flex items-center gap-x-2 border-gray-900/5 py-2 px-3">
-                            <div>Investor Type</div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-1 h-6 w-6">
-                                    <path stroke-linecap="round" stroke="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="px-3 flex gap-x-2" id="investorTypesContainer"></div>
-                        <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
-                            <div class="flex justify-between gap-x-4 py-3">
-                                <div>
-                                    <dt class="text-gray-500">Bid Price</dt>
-                                    <dd class="text-gray-700 font-bold" id="bidPrice">₹ 0.00 - ₹ 0.00</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-gray-500 flex justify-end">Lot Size</dt>
-                                    <dd class="text-gray-700 font-bold" id="lotSize">0 Shares</dd>
-                                </div>
-                            </div>
-                            <div class="flex justify-between gap-x-4 py-3">
-                                <div>
-                                    <dt class="text-gray-500">Retail Discount</dt>
-                                    <dd class="text-gray-700 font-bold" id="retailDiscount">₹ 0.00</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-gray-500 flex justify-end">Issue Size</dt>
-                                    <dd class="text-gray-700 font-bold" id="issueSize">₹ 0.00</dd>
-                                </div>
-                            </div>
-                            <div class="flex justify-between gap-x-4 py-3 border-b border-gray-200">
-                                <div>
-                                    <dt class="text-gray-500">Offer Type</dt>
-                                    <dd class="text-gray-700 font-bold" id="offerType">N/A</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-gray-500 flex justify-end">IPO Type</dt>
-                                    <dd class="text-gray-700 font-bold" id="ipoType">N/A</dd>
-                                </div>
-                            </div>
-                            <div class="flex justify-between rounded-md my-2">
-                                <div>
-                                    <dt class="text-gray-500">Minimum Investment</dt>
-                                </div>
-                                <div>
-                                    <dd class="text-gray-700 font-bold" id="minimumInvestment">₹ 0.00</dd>
-                                </div>
-                            </div>
-                            <div class="flex justify-between rounded-md my-5">
-                                <div>
-                                    <dt class="text-gray-500">Maximum Investment</dt>
-                                </div>
-                                <div>
-                                    <dd class="text-gray-700 font-bold" id="maximumInvestment">₹ 0.00</dd>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="rounded-md bg-red-50 flex justify-center px-2 py-3 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/10" id="biddingStatus">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-                                    <span class="py-1 px-2 text-sm">Bidding closes in 0 days</span>
-                                </div>
-                            </div>
-                        </dl>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="bg-gray-100 h-2 my-5"></div>
-        <div class="px-4">
-            <div class="font-bold text-gray-700 text-xl">Important Dates</div>
-            <div class="mx-auto my-2">
-                <ul role="list" class="mt-6" id="importantDatesContainer"></ul>
-            </div>
-        </div>
-        <div class="p-3 px-5">
-            <div class="flex justify-between gap-x-4 py-5 p-3 rounded-md bg-gray-100">
-                <div class="flex gap-x-4">
-                    <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600">Day 1</span></dt>
-                    <dt>
-                        <div class="font-medium text-gray-900">Overall Subscriptions</div>
-                    </dt>
-                    <dd class="flex items-start gap-x-2">
-                        <div class="font-semibold text-green-600" id="overallSubscriptions">0.00X</div>
+              </div>
+              <div class="px-3 flex gap-x-2" id="investorTypesContainer"></div>
+              <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                <div class="flex justify-between gap-x-4 py-3">
+                  <div>
+                    <dt class="text-gray-500">Bid Price</dt>
+                    <dd class="text-gray-700 font-bold" id="bidPrice">
+                      ₹ 0.00 - ₹ 0.00
                     </dd>
+                  </div>
+                  <div>
+                    <dt class="text-gray-500 flex justify-end">Lot Size</dt>
+                    <dd class="text-gray-700 font-bold" id="lotSize">
+                      0 Shares
+                    </dd>
+                  </div>
+                </div>
+                <div class="flex justify-between gap-x-4 py-3">
+                  <div>
+                    <dt class="text-gray-500">Retail Discount</dt>
+                    <dd class="text-gray-700 font-bold" id="retailDiscount">
+                      ₹ 0.00
+                    </dd>
+                  </div>
+                  <div>
+                    <dt class="text-gray-500 flex justify-end">Issue Size</dt>
+                    <dd class="text-gray-700 font-bold" id="issueSize">
+                      ₹ 0.00
+                    </dd>
+                  </div>
+                </div>
+                <div
+                  class="flex justify-between gap-x-4 py-3 border-b border-gray-200"
+                >
+                  <div>
+                    <dt class="text-gray-500">Offer Type</dt>
+                    <dd class="text-gray-700 font-bold" id="offerType">N/A</dd>
+                  </div>
+                  <div>
+                    <dt class="text-gray-500 flex justify-end">IPO Type</dt>
+                    <dd class="text-gray-700 font-bold" id="ipoType">N/A</dd>
+                  </div>
+                </div>
+                <div class="flex justify-between rounded-md my-2">
+                  <div>
+                    <dt class="text-gray-500">Minimum Investment</dt>
+                  </div>
+                  <div>
+                    <dd class="text-gray-700 font-bold" id="minimumInvestment">
+                      ₹ 0.00
+                    </dd>
+                  </div>
+                </div>
+                <div class="flex justify-between rounded-md my-5">
+                  <div>
+                    <dt class="text-gray-500">Maximum Investment</dt>
+                  </div>
+                  <div>
+                    <dd class="text-gray-700 font-bold" id="maximumInvestment">
+                      ₹ 0.00
+                    </dd>
+                  </div>
                 </div>
                 <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="gray" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                  <div
+                    class="rounded-md bg-red-50 flex justify-center px-2 py-3 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/10"
+                    id="biddingStatus"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
                     </svg>
+                    <span class="py-1 px-2 text-sm"
+                      >Bidding closes in 0 days</span
+                    >
+                  </div>
                 </div>
+              </dl>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-gray-100 h-2 my-5"></div>
+      <div class="px-4">
+        <div class="font-bold text-gray-700 text-xl">Important Dates</div>
+        <div class="mx-auto my-2">
+          <ul role="list" class="mt-6" id="importantDatesContainer"></ul>
+        </div>
+      </div>
+      <div class="p-3 px-5">
+        <div
+          class="flex justify-between gap-x-4 py-5 p-3 rounded-md bg-gray-100"
+        >
+          <div class="flex gap-x-4">
+            <dt class="text-gray-500">
+              <span
+                class="inline-flex items-center rounded-md bg-white px-1.5 py-0.5 text-xs font-medium text-gray-600"
+                >Day 1</span
+              >
+            </dt>
+            <dt>
+              <div class="font-medium text-gray-900">Overall Subscriptions</div>
+            </dt>
+            <dd class="flex items-start gap-x-2">
+              <div
+                class="font-semibold text-green-600"
+                id="overallSubscriptions"
+              >
+                0.00X
+              </div>
+            </dd>
+          </div>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="gray"
+              class="h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m8.25 4.5 7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-100 h-2 my-5"></div>
+      <div class="p-3 px-5">
+        <div class="font-bold text-gray-700 text-xl">About the Company</div>
+        <div class="py-4" id="aboutCompany">Loading...</div>
+        <div class="font-bold text-gray-700 text-xl">Object of the Issue</div>
+        <div class="pl-5 py-3" id="objectOfIssue">Loading...</div>
+      </div>
+      <div
+        class="fixed bottom-0 w-full bg-white py-4 clickable-div"
+        data-target="applyNow.html"
+      >
+        <button
+          type="button"
+          class="rounded-md bg-indigo-600 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none mx-4 w-[90%]"
+        >
+          Apply Now
+        </button>
+      </div>
+      <div class="bg-gray-100 h-2 my-5"></div>
+      <div class="p-2 px-5">
+        <div class="font-bold text-gray-700 text-xl">Shareholding Patterns</div>
+        <div class="px-4 sm:px-6 lg:px-8">
+          <div class="flow-root">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div
+                class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
+              >
+                <table class="min-w-full divide-y divide-gray-300">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
+                      >
+                        Particulars
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Pre-Issue
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Post-Issue
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    class="bg-white"
+                    id="shareholdingPatternsContainer"
+                  ></tbody>
+                </table>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="bg-gray-100 h-2 my-5"></div>
-        <div class="p-3 px-5">
-            <div class="font-bold text-gray-700 text-xl">About the Company</div>
-            <div class="py-4" id="aboutCompany">Loading...</div>
-            <div class="font-bold text-gray-700 text-xl">Object of the Issue</div>
-            <div class="pl-5 py-3" id="objectOfIssue">Loading...</div>
-        </div>
-        <div class="fixed bottom-0 w-full bg-white py-4 clickable-div" data-target="applyNow.html">
-            <button type="button" class="rounded-md bg-indigo-600 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none mx-4 w-[90%]">
-                Apply Now
+      </div>
+      <div class="bg-gray-100 h-2 my-5"></div>
+      <div class="p-3 px-5">
+        <div class="font-bold text-gray-700 text-xl">Strengths and Risks</div>
+        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
+          <div class="tabs mb-5 grid grid-cols-2 font-medium" data-tabs="true">
+            <button
+              id="strengthsTab"
+              class="tab-link active py-2 focus:outline-none"
+              onclick="showTab('strengths')"
+            >
+              Strengths
+              <span
+                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-none mx-2"
+                id="strengthsCount"
+                >0</span
+              >
             </button>
+            <button
+              id="risksTab"
+              class="tab-link py-2 focus:outline-none"
+              onclick="showTab('risks')"
+            >
+              Risks
+              <span
+                class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-none mx-2"
+                id="risksCount"
+                >0</span
+              >
+            </button>
+          </div>
+          <div id="strengths" class="tab-content">
+            <div id="strengthsContainer"></div>
+          </div>
+          <div id="risks" class="hidden tab-content">
+            <div id="risksContainer"></div>
+          </div>
         </div>
-        <div class="bg-gray-100 h-2 my-5"></div>
-        <div class="p-2 px-5">
-            <div class="font-bold text-gray-700 text-xl">Shareholding Patterns</div>
-            <div class="px-4 sm:px-6 lg:px-8">
-                <div class="flow-root">
-                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <table class="min-w-full divide-y divide-gray-300">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">Particulars</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Pre-Issue</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Post-Issue</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white" id="shareholdingPatternsContainer"></tbody>
-                            </table>
-                        </div>
-                    </div>
+      </div>
+      <div class="bg-gray-100 h-2 my-3"></div>
+      <div class="px-5 py-2">
+        <div class="font-bold text-gray-700 text-xl">Company Report</div>
+        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
+          <ul role="list" class="mt-6">
+            <li class="overflow-hidden rounded-xl border border-gray-200 py-2">
+              <div class="flex justify-between p-4">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="red"
+                    class="h-6 w-6 my-2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                    />
+                  </svg>
                 </div>
-            </div>
+                <div>
+                  <div
+                    class="font-semibold text-gray-800 text-lg"
+                    id="reportTitle"
+                  >
+                    Company Report
+                  </div>
+                  <div class="text-gray-300 text-sm">
+                    <a href="#" id="reportLink">Download RHP</a>
+                  </div>
+                </div>
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="blue"
+                    class="h-6 w-6 my-2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
-        <div class="bg-gray-100 h-2 my-5"></div>
-        <div class="p-3 px-5">
-            <div class="font-bold text-gray-700 text-xl">Strengths and Risks</div>
-            <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
-                <div class="tabs mb-5 grid grid-cols-2 font-medium" data-tabs="true">
-                    <button id="strengthsTab" class="tab active border-b-2 border-indigo-700 py-2 focus:outline-none" onclick="showTab('strengths')">
-                        Strengths
-                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-none mx-2" id="strengthsCount">0</span>
-                    </button>
-                    <button id="risksTab" class="tab py-2 focus:outline-none" onclick="showTab('risks')">
-                        Risks
-                        <span class=" inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-none mx-2" id="risksCount">0</span>
-                    </button>
-                </div>
-                <div id="strengths" class="tab-content">
-                    <div id="strengthsContainer"></div>
-                </div>
-                <div id="risks" class="hidden tab-content">
-                    <div id="risksContainer"></div>
-                </div>
-            </div>
-        </div>
-        <div class="bg-gray-100 h-2 my-3"></div>
-        <div class="px-5 py-2">
-            <div class="font-bold text-gray-700 text-xl">Company Report</div>
-            <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none my-2">
-                <ul role="list" class="mt-6">
-                    <li class="overflow-hidden rounded-xl border border-gray-200 py-2">
-                        <div class="flex justify-between p-4">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="h-6 w-6 my-2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <div class="font-semibold text-gray-800 text-lg" id="reportTitle">Company Report</div>
-                                <div class="text-gray-300 text-sm">
-                                    <a href="#" id="reportLink">Download RHP</a>
-                                </div>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="h-6 w-6 my-2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                </svg>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="bg-gray-100 h-2 my-3"></div>
+      </div>
+      <div class="bg-gray-100 h-2 my-3 mb-20"></div>
     </div>
 
     <script>
-        const clickableDivs = document.querySelectorAll('.clickable-div');
-        clickableDivs.forEach(div => {
-            div.addEventListener('click', function () {
-                const targetPage = this.getAttribute('data-target');
-                window.location.href = targetPage;
-            });
+      const clickableDivs = document.querySelectorAll(".clickable-div");
+      clickableDivs.forEach((div) => {
+        div.addEventListener("click", function () {
+          const targetPage = this.getAttribute("data-target");
+          window.location.href = targetPage;
         });
+      });
+      function showTab(tabName) {
+  const tabs = document.querySelectorAll(".tab-content");
+  tabs.forEach((tab) => {
+    tab.classList.remove("active"); // Remove active class to trigger fade-out and sliding effect
+    tab.classList.add("hidden"); // Ensure hidden is applied to all tabs
+  });
 
-        function showTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            document.getElementById(tabName).classList.remove('hidden');
+  // Show the selected tab with fade-in and slide-up effect
+  const activeTab = document.getElementById(tabName);
+  activeTab.classList.remove("hidden"); // Remove the hidden class to show the tab content
+  activeTab.classList.add("active"); // Add the active class to trigger the animation
 
-            const strengthsTab = document.getElementById('strengthsTab');
-            const risksTab = document.getElementById('risksTab');
+  const strengthsTab = document.getElementById("strengthsTab");
+  const risksTab = document.getElementById("risksTab");
 
-            if (tabName === 'strengths') {
-                strengthsTab.classList.add('border-b-2', 'border-indigo-700');
-                risksTab.classList.remove('border-b-2', 'border-indigo-700');
-            } else {
-                risksTab.classList.add('border-b-2', 'border-indigo-700');
-                strengthsTab.classList.remove('border-b-2', 'border-indigo-700');
-            }
-        }
+  // Add the 'active' class to the clicked tab
+  if (tabName === "strengths") {
+    strengthsTab.classList.add("active");
+    risksTab.classList.remove("active");
+  } else {
+    risksTab.classList.add("active");
+    strengthsTab.classList.remove("active");
+  }
+}
 
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                name: params.get('name'),
-                closingDate: params.get('closingDate'),
-                minimumInvestment: params.get('minimumInvestment'),
-                overallSubscriptions: params.get('overallSubscriptions'),
-                bidPriceMin: params.get('bidPriceMin'),
-                bidPriceMax: params.get('bidPriceMax'),
-                lotSize: params.get('lotSize'),
-                retailDiscount: params.get('retailDiscount'),
-                issueSize: params.get('issueSize'),
-                offerType: params.get('offerType'),
-                ipoType: params.get('ipoType'),
-                maximumInvestment: params.get('maximumInvestment'),
-                biddingClosesIn: params.get('biddingClosesIn'),
-                strengths: JSON.parse(params.get('strengths')),
-                risks: JSON.parse(params.get('risks')),
-                reportLink: params.get('reportLink'),
-                aboutCompany: params.get('aboutCompany'),
-                objectOfIssue: params.get('objectOfIssue'),
-                shareholdingPatterns: JSON.parse(params.get('shareholdingPatterns')),
-                importantDates: JSON.parse(params.get('importantDates')),
-            };
-        }
 
-        function displayIpoDetails() {
-            const ipoDetails = getQueryParams();
-            document.getElementById('companyName').innerText = ipoDetails.name;
-            document.getElementById('bidPrice').innerText = `₹ ${ipoDetails.bidPriceMin} - ₹ ${ipoDetails.bidPriceMax}`;
-            document.getElementById('lotSize').innerText = `${ipoDetails.lotSize} Shares`;
-            document.getElementById('retailDiscount').innerText = `₹ ${ipoDetails.retailDiscount}`;
-            document.getElementById('issueSize').innerText = `₹ ${ipoDetails.issueSize}`;
-            document.getElementById('offerType').innerText = ipoDetails.offerType;
-            document.getElementById('ipoType').innerText = ipoDetails.ipoType;
-            document.getElementById('minimumInvestment').innerText = `₹ ${ipoDetails.minimumInvestment}`;
-            document.getElementById('maximumInvestment').innerText = `₹ ${ipoDetails.maximumInvestment}`;
-            document.getElementById('overallSubscriptions').innerText = ipoDetails.overallSubscriptions;
-            document.getElementById('aboutCompany').innerText = ipoDetails.aboutCompany;
-            document.getElementById('objectOfIssue').innerText = ipoDetails.objectOfIssue;
 
-            // Display strengths
-            const strengthsContainer = document.getElementById('strengthsContainer');
-            strengthsContainer.innerHTML = ipoDetails.strengths.map(strength => `
+
+      showTab("strengths");
+
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          name: params.get("name"),
+          closingDate: params.get("closingDate"),
+          minimumInvestment: params.get("minimumInvestment"),
+          overallSubscriptions: params.get("overallSubscriptions"),
+          bidPriceMin: params.get("bidPriceMin"),
+          bidPriceMax: params.get("bidPriceMax"),
+          lotSize: params.get("lotSize"),
+          retailDiscount: params.get("retailDiscount"),
+          issueSize: params.get("issueSize"),
+          offerType: params.get("offerType"),
+          ipoType: params.get("ipoType"),
+          maximumInvestment: params.get("maximumInvestment"),
+          biddingClosesIn: params.get("biddingClosesIn"),
+          strengths: JSON.parse(params.get("strengths")),
+          risks: JSON.parse(params.get("risks")),
+          reportLink: params.get("reportLink"),
+          aboutCompany: params.get("aboutCompany"),
+          objectOfIssue: params.get("objectOfIssue"),
+          shareholdingPatterns: JSON.parse(params.get("shareholdingPatterns")),
+          importantDates: JSON.parse(params.get("importantDates")),
+        };
+      }
+
+      function displayIpoDetails() {
+        const ipoDetails = getQueryParams();
+        document.getElementById("companyName").innerText = ipoDetails.name;
+        document.getElementById(
+          "bidPrice"
+        ).innerText = `${ipoDetails.bidPriceMin} -  ${ipoDetails.bidPriceMax}`;
+        document.getElementById(
+          "lotSize"
+        ).innerText = `${ipoDetails.lotSize} Shares`;
+        document.getElementById(
+          "retailDiscount"
+        ).innerText = ` ${ipoDetails.retailDiscount}`;
+        document.getElementById(
+          "issueSize"
+        ).innerText = ` ${ipoDetails.issueSize}`;
+        document.getElementById("offerType").innerText = ipoDetails.offerType;
+        document.getElementById("ipoType").innerText = ipoDetails.ipoType;
+        document.getElementById(
+          "minimumInvestment"
+        ).innerText = ` ${ipoDetails.minimumInvestment}`;
+        document.getElementById(
+          "maximumInvestment"
+        ).innerText = ` ${ipoDetails.maximumInvestment}`;
+        document.getElementById("overallSubscriptions").innerText =
+          ipoDetails.overallSubscriptions;
+        document.getElementById("aboutCompany").innerText =
+          ipoDetails.aboutCompany;
+        document.getElementById("objectOfIssue").innerText =
+          ipoDetails.objectOfIssue;
+
+        // Display strengths
+        const strengthsContainer =
+          document.getElementById("strengthsContainer");
+        strengthsContainer.innerHTML = ipoDetails.strengths
+          .map(
+            (strength) => `
                 <div class="flex">
                     <div>
                         <span class="inline-flex items-center rounded-full bg-green-100 px-1.5 text-xs font-medium text-green-700 py-2 my-2">
@@ -299,11 +541,15 @@
                     </div>
                     <div class="p-2">${strength}</div>
                 </div>
-            `).join('');
+            `
+          )
+          .join("");
 
-            // Display risks
-            const risksContainer = document.getElementById('risksContainer');
-            risksContainer.innerHTML = ipoDetails.risks.map(risk => `
+        // Display risks
+        const risksContainer = document.getElementById("risksContainer");
+        risksContainer.innerHTML = ipoDetails.risks
+          .map(
+            (risk) => `
                 <div class="flex">
                     <div>
                         <span class="inline-flex items-center rounded-full bg-red-100 px-1.5 text-xs font-medium text-red-700 py-2 my-2">
@@ -314,32 +560,50 @@
                     </div>
                     <div class="p-2">${risk}</div>
                 </div>
-            `).join('');
+            `
+          )
+          .join("");
 
-            // Display shareholding patterns
-            const shareholdingPatternsContainer = document.getElementById('shareholdingPatternsContainer');
-            shareholdingPatternsContainer.innerHTML = ipoDetails.shareholdingPatterns.map(pattern => `
+        // Display shareholding patterns
+        const shareholdingPatternsContainer = document.getElementById(
+          "shareholdingPatternsContainer"
+        );
+        shareholdingPatternsContainer.innerHTML =
+          ipoDetails.shareholdingPatterns
+            .map(
+              (pattern) => `
                 <tr class="even:bg-gray-50">
                     <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">${pattern.particulars}</td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${pattern.preIssue}</td>
                     <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">${pattern.postIssue}</td>
                 </tr>
-            `).join('');
+            `
+            )
+            .join("");
 
-            // Display important dates
-            const importantDatesContainer = document.getElementById('importantDatesContainer');
-            importantDatesContainer.innerHTML = ipoDetails.importantDates.map(date => `
+        // Display important dates
+        const importantDatesContainer = document.getElementById(
+          "importantDatesContainer"
+        );
+        importantDatesContainer.innerHTML = ipoDetails.importantDates
+          .map(
+            (date) => `
                 <li class="py-2">${date}</li>
-            `).join('');
+            `
+          )
+          .join("");
 
-            // Set report link
-            document.getElementById('reportLink').setAttribute('href', ipoDetails.reportLink);
-            document.getElementById('reportTitle').innerText = `${ipoDetails.name} Report`;
-        }
+        // Set report link
+        document
+          .getElementById("reportLink")
+          .setAttribute("href", ipoDetails.reportLink);
+        document.getElementById(
+          "reportTitle"
+        ).innerText = `${ipoDetails.name} Report`;
+      }
 
-        // Call the function to display IPO details on page load
-        displayIpoDetails();
+      // Call the function to display IPO details on page load
+      displayIpoDetails();
     </script>
-</body>
-
+  </body>
 </html>
