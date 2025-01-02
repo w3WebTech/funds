@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -436,4 +436,280 @@
 
 </body>
 
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IPO Details</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tab-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .tab-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 100%;
+            background-color: transparent;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        .tab-link.active::after {
+            background-color: #3b82f6; /* Tailwind's blue-600 */
+            transform: scaleX(1);
+        }
+
+        .tab-link:hover::after {
+            background-color: #3b82f6; /* Tailwind's blue-600 */
+            transform: scaleX(1);
+        }
+
+        .tab-link.active {
+            color: #3b82f6; /* Tailwind's blue-600 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="block md:hidden bg-blue-600 sm:relative sm:h-[100px]">
+        <div class="flex justify-center items-center text-center">
+            <div class="w-screen">
+                <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
+                    <nav class="absolute top-2 w-full">
+                        <div class="flex justify-between p-4 font-bold text-xl">
+                            <div class="flex justify-between">
+                                <div class="mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                        <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="px-5">Add Funds</div>
+                            </div>
+                            <div class="mr-4 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div 
+    class="flex justify-center items-center absolute top-12">
+      <div
+        class="rounded-md border p-5 m-5 bg-white shadow-lg w-full max-w-4xl"
+      >
+        <div
+          class="text-sm font-bold text-center text-gray-500 dark:text-gray-400 dark:border-gray-700"
+        >
+          <ul class="grid grid-cols-2">
+            <li class="me-2">
+              <a
+                href="#"
+                class="tab-link inline-block p-4 text-blue-600 rounded-t-lg dark:text-blue-500 dark:border-blue-500"
+                aria-current="page"
+                onclick="showTab('profile')"
+              >
+                Open & Upcoming
+              </a>
+            </li>
+            <li class="me-2">
+              <a
+                href="#"
+                class="tab-link inline-block p-4 border-transparent rounded-t-lg"
+                onclick="showTab('dashboard')"
+              >
+                Your Applications
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-gray-100 h-2"></div>
+        <div id="profile" class="tab-content active">
+          <h2 class="text-lg font-bold pt-4">
+            Open IPO's
+            <span
+              class="mx-2 inline-flex items-center rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-medium text-white"
+              >9</span
+            >
+          </h2>
+
+          <div class="mx-auto sm:px-6 lg:px-8">
+            <div class="mx-auto my-2">
+              <ul
+                id="companiesContainer"
+                role="list"
+                class="mt-6 grid grid-cols-1 gap-x-6 w-full gap-y-8 lg:grid-cols-3 xl:gap-x-8"
+              >
+                <!-- Company cards will be populated here -->
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="dashboard" class="tab-content hidden">
+          <h2 class="text-xl font-bold">Dashboard Content</h2>
+          <p>
+            This is the content for the Dashboard tab. Here you can display
+            analytics, statistics, and other relevant information.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script>
+      const apiUrl = "https://ipo.gwcindia.in/api/api-ipo-info.php"; // Update with your API URL
+      function sendDataToNewPage(company) {
+        const queryParams = new URLSearchParams({
+          name: company.name,
+          closingDate: company.ipoDetails.closingDate,
+          minimumInvestment: company.ipoDetails.minimumInvestment,
+          overallSubscriptions: company.ipoDetails.overallSubscriptions,
+          bidPriceMin: company.ipoDetails.bidPrice
+            ? company.ipoDetails.bidPrice.min
+            : "N/A",
+          bidPriceMax: company.ipoDetails.bidPrice
+            ? company.ipoDetails.bidPrice.max
+            : "N/A",
+          lotSize: company.ipoDetails.lotSize,
+          retailDiscount: company.ipoDetails.retailDiscount,
+          issueSize: company.ipoDetails.issueSize,
+          offerType: company.ipoDetails.offerType,
+          ipoType: company.ipoDetails.ipoType,
+          maximumInvestment: company.ipoDetails.maximumInvestment,
+          biddingClosesIn: company.ipoDetails.biddingClosesIn,
+          strengths: JSON.stringify(company.strengths), // Convert array to JSON string
+          risks: JSON.stringify(company.risks), // Convert array to JSON string
+          reportLink: company.reportLink, // Link to the report
+        }).toString();
+
+        window.location.href = `newipodetails.html?${queryParams}`;
+      }
+
+      function fetchCompanies() {
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data); // Log the data to see the structure
+            const companiesContainer =
+              document.getElementById("companiesContainer");
+            companiesContainer.innerHTML = ""; // Clear previous content
+
+            data.forEach((company) => {
+              if (company.ipoDetails) {
+                const companyDiv = document.createElement("li");
+                companyDiv.classList.add(
+                  "overflow-hidden",
+                  "rounded-xl",
+                  "border",
+                  "border-gray-200",
+                  "py-2",
+                  "clickable-div"
+                );
+
+                // Attach the event listener to the companyDiv
+                companyDiv.addEventListener("click", function () {
+                  sendDataToNewPage(company);
+                });
+
+                companyDiv.innerHTML = `
+                                <div class="flex items-center gap-x-4 border-gray-900/5 py-2 px-3">
+                                    <img src="https://tailwindui.com/plus/img/logos/48x48/tuple.svg" alt="${company.name}" class="size-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                                    <div>
+                                        <div class="text-sm/6 font-medium text-gray-900">${company.name}</div>
+                                        <span class="rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">MAINBOARD</span>
+                                    </div>
+                                </div>
+                                <dl class="-my-3 divide-y divide-gray-100 px-3 py-4 text-sm/6">
+                                    <div class="flex justify-between gap-x-4 py-3">
+                                        <div>
+                                            <dt class="text-gray-500">Closes On</dt>
+                                            <dd class="text-gray-700 font-bold"><time datetime="${company.ipoDetails.closingDate}">${new Date(company.ipoDetails.closingDate).toLocaleDateString()}</time></dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-gray-500 flex justify-end">Minimum Investment</dt>
+                                            <dd class="text-gray-700 font-bold flex justify-end"><time datetime="${company.ipoDetails.closingDate}"> ₹ ${company.ipoDetails.minimumInvestment}</time></dd>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between gap-x-4 p-3 rounded-md bg-gray-100">
+                                        <dt class="text-gray-500"><span class="inline-flex items-center rounded-md bg -white px-1.5 py-0.5 text-xs font-medium text-gray-600">day 1</span></dt>
+                                        <dt>
+                                            <div class="font-bold text-gray-900">Overall Subscriptions</div>
+                                        </dt>
+                                        <dd class="flex items-start gap-x-2">
+                                            <div class="font-semibold text-green-600">${company.ipoDetails.overallSubscriptions}</div>
+                                        </dd>
+                                    </div>
+                                </dl>
+                            `;
+                companiesContainer.appendChild(companyDiv);
+              }
+            });
+          })
+          .catch((error) => {
+            console.error("Error fetching companies:", error);
+          });
+      }
+
+      // Initial fetch of companies
+      fetchCompanies();
+
+      function showTab(tabName) {
+        const contents = document.querySelectorAll(".tab-content");
+        contents.forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        const tabs = document.querySelectorAll(".tab-link");
+        tabs.forEach((tab) => {
+          tab.classList.remove(
+            "text-blue-600",
+            "border-blue-600",
+            "dark:text-blue-500",
+            "dark:border-blue-500"
+          );
+          tab.classList.add("border-transparent"); // Reset the border color
+        });
+
+        // Show the selected tab content
+        document.getElementById(tabName).classList.add("active");
+
+        // Find the active tab and apply styles
+        const activeTab = Array.from(tabs).find(
+          (tab) =>
+            tab.textContent.trim() ===
+            (tabName === "profile" ? "Open & Upcoming" : "Your Applications")
+        );
+        if (activeTab) {
+          activeTab.classList.add(
+            "text-blue-600",
+            "border-blue-600",
+            "dark:text-blue-500",
+            "dark:border-blue-500"
+          );
+          activeTab.classList.remove("border-transparent"); // Remove the transparent border for the active tab
+        }
+      }
+
+      window.onload = function() {
+    // Set the default active tab to "Open & Upcoming"
+    showTab('profile');
+    
+    // Ensure the "Open & Upcoming" tab gets the border-bottom
+    const profileTab = document.querySelector('.tab-link');
+    profileTab.classList.add('border-b-2', 'border-blue-600');  // Add the border-bottom for active tab
+};
+
+    </script>
+  </body>
 </html>
