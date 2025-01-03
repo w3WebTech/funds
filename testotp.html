@@ -17,7 +17,6 @@
            name="otp"
            inputmode="numeric"
            autocomplete="one-time-code"
-           pattern="\d{6}"
            maxlength="6"
            required
            aria-labelledby="otp">
@@ -26,6 +25,7 @@
 
   <script>
     if ('OTPCredential' in window) {
+        alert("available")
       window.addEventListener('DOMContentLoaded', e => {
         const input = document.querySelector('input[autocomplete="one-time-code"]');
         if (!input) return;
@@ -49,7 +49,8 @@
           // Automatically submit the form when OTP is obtained
           if (form) form.submit();
         }).catch(err => {
-          alert(err); // Log any errors
+            console.error('Error retrieving OTP:', err);
+            alert('Error retrieving OTP: ' + err.message); // Log and alert any errors
         });
       });
     } else {
