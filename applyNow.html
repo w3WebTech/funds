@@ -11,11 +11,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body>
+  <body>   <div class="block md:hidden bg-blue-600 sm:relative sm:h-[100px] ">
+    <div class="flex justify-center items-center text-center">
+      <div class="w-screen">
+        <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
+          <nav class="absolute top-2 w-full">
+            <!-- <div class="flex justify-between p-4 font-bold text-xl"> -->
+              <div class="grid grid-cols-12 my-4">
+                  <!-- First SVG Icon -->
+                  <div class="col-span-2 flex justify-center items-center clickable-div"  data-target="newipodetails.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                      <path
+                        fill-rule="evenodd"
+                        d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  
+                  <!-- Text (IPO's) -->
+                  <div class="col-span-8 flex justify-start items-center text-lg font-semibold">
+                    IPO's
+                  </div>
+                  
+                  <!-- Second SVG Icon -->
+                  <div class="col-span-2 flex justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                    </svg>
+                  </div>
+              
+              
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+  class="flex justify-center items-center absolute top-12 left-0 right-0"
+>
+  <div
+    class="rounded-md border mt-5 bg-white shadow-lg w-full max-w-4xl min-h-screen"
+  >
     <div>
       <div class="flex justify-between py-6 px-3 font-bold text-xl">
         <div class="flex justify-between">
-          <div class="clickable-div" data-target="newipodetails.html">
+          <!-- <div >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -28,7 +70,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-          </div>
+          </div> -->
           <div>
             <div class="px-5">
               Ventive Hospitality
@@ -149,6 +191,7 @@
         </button>
       </div>
     </div>
+    </div></div>
     <script>
       const clickableDivs = document.querySelectorAll(".clickable-div");
       clickableDivs.forEach((div) => {
