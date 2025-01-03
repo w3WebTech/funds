@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Auto-Fill</title>
+</head>
+<body>
+    <form action="/submit" method="post">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" maxlength="6" autocomplete="one-time-code" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // JavaScript for OTP field enhancements
+        document.getElementById('otp').addEventListener('input', function() {
+            if (this.value.length === 6) {
+                // You can automatically submit the form when the OTP is complete, if necessary
+                // document.querySelector('form').submit();
+            }
+        });
+    </script>
+</body>
+</html>
