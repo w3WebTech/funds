@@ -66,7 +66,7 @@ alert("test1")
                 otpDisplay.textContent = `Received OTP: ${otp.code}`;
                 alert(otpDisplay.textContent ,"dispay")
                 console.log('OTP received:', otp.code);
-
+                input.focus();
                 if (form) {
                     form.submit();
                 }
