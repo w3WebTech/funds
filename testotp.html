@@ -33,16 +33,17 @@
     window.addEventListener('DOMContentLoaded', () => {
         const input = document.querySelector('input[autocomplete="one-time-code"]');
         const otpDisplay = document.querySelector('#otpDisplay');
-
+alert("test1")
         if (!input || !otpDisplay) {
             return;
         }
-
+        alert("test2")
         // Cancel the Web OTP API if the form is submitted manually.
         const ac = new AbortController();
         const form = input.closest('form');
 
         if (form) {
+            alert("test3")
             form.addEventListener('submit', () => {
                 ac.abort();
             });
@@ -53,13 +54,17 @@
         const retryDelay = 500; // Delay between retries in milliseconds
 
         const retrieveOtp = () => {
+            alert("test4")
             navigator.credentials.get({
                 otp: { transport: ['sms'] },
                 signal: ac.signal
             })
             .then(otp => {
+                alert("test5")
                 input.value = otp.code;
+                alert(otp.code,otp,"otp")
                 otpDisplay.textContent = `Received OTP: ${otp.code}`;
+                alert(otpDisplay.textContent ,"dispay")
                 console.log('OTP received:', otp.code);
 
                 if (form) {
