@@ -49,11 +49,11 @@
           // Automatically submit the form when OTP is obtained
           if (form) form.submit();
         }).catch(err => {
-          console.log(err); // Log any errors
+          alert(err); // Log any errors
         });
       });
     } else {
-      console.log('Web OTP API is not supported in this browser.');
+      alert('Web OTP API is not supported in this browser.');
     }
   </script>
 
