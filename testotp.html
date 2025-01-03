@@ -23,12 +23,16 @@
     <button type="submit">Submit</button>
   </form>
 
+  <!-- Display OTP in a div -->
+  <div id="otpDisplay">OTP will be displayed here.</div>
+
   <script>
     if ('OTPCredential' in window) {
-        alert("available")
+        alert("Web OTP API is available!");
       window.addEventListener('DOMContentLoaded', e => {
         const input = document.querySelector('input[autocomplete="one-time-code"]');
-        if (!input) return;
+        const otpDisplay = document.querySelector('#otpDisplay');
+        if (!input || !otpDisplay) return;
 
         // Cancel the Web OTP API if the form is submitted manually.
         const ac = new AbortController();
@@ -46,8 +50,11 @@
           signal: ac.signal
         }).then(otp => {
           input.value = otp.code; // Automatically fill the OTP field
-          // Automatically submit the form when OTP is obtained
-          if (form) form.submit();
+          otpDisplay.textContent = `Received OTP: ${otp.code}`; // Display OTP in div
+          console.log('OTP received:', otp.code);
+          setTimeout(() => {
+            if (form) form.submit(); // Submit after OTP is filled
+          }, 1000);  // 1-second delay to ensure OTP is filled before submitting
         }).catch(err => {
             console.error('Error retrieving OTP:', err);
             alert('Error retrieving OTP: ' + err.message); // Log and alert any errors
