@@ -1,93 +1,73 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send OTP</title>
+</head>
+<body>
+    <h1>Send OTP</h1>
+    <form id="otpForm">
+        <label for="mobileNo">Mobile Number:</label>
+        <input type="text" id="mobileNo" name="mobileNo" required><br><br>
+
+        <label for="otp">OTP:</label>
+        <input type="text" id="otp" name="otp" required><br><br>
+
+        <button type="submit">Send OTP</button>
+    </form>
+
+    <p id="statusMessage"></p>
+
+    <script>
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();  // Prevent form from submitting the usual way
+            
+            const mobileNo = document.getElementById('mobileNo').value;
+            const otp = document.getElementById('otp').value;
+
+            const url = `http://gwcsms.in/sendsms?mobileNo=${encodeURIComponent(mobileNo)}&otp=${encodeURIComponent(otp)}`;
+            
+            // Use Fetch API to make the GET request to the PHP script
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // Handle the response here
+                    document.getElementById('statusMessage').innerText = "OTP sent successfully!";
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    document.getElementById('statusMessage').innerText = "Failed to send OTP.";
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabbed Interface with Slider Animation</title>
-    <style>
-        /* Basic styling */
-        .tabs {
-            width: 300px;
-            position: relative;
-            margin: 20px auto;
-        }
-
-        .tab-titles {
-            display: flex;
-            margin-bottom: 10px;
-            position: relative;
-        }
-
-        .tab {
-            padding: 10px;
-            cursor: pointer;
-            flex: 1;
-            text-align: center;
-            background-color: #f1f1f1;
-            transition: background-color 0.3s;
-        }
-
-        .tab:hover {
-            background-color: #ddd;
-        }
-
-        /* Hide radio buttons */
-        input[type="radio"] {
-            display: none;
-        }
-
-        /* Tab content styling */
-        .tab-content .content {
-            display: none;
-        }
-
-        #tab1:checked ~ .tab-titles ~ .tab-content #content1,
-        #tab2:checked ~ .tab-titles ~ .tab-content #content2 {
-            display: block;
-        }
-
-        /* Border animation */
-        .tab-titles {
-            position: relative;
-            display: flex;
-            margin-bottom: 10px;
-        }
-
-        .tab-titles:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50%;  /* Adjust to the number of tabs */
-            height: 2px;
-            background-color: #3498db;
-            transition: left 0.3s ease-in-out;
-        }
-
-        #tab1:checked ~ .tab-titles:before {
-            left: 0%;
-        }
-
-        #tab2:checked ~ .tab-titles:before {
-            left: 50%;
-        }
-
-    </style>
+    <title>OTP Autofill Example</title>
 </head>
 <body>
-    <div class="tabs">
-        <input type="radio" id="tab1" name="tab" checked>
-        <input type="radio" id="tab2" name="tab">
-        
-        <div class="tab-titles">
-            <label for="tab1" class="tab">Tab 1</label>
-            <label for="tab2" class="tab">Tab 2</label>
-        </div>
-      
-        <div class="tab-content">
-            <div class="content" id="content1">Content 1</div>
-            <div class="content" id="content2">Content 2</div>
-        </div>
-    </div>
+    <h1>Enter OTP</h1>
+    <form id="otpForm">
+        <label for="otp">OTP:</label>
+        <!-- Mark this field with autocomplete="one-time-code" -->
+        <input type="text" id="otp" name="otp" autocomplete="one-time-code" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // Example of form submission handling
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const otp = document.getElementById('otp').value;
+            alert('OTP Submitted: ' + otp);
+        });
+    </script>
 </body>
 </html>
+
