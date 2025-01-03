@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Autofill Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter OTP</h1>
+    <input type="text" id="otp" placeholder="Enter OTP" autocomplete="one-time-code">
+    <script>if ('OTPCredential' in window) {
+        const otpInput = document.getElementById('otp');
+    
+        // Request OTP
+        const otp = new OTPCredential({
+            otp: {
+                // The expected OTP format
+                name: 'Your Service Name',
+                // The URL to send the OTP to
+                url: 'https://example.com/otp'
+            }
+        });
+    
+        otp.addEventListener('otp', (event) => {
+            // Fill the OTP input field with the received OTP
+            otpInput.value = event.otp;
+            // Optionally, you can submit the form or perform any action
+            console.log('OTP received:', event.otp);
+        });
+    
+        // Start the OTP request
+        otp.start();
+    } else {
+        console.log('Web OTP API is not supported in this browser.');
+    }</script>
+</body>
+</html>
