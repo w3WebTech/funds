@@ -1,52 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web OTP Autofill Example</title>
-  </head>
-  <body>
-    <h2>Web OTP Autofill Demo</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
     <form action="/verify-otp" method="POST">
-      <label for="otp">Enter OTP:</label>
-      <input
-        type="text"
-        id="otp"
-        name="otp"
-        inputmode="numeric"
-        autocomplete="one-time-code"
-        maxlength="6"
-        pattern="\d{6}"
-        required
-      />
-      <button type="submit">Submit</button>
-    </form>
-
+        <input type="text"
+               inputmode="numeric"
+               autocomplete="one-time-code"
+               pattern="\d{6}"
+               required>
+      </form>
     <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        console.log("DOM content loaded");
-        const input = document.querySelector(
-          'input[autocomplete="one-time-code"]'
-        );
-        const form = input?.closest("form");
-
-        if (!input || !form) return;
-
-        alert("Fetching OTP...");
-        navigator.credentials
-          .get({
-            otp: { transport: ["sms"] },
-            signal: ac.signal,
-          })
-          .then((otp) => {
-            alert(otp)
-            input.value = otp.code;
-            if (form) form.submit();
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        // Feature detection
+if ('OTPCredential' in window) {
+  window.addEventListener('DOMContentLoaded', e => {
+    const input = document.querySelector('input[autocomplete="one-time-code"]');
+    if (!input) return;
+    // Cancel the WebOTP API if the form is submitted manually.
+    const ac = new AbortController();
+    const form = input.closest('form');
+    if (form) {
+      form.addEventListener('submit', e => {
+        // Cancel the WebOTP API.
+        ac.abort();
       });
+    }
+    // Invoke the WebOTP API
+    navigator.credentials.get({
+      otp: { transport:['sms'] },
+      signal: ac.signal
+    }).then(otp => {
+      input.value = otp.code;
+      // Automatically submit the form when an OTP is obtained.
+      if (form) form.submit();
+    }).catch(err => {
+      console.log(err);
+    });
+  });
+}
     </script>
-  </body>
+</body>
 </html>
