@@ -1,68 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web OTP Autofill Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web OTP Autofill Example</title>
 </head>
 <body>
+    <h2>Web OTP Autofill Demo</h2>
+    <form action="/verify-otp" method="POST">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" required>
+        <button type="submit">Submit</button>
+    </form>
 
-  <h2>Web OTP Autofill Demo</h2>
+    <script>
+        if ('OTPCredential' in window) {
+            window.addEventListener('DOMContentLoaded', () => {
+                const input = document.querySelector('input[autocomplete="one-time-code"]');
+                const form = input?.closest('form'); // Optional chaining
 
-  <!-- OTP form -->
-  <form action="/verify-otp" method="POST">
-    <label for="otp">Enter OTP:</label>
-    <input type="text"
-           id="otp"
-           name="otp"
-           inputmode="numeric"
-           autocomplete="one-time-code"
-           maxlength="6"
-           pattern="\d{6}"
-           required>
-    <button type="submit">Submit</button>
-  </form>
+                if (!input || !form) return;
 
-  <script>
-    // Check if the Web OTP API is supported by the browser
-    if ('OTPCredential' in window) {
-      console.log('Feature Available');
-
-      window.addEventListener('DOMContentLoaded', () => {
-        const input = document.querySelector('input[autocomplete="one-time-code"]');
-        const form = input.closest('form');
-
-        if (!input) return; // If no OTP input field is found, exit
-
-        // Create an AbortController to cancel the Web OTP API call if necessary
-        // const ac = new AbortController();
-        
-        // // Cancel the Web OTP API call when the form is submitted manually
-        // form.addEventListener('submit', e => {
-        //   ac.abort();
-        // });
-
-        // Call the Web OTP API to automatically fetch OTP
-        navigator.credentials.get({
-          otp: { transport: ['sms'] }, // Only SMS transport supported
-        //   signal: ac.signal // Pass in the AbortController signal
-        }).then(otp => {
-          // Autofill the OTP into the input field
-          input.value = otp.code;
-
-          // Automatically submit the form once the OTP is retrieved
-          form.submit();
-        }).catch(err => {
-          console.log('Error fetching OTP:', err);
-          alert('Error fetching OTP. Please try again.');
-        });
-      });
-
-    } else {
-      alert('Web OTP API is not supported in your browser.');
-      console.log('Feature Not Available');
-    }
-  </script>
-
+                navigator.credentials.get({ otp: { transport: ['sms'] } })
+                    .then(otp => {
+                        if (otp?.code) { // Check if otp and code exist
+                            input.value = otp.code;
+                            form.submit();
+                        } else {
+                            console.error("Invalid OTP received:", otp);
+                            alert("Invalid OTP format received.");
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error fetching OTP:', err);
+                        alert('Error fetching OTP. Please enter manually.');
+                    });
+            });
+        } else {
+            alert('Web OTP API is not supported in your browser.');
+        }
+    </script>
 </body>
 </html>
