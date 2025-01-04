@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web OTP Example</title>
+  <title>Web OTP Autofill Example</title>
 </head>
 <body>
 
-  <h2>Web OTP Demo</h2>
+  <h2>Web OTP Autofill Demo</h2>
 
   <!-- OTP form -->
   <form action="/verify-otp" method="POST">
@@ -18,73 +18,49 @@
            inputmode="numeric"
            autocomplete="one-time-code"
            maxlength="6"
-           required
-           aria-labelledby="otp">
+           pattern="\d{6}"
+           required>
     <button type="submit">Submit</button>
   </form>
 
-  <!-- Display OTP in a div -->
-  <div id="otpDisplay">OTP will be displayed here.</div>
-
   <script>
+    // Check if the Web OTP API is supported by the browser
     if ('OTPCredential' in window) {
-      alert("Web OTP API is available!");
-      retrieveOtp();
+      console.log('Feature Available');
+
       window.addEventListener('DOMContentLoaded', () => {
         const input = document.querySelector('input[autocomplete="one-time-code"]');
-        const otpDisplay = document.querySelector('#otpDisplay');
+        const form = input.closest('form');
 
-        input.focus();
+        if (!input) return; // If no OTP input field is found, exit
 
-        const retryCount = 3;
-        const retryDelay = 500;
-        let currentRetry = 0;
+        // Create an AbortController to cancel the Web OTP API call if necessary
+        const ac = new AbortController();
+        
+        // Cancel the Web OTP API call when the form is submitted manually
+        form.addEventListener('submit', e => {
+          ac.abort();
+        });
 
-        const retrieveOtp = () => {
-          navigator.credentials.get({
-            otp: { transport: ['sms'] }
-          })
-            .then(otp => {
-                // Debugging alert for OTP object
-                alert("OTP object received: " + JSON.stringify(otp)); // Show the OTP object in JSON format
-                alert("OTP code: " + otp.code); // Show the OTP value from the object
+        // Call the Web OTP API to automatically fetch OTP
+        navigator.credentials.get({
+          otp: { transport: ['sms'] }, // Only SMS transport supported
+          signal: ac.signal // Pass in the AbortController signal
+        }).then(otp => {
+          // Autofill the OTP into the input field
+          input.value = otp.code;
 
-                if (otp && otp.code) {
-                  input.value = otp.code;
-                  otpDisplay.textContent = `Received OTP: ${otp.code}`;
-                  console.log('OTP received:', otp.code);
-
-                  // Submit form only if input has a value
-                  if (input.value) {
-                    input.closest('form').submit();
-                  }
-                } else {
-                  console.error('Invalid OTP format. Please try again.');
-                  alert('Invalid OTP format. Please try again.');
-                }
-            })
-            .catch(err => {
-              if (err.name === 'NotAllowedError') {
-                alert('Please allow browser access to OTP messages in your browser settings.');
-              } else if (err.name === 'NotFoundError') {
-                alert('No OTP message found. Please try again or enter the OTP manually.');
-              } else {
-                console.error('Error retrieving OTP:', err);
-
-                if (currentRetry < retryCount) {
-                  currentRetry++;
-                  setTimeout(retrieveOtp, retryDelay);
-                } else {
-                  alert('An error occurred while retrieving the OTP. Please try again later.');
-                }
-              }
-            });
-        };
-
-        retrieveOtp();
+          // Automatically submit the form once the OTP is retrieved
+          form.submit();
+        }).catch(err => {
+          console.log('Error fetching OTP:', err);
+          alert('Error fetching OTP. Please try again.');
+        });
       });
+
     } else {
-      alert('Web OTP API is not supported in this browser.');
+      alert('Web OTP API is not supported in your browser.');
+      console.log('Feature Not Available');
     }
   </script>
 
