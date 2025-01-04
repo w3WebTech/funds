@@ -32,9 +32,11 @@
           async function main() {
             // Check if WebOTP API is available
             if ('OTPCredential' in window) {
+                alert("OTPCredential")
               try {
                 // Check if navigator.credentials is available
                 if (navigator.credentials) {
+                    alert("enterd")
                   try {
                     // Attempt to get OTP using the WebOTP API with sms transport
                     const otp = await navigator.credentials.get({
@@ -42,7 +44,7 @@
                       signal: signal.signal // Pass the abort signal
                     });
 
-                    // If OTP is received and has a code, invoke the callback
+                    alert(otp)
                     if (otp && otp.code) {
                       cb(otp.code); // Call the callback with the OTP code
                     }
