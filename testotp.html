@@ -14,31 +14,31 @@
     </form>
 
     <script>
-        if ('OTPCredential' in window) {
-            window.addEventListener('DOMContentLoaded', () => {
-                const input = document.querySelector('input[autocomplete="one-time-code"]');
-                const form = input?.closest('form'); // Optional chaining
+     window.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM content loaded');
+    const input = document.querySelector('input[autocomplete="one-time-code"]');
+    const form = input?.closest('form');
 
-                if (!input || !form) return;
+    if (!input || !form) return;
 
-                navigator.credentials.get({ otp: { transport: ['sms'] } })
-                    .then(otp => {
-                        if (otp?.code) { // Check if otp and code exist
-                            input.value = otp.code;
-                            form.submit();
-                        } else {
-                            console.error("Invalid OTP received:", otp);
-                            alert("Invalid OTP format received.");
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Error fetching OTP:', err);
-                        alert('Error fetching OTP. Please enter manually.');
-                    });
-            });
-        } else {
-            alert('Web OTP API is not supported in your browser.');
-        }
+    alert('Fetching OTP...');
+    navigator.credentials.get({ otp: { transport: ['sms'] } })
+        .then(otp => {
+            alert('OTP received:', otp);
+            if (otp?.code) {
+                input.value = otp.code;
+                form.submit();
+            } else {
+                console.error("Invalid OTP received:", otp);
+                alert("Invalid OTP format received.");
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching OTP:', err);
+            alert('Error fetching OTP. Please enter manually.');
+        });
+});
+
     </script>
 </body>
 </html>
