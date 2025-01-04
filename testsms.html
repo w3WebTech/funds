@@ -17,12 +17,7 @@
         <button type="submit">Send OTP</button>
     </form>
 
-    <div id="response"></div> <!-- To display response from the API -->
-
-    <div id="otpInputDiv" style="display:none;">
-        <h2>Enter the OTP sent to your mobile</h2>
-        <input type="text" id="otpInput" name="otp" maxlength="6" autocomplete="one-time-code" required placeholder="Enter OTP">
-    </div>
+    <div id="response"></div> <!-- This will show response from the API -->
 
     <script>
         // jQuery to handle the form submission via AJAX
@@ -50,8 +45,8 @@
                         $("#response").html("Response from server: " + response);
                         console.log("API Response: " + response);  // Debug log
 
-                        // Show the OTP input box after sending the OTP
-                        $("#otpInputDiv").show();
+                        // Redirect to the testotp page after successful API call
+                        window.location.href = 'testotp.html';  // Replace with your actual testotp page URL
                     },
                     error: function(xhr, status, error) {
                         // Display error if the request fails
