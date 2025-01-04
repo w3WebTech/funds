@@ -29,30 +29,31 @@
   <script>
     if ('OTPCredential' in window) {
       alert("Web OTP API is available!");
-  
+
       window.addEventListener('DOMContentLoaded', () => {
         const input = document.querySelector('input[autocomplete="one-time-code"]');
         const otpDisplay = document.querySelector('#otpDisplay');
-  
+
         input.focus();
-  
+
         const retryCount = 3;
         const retryDelay = 500;
         let currentRetry = 0;
-  
+
         const retrieveOtp = () => {
           navigator.credentials.get({
             otp: { transport: ['sms'] }
           })
             .then(otp => {
-                alert(otp.code); // Show the OTP value in the alert
-                alert("otpval"); // This alert will show the string "otpval"
-  
+                // Debugging alert for OTP object
+                alert("OTP object received: " + JSON.stringify(otp)); // Show the OTP object in JSON format
+                alert("OTP code: " + otp.code); // Show the OTP value from the object
+
                 if (otp && otp.code) {
                   input.value = otp.code;
                   otpDisplay.textContent = `Received OTP: ${otp.code}`;
                   console.log('OTP received:', otp.code);
-  
+
                   // Submit form only if input has a value
                   if (input.value) {
                     input.closest('form').submit();
@@ -69,7 +70,7 @@
                 alert('No OTP message found. Please try again or enter the OTP manually.');
               } else {
                 console.error('Error retrieving OTP:', err);
-  
+
                 if (currentRetry < retryCount) {
                   currentRetry++;
                   setTimeout(retrieveOtp, retryDelay);
@@ -79,7 +80,7 @@
               }
             });
         };
-  
+
         retrieveOtp();
       });
     } else {
