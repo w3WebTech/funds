@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web OTP Autofill Example</title>
-</head>
-<body>
+  </head>
+  <body>
     <h2>Web OTP Autofill Demo</h2>
     <form action="/verify-otp" method="POST">
-        <label for="otp">Enter OTP:</label>
-        <input type="text" id="otp" name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" required>
-        <button type="submit">Submit</button>
+      <label for="otp">Enter OTP:</label>
+      <input
+        type="text"
+        id="otp"
+        name="otp"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        maxlength="6"
+        pattern="\d{6}"
+        required
+      />
+      <button type="submit">Submit</button>
     </form>
 
     <script>
-     window.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM content loaded');
-    const input = document.querySelector('input[autocomplete="one-time-code"]');
-    const form = input?.closest('form');
+      window.addEventListener("DOMContentLoaded", () => {
+        console.log("DOM content loaded");
+        const input = document.querySelector(
+          'input[autocomplete="one-time-code"]'
+        );
+        const form = input?.closest("form");
 
-    if (!input || !form) return;
+        if (!input || !form) return;
 
-    alert('Fetching OTP...');
-    navigator.credentials.get({ otp: { transport: ['sms'] } })
-        .then(otp => {
-            alert('OTP received:', otp);
-            if (otp?.code) {
-                input.value = otp.code;
-                form.submit();
-            } else {
-                console.error("Invalid OTP received:", otp);
-                alert("Invalid OTP format received.");
-            }
-        })
-        .catch(err => {
-            console.error('Error fetching OTP:', err);
-            alert('Error fetching OTP. Please enter manually.');
-        });
-});
-
+        alert("Fetching OTP...");
+        navigator.credentials
+          .get({
+            otp: { transport: ["sms"] },
+            signal: ac.signal,
+          })
+          .then((otp) => {
+            alert(otp)
+            input.value = otp.code;
+            if (form) form.submit();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      });
     </script>
-</body>
+  </body>
 </html>
