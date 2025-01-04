@@ -19,6 +19,12 @@
 
     <div id="response"></div> <!-- This will show response from the API -->
 
+    <!-- OTP input (hidden initially) -->
+    <div id="otpInputDiv" style="display: none;">
+        <label for="otpInput">Enter OTP:</label>
+        <input type="text" id="otpInput" name="otpInput" maxlength="6" inputmode="numeric" autocomplete="one-time-code"><br><br>
+    </div>
+
     <script>
         // jQuery to handle the form submission via AJAX
         $(document).ready(function() {
@@ -45,8 +51,37 @@
                         $("#response").html("Response from server: " + response);
                         console.log("API Response: " + response);  // Debug log
 
-                        // Redirect to the testotp page after successful API call
-                        window.location.href = 'testotp.html';  // Replace with your actual testotp page URL
+                        // Show the OTP input field after sending the OTP
+                        $("#otpInputDiv").show();
+
+                        // Start Web OTP autofill
+                        if ('OTPCredential' in window) {
+                            console.log('Web OTP API is available.');
+
+                            window.addEventListener('DOMContentLoaded', () => {
+                                const otpInput = document.querySelector('input[autocomplete="one-time-code"]');
+
+                                if (!otpInput) return; // Exit if OTP input field is not found
+
+                                // Use the Web OTP API to fetch the OTP from SMS
+                                navigator.credentials.get({
+                                    otp: { transport: ['sms'] } // Use SMS transport to fetch OTP
+                                }).then(otp => {
+                                    otpInput.value = otp.code; // Autofill OTP into the input field
+                                    console.log('OTP autofilled:', otp.code);  // Debug log
+
+                                    // Optionally, submit the form or continue with the next step after OTP is autofilled
+                                    // Example: Submit the form
+                                    // $("#otpForm").submit();
+                                }).catch(err => {
+                                    console.log('Error fetching OTP:', err);
+                                    alert('Error fetching OTP. Please try again.');
+                                });
+                            });
+                        } else {
+                            console.log('Web OTP API is not available.');
+                            alert('Your browser does not support Web OTP API.');
+                        }
                     },
                     error: function(xhr, status, error) {
                         // Display error if the request fails
