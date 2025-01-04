@@ -35,17 +35,17 @@
         if (!input) return; // If no OTP input field is found, exit
 
         // Create an AbortController to cancel the Web OTP API call if necessary
-        const ac = new AbortController();
+        // const ac = new AbortController();
         
-        // Cancel the Web OTP API call when the form is submitted manually
-        form.addEventListener('submit', e => {
-          ac.abort();
-        });
+        // // Cancel the Web OTP API call when the form is submitted manually
+        // form.addEventListener('submit', e => {
+        //   ac.abort();
+        // });
 
         // Call the Web OTP API to automatically fetch OTP
         navigator.credentials.get({
           otp: { transport: ['sms'] }, // Only SMS transport supported
-          signal: ac.signal // Pass in the AbortController signal
+        //   signal: ac.signal // Pass in the AbortController signal
         }).then(otp => {
           // Autofill the OTP into the input field
           input.value = otp.code;
