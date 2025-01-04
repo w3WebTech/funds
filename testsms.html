@@ -19,12 +19,6 @@
 
     <div id="response"></div> <!-- This will show response from the API -->
 
-    <!-- OTP input (hidden initially) -->
-    <div id="otpInputDiv" style="display: none;">
-        <label for="otpInput">Enter OTP:</label>
-        <input type="text" id="otpInput" name="otpInput" maxlength="6" inputmode="numeric" autocomplete="one-time-code"><br><br>
-    </div>
-
     <script>
         // jQuery to handle the form submission via AJAX
         $(document).ready(function() {
@@ -49,54 +43,20 @@
                     success: function(response) {
                         // Display the response from the PHP script
                         $("#response").html("Response from server: " + response);
-                        console.log("API Response: " + response);  // Debug log
-
-                        // Show the OTP input field after sending the OTP
-                        $("#otpInputDiv").show();
-
-                        // Start Web OTP autofill
-                        if ('OTPCredential' in window) {
-                            console.log('Web OTP API is available.');
-
-                            window.addEventListener('DOMContentLoaded', () => {
-                                const otpInput = document.querySelector('input[autocomplete="one-time-code"]');
-
-                                if (!otpInput) return; // Exit if OTP input field is not found
-
-                                // Use the Web OTP API to fetch the OTP from SMS
-                                navigator.credentials.get({
-                                    otp: { transport: ['sms'] } // Use SMS transport to fetch OTP
-                                }).then(otp => {
-                                    otpInput.value = otp.code; // Autofill OTP into the input field
-                                    console.log('OTP autofilled:', otp.code);  // Debug log
-
-                                    // Optionally, submit the form or continue with the next step after OTP is autofilled
-                                    // Example: Submit the form
-                                    // $("#otpForm").submit();
-                                }).catch(err => {
-                                    console.log('Error fetching OTP:', err);
-                                    alert('Error fetching OTP. Please try again.');
-                                });
-                            });
-                        } else {
-                            console.log('Web OTP API is not available.');
-                            alert('Your browser does not support Web OTP API.');
-                        }
+                        console.log("API Response: " + response); 
+                        window.location.href = 'testotp.html'; 
                     },
                     error: function(xhr, status, error) {
-                        // Display error if the request fails
                         $("#response").html("Error: " + xhr.responseText);
-                        console.error("AJAX Request Failed: " + xhr.responseText);  // Debug log
+                        console.error("AJAX Request Failed: " + xhr.responseText); 
+                        
                     }
                 });
             });
-
-            // Optional: You can auto-submit or verify the OTP from input
             $("#otpInput").on("input", function() {
                 var otp = $(this).val();
                 if (otp.length == 6) {
-                    console.log("OTP Entered: " + otp); // You can perform validation or submission
-                    // You can add further code to verify OTP with the backend
+                    console.log("OTP Entered: " + otp);
                 }
             });
         });
