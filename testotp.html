@@ -6,51 +6,75 @@
     <title>OTP Autofill Example</title>
 </head>
 <body>
+    <h1>OTP Autofill Example</h1>
     <form action="/verify-otp" method="POST">
+        <label for="otp-input">Enter OTP:</label>
         <input id="otp-input" 
                type="text"
                inputmode="numeric"
                autocomplete="one-time-code"
                pattern="\d{6}"
                required
-               maxlength="6"> <!-- Added maxlength to restrict the input to 6 digits -->
+               maxlength="6">
     </form>
 
     <script>
-        // Feature detection for WebOTP API
-        if ('OTPCredential' in window) {
-            window.addEventListener('DOMContentLoaded', (e) => {
-                const input = document.querySelector('input[autocomplete="one-time-code"]');
-                if (!input) return;
+        // Function to auto-read the SMS OTP using WebOTP API
+        function autoReadSMS(cb) {
+          // Create an AbortController to cancel the request after 1 minute
+          const signal = new AbortController();
+          
+          // Set the timeout to abort the WebOTP request after 1 minute
+          setTimeout(() => {
+            signal.abort();
+          }, 1 * 60 * 1000); // 1 minute in milliseconds
 
-                // Abort controller to handle cancellation of WebOTP API when form is submitted
-                const ac = new AbortController();
-                const form = input.closest('form');
-
-                // Add a submit event listener to abort WebOTP if the form is manually submitted
-                if (form) {
-                    form.addEventListener('submit', (e) => {
-                        ac.abort();
+          async function main() {
+            // Check if WebOTP API is available
+            if ('OTPCredential' in window) {
+              try {
+                // Check if navigator.credentials is available
+                if (navigator.credentials) {
+                  try {
+                    // Attempt to get OTP using the WebOTP API with sms transport
+                    const otp = await navigator.credentials.get({
+                      otp: { transport: ['sms'] },
+                      signal: signal.signal // Pass the abort signal
                     });
+
+                    // If OTP is received and has a code, invoke the callback
+                    if (otp && otp.code) {
+                      cb(otp.code); // Call the callback with the OTP code
+                    }
+                  } catch (e) {
+                    // Handle any errors that occur during the WebOTP API call
+                    console.error('Error fetching OTP:', e);
+                  }
                 }
+              } catch (err) {
+                // Catch any general errors (e.g., navigator.credentials issues)
+                console.error('Error in autoReadSMS function:', err);
+              }
+            } else {
+              // WebOTP API is not supported
+              console.log('WebOTP API is not supported in this browser.');
+            }
+          }
 
-                // Request OTP using the WebOTP API
-                navigator.credentials.get({
-                    otp: { transport: ['sms'] }, // Only accept SMS-based OTPs
-                    signal: ac.signal // Pass in the signal to cancel if necessary
-                }).then((otp) => {
-                    alert("entered")
-                    input.value = otp.code; // Fill the input with the OTP
-
-                    // Optionally, automatically submit the form once the OTP is filled in
-                    if (form) form.submit();
-                }).catch((err) => {
-                    console.log('Error during WebOTP API call:', err);
-                });
-            });
-        } else {
-            console.log('WebOTP API is not supported in this browser.');
+          // Call the main function to initiate the process
+          main();
         }
+
+        // Example usage of the autoReadSMS function
+        autoReadSMS(function(otpCode) {
+          // Populate the OTP input field with the OTP code
+          const otpInput = document.getElementById('otp-input');
+          otpInput.value = otpCode;
+          
+          // Optionally, submit the form once OTP is filled
+          const form = otpInput.closest('form');
+          if (form) form.submit();
+        });
     </script>
 </body>
 </html>
