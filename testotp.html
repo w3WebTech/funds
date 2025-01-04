@@ -34,9 +34,7 @@
         const input = document.querySelector('input[autocomplete="one-time-code"]');
         const otpDisplay = document.querySelector('#otpDisplay');
   
-        // if (!input || !otpDisplay) {
-        //   return;
-        // }
+       
   
         input.focus();
   
@@ -49,6 +47,8 @@
             otp: { transport: ['sms'] }
           })
             .then(otp => {
+                alert(otp)
+                alert("otpval")
               if (otp && otp.code) {
                 input.value = otp.code;
                 otpDisplay.textContent = `Received OTP: ${otp.code}`;
