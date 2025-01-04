@@ -29,58 +29,62 @@
   <script>
     if ('OTPCredential' in window) {
       alert("Web OTP API is available!");
-
+  
       window.addEventListener('DOMContentLoaded', () => {
         const input = document.querySelector('input[autocomplete="one-time-code"]');
         const otpDisplay = document.querySelector('#otpDisplay');
-
+  
         if (!input || !otpDisplay) {
-            return;
+          return;
         }
-
-        // Ensure the input field is focused when Web OTP API is invoked
+  
         input.focus();
-
-        // Retry logic for fetching OTP
-        const retryCount = 3; // Number of retry attempts
-        const retryDelay = 500; // Delay between retries in milliseconds
+  
+        const retryCount = 3;
+        const retryDelay = 500;
         let currentRetry = 0;
-
+  
         const retrieveOtp = () => {
-            navigator.credentials.get({
-                otp: { transport: ['sms'] }
-            })
+          navigator.credentials.get({
+            otp: { transport: ['sms'] }
+          })
             .then(otp => {
-                input.value = otp.code;  // Autofill OTP in input field
+              if (otp && otp.code) {
+                input.value = otp.code;
                 otpDisplay.textContent = `Received OTP: ${otp.code}`;
                 console.log('OTP received:', otp.code);
-                
-                // If form exists, submit after OTP is autofilled
-                input.closest('form').submit();
+  
+                // Submit form only if input has a value
+                if (input.value) {
+                  input.closest('form').submit();
+                }
+              } else {
+                console.error('Invalid OTP format. Please try again.');
+                alert('Invalid OTP format. Please try again.');
+              }
             })
             .catch(err => {
-                if (err.name === 'NotAllowedError') {
-                    alert('Please allow browser access to OTP messages in your browser settings.');
-                } else if (err.name === 'NotFoundError') {
-                    alert('No OTP message found. Please try again or enter the OTP manually.');
+              if (err.name === 'NotAllowedError') {
+                alert('Please allow browser access to OTP messages in your browser settings.');
+              } else if (err.name === 'NotFoundError') {
+                alert('No OTP message found. Please try again or enter the OTP manually.');
+              } else {
+                console.error('Error retrieving OTP:', err);
+  
+                if (currentRetry < retryCount) {
+                  currentRetry++;
+                  setTimeout(retrieveOtp, retryDelay);
                 } else {
-                    console.error('Error retrieving OTP:', err);
-
-                    // Retry logic
-                    if (currentRetry < retryCount) {
-                        currentRetry++;
-                        setTimeout(retrieveOtp, retryDelay);
-                    } else {
-                        alert('An error occurred while retrieving the OTP. Please try again later.');
-                    }
+                  alert('An error occurred while retrieving the OTP. Please try again later.');
                 }
+              }
             });
         };
-
-        retrieveOtp();  // Start OTP retrieval
+  
+        retrieveOtp();
       });
     } else {
-        alert('Web OTP API is not supported in this browser.');
+      alert('Web OTP API is not supported in this browser.');
     }
   </script>
 
