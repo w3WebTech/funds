@@ -3,44 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>OTP Autofill Example</title>
 </head>
 <body>
     <form action="/verify-otp" method="POST">
-        <input type="text"
+        <input id="otp-input" 
+               type="text"
                inputmode="numeric"
                autocomplete="one-time-code"
                pattern="\d{6}"
-               required>
-      </form>
+               required
+               maxlength="6"> <!-- Added maxlength to restrict the input to 6 digits -->
+    </form>
+
     <script>
-        // Feature detection
-if ('OTPCredential' in window) {
-  window.addEventListener('DOMContentLoaded', e => {
-    const input = document.querySelector('input[autocomplete="one-time-code"]');
-    if (!input) return;
-    // Cancel the WebOTP API if the form is submitted manually.
-    const ac = new AbortController();
-    const form = input.closest('form');
-    if (form) {
-      form.addEventListener('submit', e => {
-        // Cancel the WebOTP API.
-        ac.abort();
-      });
-    }
-    // Invoke the WebOTP API
-    navigator.credentials.get({
-      otp: { transport:['sms'] },
-      signal: ac.signal
-    }).then(otp => {
-      input.value = otp.code;
-      // Automatically submit the form when an OTP is obtained.
-      if (form) form.submit();
-    }).catch(err => {
-      console.log(err);
-    });
-  });
-}
+        // Feature detection for WebOTP API
+        if ('OTPCredential' in window) {
+            window.addEventListener('DOMContentLoaded', (e) => {
+                const input = document.querySelector('input[autocomplete="one-time-code"]');
+                if (!input) return;
+
+                // Abort controller to handle cancellation of WebOTP API when form is submitted
+                const ac = new AbortController();
+                const form = input.closest('form');
+
+                // Add a submit event listener to abort WebOTP if the form is manually submitted
+                if (form) {
+                    form.addEventListener('submit', (e) => {
+                        ac.abort();
+                    });
+                }
+
+                // Request OTP using the WebOTP API
+                navigator.credentials.get({
+                    otp: { transport: ['sms'] }, // Only accept SMS-based OTPs
+                    signal: ac.signal // Pass in the signal to cancel if necessary
+                }).then((otp) => {
+                    alert("entered")
+                    input.value = otp.code; // Fill the input with the OTP
+
+                    // Optionally, automatically submit the form once the OTP is filled in
+                    if (form) form.submit();
+                }).catch((err) => {
+                    console.log('Error during WebOTP API call:', err);
+                });
+            });
+        } else {
+            console.log('WebOTP API is not supported in this browser.');
+        }
     </script>
 </body>
 </html>
