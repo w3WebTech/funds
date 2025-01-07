@@ -365,10 +365,11 @@
           resolvedTab.classList.remove("active-tab");
 
           if (id === 1) {
-            iframe.src = "http://127.0.0.1:5500/open.html"; // Update with the correct URL
+            console.log(clientcode,clientname,clientemail)
+            iframe.src = "http://127.0.0.1:5500/open.html?clientcode=clientcode&clientname=clientname==&clientemail=clientemail"; // Update with the correct URL
             openTab.classList.add("active-tab");
           } else if (id === 2) {
-            iframe.src = "http://127.0.0.1:5500/resolved.html"; // Update with the correct URL
+            iframe.src = "http://127.0.0.1:5500/resolved.html?clientcode=clientcode&clientname=clientname==&clientemail=clientemail"; // Update with the correct URL
             resolvedTab.classList.add("active-tab");
           }
           iframe.classList.remove("hidden");

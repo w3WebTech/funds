@@ -49,7 +49,10 @@
     </style>
   </head>
   <body class="bg-gray-100">
-    <div id="app" class="container mx-auto p-4">
+    <div id="loading" class="flex justify-center items-center">
+      <p>Loading...</p>
+    </div>
+    <div id="content" class="container mx-auto p-4 hidden">
       <div id="ticket-container" class="md:flex md:gap-8">
         <div class="w-full md:w-[90%]">
           <div id="ticket-list" class="py-2">
@@ -317,69 +320,81 @@
         </div>
       </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const username = localStorage.getItem("clientname");
         document.getElementById("username").textContent = username || "User ";
+        fetchTickets();
 
-        // Example ticket data
-        const ticketData = [
-          {
-            number: 12345,
-            status: { name: "Open" },
-            subject: "Issue with account",
-            created_at: 1633036800,
-          },
-          {
-            number: 12346,
-            status: { name: "In-Progress" },
-            subject: "Feedback on service",
-            created_at: 1633123200,
-          },
-        ];
+        function fetchTickets() {
+          const emailId = localStorage.getItem("clientemail");
+          const formData = new FormData();
+          formData.append("emailId", emailId);
 
-        const ticketList = document.getElementById("ticket-list");
-        ticketData.forEach((ticket) => {
-          const ticketDiv = document.createElement("div");
-          ticketDiv.className =
-            "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
+          axios
+            .post(
+              "https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php",
+              formData
+            )
+            .then((response) => {
+              const tickets = response.data.data; // Assuming the API returns an array of tickets
+              updateTicketList(tickets);
+            })
+            .catch((error) => {
+              console.error(error.message || "An error occurred");
+            })
+            .finally(() => {
+              const loadingElement = document.getElementById("loading");
+              const contentElement = document.getElementById("content");
 
-          // Set the onclick event handler
-          ticketDiv.onclick = () => openTicketModal(ticket);
-
-          ticketDiv.innerHTML = `
-        <div class="flex justify-between">
-            <div class="text-xs font-semibold">#${ticket.number}</div>
-            <div class="flex gap-1">
-                <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">${
-                  ticket.status.name
-                }</div>
-            </div>
-        </div>
-        <div class="text-base font-bold">${ticket.subject}</div>
-        <div class="text-xs">${formatDate(ticket.created_at)}</div>
-         <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
-    `;
-
-          ticketList.appendChild(ticketDiv);
-        });
-
-        if (ticketData.length === 0) {
-          document.getElementById("no-tickets").classList.remove("hidden");
+              if (loadingElement) {
+                loadingElement.classList.add("hidden");
+              }
+              if (contentElement) {
+                contentElement.classList.remove("hidden");
+              }
+            });
         }
 
-        document.getElementById("create-ticket").onclick = () => {
-          // Logic to create a new ticket
-        };
+        function updateTicketList(tickets) {
+          const ticketList = document.getElementById("ticket-list");
+          ticketList.innerHTML = ""; // Clear existing tickets
 
-        document.getElementById("go-back-button").onclick = () => {
-          document.getElementById("status-modal").classList.add("hidden");
-        };
+          if (tickets.length === 0) {
+            document.getElementById("no-tickets").classList.remove("hidden");
+          } else {
+            document.getElementById("no-tickets").classList.add("hidden");
+            tickets.forEach((ticket) => {
+              const ticketDiv = document.createElement("div");
+              ticketDiv.className =
+                "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
 
-        document.getElementById("close-image-modal").onclick = () => {
-          document.getElementById("image-modal").classList.add("hidden");
-        };
+              // Set the onclick event handler
+              ticketDiv.onclick = () => openTicketModal(ticket);
+
+              ticketDiv.innerHTML = `
+                        <div class="flex justify-between">
+                            <div class="text-xs font-semibold">#${
+                              ticket.number
+                            }</div>
+                            <div class="flex gap-1">
+                                <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
+                                    ${ticket.status.name}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-base font-bold">${ticket.subject}</div>
+                        <div class="text-xs">${formatDate(
+                          ticket.created_at
+                        )}</div>
+                        <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
+                    `;
+
+              ticketList.appendChild(ticketDiv);
+            });
+          }
+        }
 
         // Function to open ticket modal
         function openTicketModal(ticket) {
@@ -389,10 +404,10 @@
           document.getElementById("ticket-status").textContent =
             ticket.status.name;
           document.getElementById("ticket-details").innerHTML = `
-                    <p>Details for ticket #${ticket.number}</p>
-                    <p>Status: ${ticket.status.name}</p>
-                    <p>Subject: ${ticket.subject}</p>
-                `;
+                <p>Details for ticket #${ticket.number}</p>
+                <p>Status: ${ticket.status.name}</p>
+                <p>Subject: ${ticket.subject}</p>
+            `;
           document.getElementById("ticket-modal").classList.remove("hidden");
         }
 
