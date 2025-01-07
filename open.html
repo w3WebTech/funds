@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>Ticket System</title>
+    <style>
+      .animated {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+      }
+
+      .fadeIn {
+        animation-name: fadeIn;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .three-body {
+        --uib-size: 35px;
+        --uib-speed: 0.8s;
+        --uib-color: #2741b6;
+        position: relative;
+        display: inline-block;
+        height: var(--uib-size);
+        width: var(--uib-size);
+        animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+      }
+
+      @keyframes spin78236 {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div id="app" class="container mx-auto p-4">
+      <div id="ticket-container" class="md:flex md:gap-8">
+        <div class="w-full md:w-[90%]">
+          <div id="ticket-list" class="py-2">
+            <!-- Tickets will be dynamically generated here -->
+          </div>
+        </div>
+
+        <div class="md:block hidden w-[40%]">
+          <div
+            class="bg-white border-gray rounded-md p-6 shadow-md h-fit w-full"
+          >
+            <div class="text-lg font-sans my-1">FAQ</div>
+            <div class="flex justify-between">
+              <div class="text-sm font-sans my-0.5">Account Details</div>
+              <div class="mx-1 mt-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="gray"
+                  class="w-4 h-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="flex justify-between">
+              <div class="text-sm font-sans my-0.5">
+                Brokage and Other Charges
+              </div>
+              <div class="mx-1 mt-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="gray"
+                  class="w-4 h-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="flex justify-between">
+              <div class="text-sm font-sans my-0.5">
+                Funds & Account Balance
+              </div>
+              <div class="mx-1 my-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="gray"
+                  class="w-4 h-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="flex justify-between">
+              <div class="text-sm font-sans my-0.5">
+                IPO & OFS and Mutual Fund
+              </div>
+              <div class="mx-1 mt-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="gray"
+                  class="w-4 h-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div
+            class="justify-end flex items-center text-sm text-[#0d6efd] font-semibold py-3"
+          >
+            <div>SEE MORE</div>
+            <div class="mx-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="#0d6efd"
+                class="w-4 h-4"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="no-tickets" class="flex justify-center items-center hidden">
+        <div>
+          <img
+            src="/static/no-data-found.jpeg"
+            class="rounded-lg"
+            alt=""
+            style="height: 300px; width: 300px"
+          />
+          <p class="text-center py-3 text-gray-600">No tickets available</p>
+        </div>
+      </div>
+
+      <div
+        id="ticket-modal"
+        class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center"
+        style="background: rgba(113, 110, 110, 0.7)"
+      >
+        <div
+          class="border shadow-lg modal-container bg-white w-full h-full shadow-lg z-50 overflow-y-auto"
+        >
+          <div class="modal-content text-left h-full">
+            <div class="bg-[#eeeff4] md:bg-white md:py-5 md:mt-[5%]">
+              <div
+                class="flex justify-between w-full items-center container md:w-[90%] mx-auto"
+              >
+                <div class="p-3 md:py-6 md:text-[30px]">
+                  Hi <span id="username"></span>,<br />
+                  We are here to help you
+                </div>
+                <div class="md:block hidden md:pl-6">
+                  <button
+                    id="create-ticket"
+                    class="block py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-blue-600 text-white hover:bg-[#2741b6] disabled:opacity-50 disabled:pointer-events-none"
+                  >
+                    Create Ticket
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex flex-col bg-[#eeeff4] md:bg-white pointer-events-auto max-w-full max-h-full h-full"
+            >
+              <div class="bg-[#F9FAFF] container md:mx-auto md:w-[90%]">
+                <div class="flex justify-between items-center py-3 px-2">
+                  <div class="flex items-center">
+                    <div id="back-button" class="cursor-pointer">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        class="w-7 h-7"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <div class="text-sm font-semibold" id="ticket-number">
+                      #12345
+                    </div>
+                  </div>
+                  <div class="md:px-6">
+                    <div
+                      class="uppercase bg-yellow-200 text-xs px-4 py-2 flex items-center justify-center"
+                      id="ticket-status"
+                    >
+                      Open
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pb-20 md:pb-5">
+                <div class="w-full p-4 bg-[#eeeff4] md:bg-white">
+                  <div id="ticket-details" class="flex flex-col">
+                    <!-- Ticket details will be dynamically generated here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="status-modal"
+        class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center"
+        style="background: rgba(0, 0, 0, 0.7)"
+      >
+        <div
+          class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
+        >
+          <div class="modal-content py-4 text-left px-6 h-full">
+            <div id="status-message" class="flex justify-center py-3">
+              Status message here
+            </div>
+            <div class="flex justify-center items-center gap-x-2 py-3 px-4">
+              <button
+                type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                id="go-back-button"
+              >
+                Go Back
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="image-modal"
+        class="fixed inset-0 z-50 hidden overflow-auto flex justify-end items-center"
+        style="background: rgba(0, 0, 0, 0.7)"
+      >
+        <div
+          class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
+        >
+          <div
+            class="flex justify-end items-center p-2 pointer"
+            id="close-image-modal"
+          >
+            <button
+              type="button"
+              class="flex justify-center items-center size-7 text-sm font-semibold rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              <span class="sr-only">Close</span>
+              <svg
+                class="flex-shrink-0 size-4"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="modal-content text-left p-4 h-full">
+            <div class="flex justify-center">
+              <img
+                id="uploaded-image"
+                class="rounded-xl"
+                alt="uploaded Image"
+                style="height: 400px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const username = localStorage.getItem("clientname");
+        document.getElementById("username").textContent = username || "User ";
+
+        // Example ticket data
+        const ticketData = [
+          {
+            number: 12345,
+            status: { name: "Open" },
+            subject: "Issue with account",
+            created_at: 1633036800,
+          },
+          {
+            number: 12346,
+            status: { name: "In-Progress" },
+            subject: "Feedback on service",
+            created_at: 1633123200,
+          },
+        ];
+
+        const ticketList = document.getElementById("ticket-list");
+        ticketData.forEach((ticket) => {
+          const ticketDiv = document.createElement("div");
+          ticketDiv.className =
+            "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
+
+          // Set the onclick event handler
+          ticketDiv.onclick = () => openTicketModal(ticket);
+
+          ticketDiv.innerHTML = `
+        <div class="flex justify-between">
+            <div class="text-xs font-semibold">#${ticket.number}</div>
+            <div class="flex gap-1">
+                <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">${
+                  ticket.status.name
+                }</div>
+            </div>
+        </div>
+        <div class="text-base font-bold">${ticket.subject}</div>
+        <div class="text-xs">${formatDate(ticket.created_at)}</div>
+         <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
+    `;
+
+          ticketList.appendChild(ticketDiv);
+        });
+
+        if (ticketData.length === 0) {
+          document.getElementById("no-tickets").classList.remove("hidden");
+        }
+
+        document.getElementById("create-ticket").onclick = () => {
+          // Logic to create a new ticket
+        };
+
+        document.getElementById("go-back-button").onclick = () => {
+          document.getElementById("status-modal").classList.add("hidden");
+        };
+
+        document.getElementById("close-image-modal").onclick = () => {
+          document.getElementById("image-modal").classList.add("hidden");
+        };
+
+        // Function to open ticket modal
+        function openTicketModal(ticket) {
+          document.getElementById(
+            "ticket-number"
+          ).textContent = `#${ticket.number}`;
+          document.getElementById("ticket-status").textContent =
+            ticket.status.name;
+          document.getElementById("ticket-details").innerHTML = `
+                    <p>Details for ticket #${ticket.number}</p>
+                    <p>Status: ${ticket.status.name}</p>
+                    <p>Subject: ${ticket.subject}</p>
+                `;
+          document.getElementById("ticket-modal").classList.remove("hidden");
+        }
+
+        // Function to format date
+        function formatDate(timestamp) {
+          const date = new Date(timestamp * 1000);
+          return `${date.getDate()}/${
+            date.getMonth() + 1
+          }/${date.getFullYear()}`;
+        }
+      });
+    </script>
+  </body>
+</html>

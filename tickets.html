@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue to HTML Example</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background-color: #FAFBFF;
+            font-family: Arial, sans-serif;
+        }
+        .fixed {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none; /* Hidden by default */
+        }
+        .fixed img {
+            margin: auto;
+            display: block;
+        }
+        .content {
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .footer {
+            background-color: #2A394E;
+            color: white;
+            width: 100%;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: none; /* Hidden by default */
+        }
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+        @media (min-width: 768px) {
+            .fixed, .footer {
+                display: block; /* Show on medium and larger screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fixed">
+        <img src="images/logo-2.jpeg" alt="Logo">
+    </div>
+
+    <div class="content">
+        <div id="app">
+            <tabs-section></tabs-section>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere repellat obcaecati inventore, quam ipsam cupiditate minus adipisci quibusdam accusantium sint ducimus enim aspernatur necessitatibus, voluptas omnis, nemo voluptate explicabo. Ipsam.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga optio id nisi quam delectus nesciunt culpa quis. Labore porro error minima exercitationem tempore sint quae nam est dolorum, doloribus architecto.</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi sint voluptatum nisi delectus, porro temporibus officiis veritatis provident facere adipisci eveniet corrupti! Ex tenetur voluptatem dolorum, earum eligendi hic eius!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt dolor perferendis at blanditiis animi doloribus aperiam explicabo provident obcaecati reprehenderit quisquam nam alias eveniet sint, non ullam fugit laboriosam. Numquam!</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus vel cum aperiam adipisci. Obcaecati, saepe, laborum illum sapiente nostrum impedit quo quaerat laudantium soluta alias sit recusandae minus, esse cum.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // You can initialize your application or load data here
+            console.log("Document ready. You can load data here using axios.");
+        });
+    </script>
+</body>
+</html>

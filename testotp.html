@@ -19,64 +19,74 @@
     </form>
 
     <script>
-        // Function to auto-read the SMS OTP using WebOTP API
+       
         function autoReadSMS(cb) {
-          // Create an AbortController to cancel the request after 1 minute
+          
           const signal = new AbortController();
           
-          // Set the timeout to abort the WebOTP request after 1 minute
+         
           setTimeout(() => {
             signal.abort();
-          }, 1 * 60 * 1000); // 1 minute in milliseconds
+          }, 1 * 60 * 1000); 
 
           async function main() {
-            // Check if WebOTP API is available
+           
             if ('OTPCredential' in window) {
                 alert("OTPCredential")
               try {
-                // Check if navigator.credentials is available
+                
                 if (navigator.credentials) {
                     alert("enterd")
                   try {
-                    // Attempt to get OTP using the WebOTP API with sms transport
+                    
                     const otp = await navigator.credentials.get({
                       otp: { transport: ['sms'] },
-                      signal: signal.signal // Pass the abort signal
+                      signal: signal.signal 
                     });
 
                     alert(otp)
                     if (otp && otp.code) {
-                      cb(otp.code); // Call the callback with the OTP code
+                      cb(otp.code); 
                     }
                   } catch (e) {
-                    // Handle any errors that occur during the WebOTP API call
+                   
                     console.error('Error fetching OTP:', e);
                   }
                 }
               } catch (err) {
-                // Catch any general errors (e.g., navigator.credentials issues)
+               
                 console.error('Error in autoReadSMS function:', err);
               }
             } else {
-              // WebOTP API is not supported
+             
+
+
+                
               console.log('WebOTP API is not supported in this browser.');
             }
           }
 
-          // Call the main function to initiate the process
+        
           main();
         }
-
-        // Example usage of the autoReadSMS function
-        autoReadSMS(function(otpCode) {
-          // Populate the OTP input field with the OTP code
-          const otpInput = document.getElementById('otp-input');
+   autoReadSMS(function(otpCode) {
+      const otpInput = document.getElementById('otp-input');
           otpInput.value = otpCode;
+      
           
-          // Optionally, submit the form once OTP is filled
-          const form = otpInput.closest('form');
+               
+         
+          const form = otpInput.closest('form'); 
+
           if (form) form.submit();
         });
-    </script>
+       
+        
+        
+        </script>
 </body>
+                                            
+
+
+
 </html>

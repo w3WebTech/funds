@@ -1,65 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Send OTP</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
-</head>
-<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
     <h1>Enter Mobile Number to Receive OTP</h1>
     <form id="otpForm">
-        <!-- Mobile Number input -->
-        <label for="MobileNumber">Mobile Number:</label>
-        <input type="text" id="MobileNumber" name="MobileNumber" required><br><br>
-
-        <!-- Submit button -->
-        <button type="submit">Send OTP</button>
+      <label for="MobileNumber">Mobile Number:</label>
+      <input
+        type="text"
+        id="MobileNumber"
+        name="MobileNumber"
+        required
+      /><br /><br />
+      <button type="submit">Send OTP</button>
     </form>
 
-    <div id="response"></div> <!-- This will show response from the API -->
+    <div id="response"></div>
 
     <script>
-        // jQuery to handle the form submission via AJAX
-        $(document).ready(function() {
-            $("#otpForm").submit(function(event) {
-                event.preventDefault(); // Prevent the default form submission
+      $(document).ready(function () {
+        $("#otpForm").submit(function (event) {
+          event.preventDefault();
+          var mobileNo = $("#MobileNumber").val();
+          console.log("Mobile Number Entered: " + mobileNo);
 
-                // Get the mobile number entered by the user
-                var mobileNo = $("#MobileNumber").val();
-                console.log("Mobile Number Entered: " + mobileNo);  // Debug log
+          if (mobileNo === "") {
+            alert("Please enter a mobile number.");
+            return;
+          }
 
-                // Check if mobile number is not empty
-                if (mobileNo === "") {
-                    alert("Please enter a mobile number.");
-                    return;
-                }
-
-                // Call the PHP API using AJAX (GET request)
-                $.ajax({
-                    url: 'https://dfa.w3webtechnologies.co.in/send-sms/sms.php',  // URL of the PHP script
-                    type: 'GET',         // Request type (GET)
-                    data: { MobileNumber: mobileNo }, // Data to send (mobile number)
-                    success: function(response) {
-                        // Display the response from the PHP script
-                        $("#response").html("Response from server: " + response);
-                        console.log("API Response: " + response); 
-                        window.location.href = 'testotp.html'; 
-                    },
-                    error: function(xhr, status, error) {
-                        $("#response").html("Error: " + xhr.responseText);
-                        console.error("AJAX Request Failed: " + xhr.responseText); 
-                        
-                    }
-                });
-            });
-            $("#otpInput").on("input", function() {
-                var otp = $(this).val();
-                if (otp.length == 6) {
-                    console.log("OTP Entered: " + otp);
-                }
-            });
+          $.ajax({
+            url: "http://localhost/sms.php",
+            type: "GET",
+            data: { MobileNumber: mobileNo },
+            success: function (response) {
+              $("#response").html("Response from server: " + response);
+              console.log("API Response: " + response);
+              // window.location.href = 'testotp.html';
+            },
+            error: function (xhr, status, error) {
+              $("#response").html("Error: " + xhr.responseText);
+              console.error("AJAX Request Failed: " + xhr.responseText);
+            },
+          });
         });
+        $("#otpInput").on("input", function () {
+          var otp = $(this).val();
+          if (otp.length == 6) {
+            console.log("OTP Entered: " + otp);
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
