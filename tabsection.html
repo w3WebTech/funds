@@ -63,16 +63,13 @@
   </head>
   <body>
     <div id="app" class="roboto-thin">
-      <div id="loading">
-        <p>Loading...</p>
-      </div>
-      <div id="content" class="hidden">
+      <div id="content" class="">
         <div class="container">
           <div class="flex justify-between">
             <div class="p-3">
               Hi <span id="username"></span>,<br />We are here to help you
             </div>
-            <div id="create-ticket-button" class="hidden">
+            <div id="create-ticket-button" class="hidden md:block">
               <button type="button" class="button" onclick="openCreate()">
                 Create Ticket
               </button>
@@ -98,14 +95,549 @@
         </div>
 
         <div class="card overflow-hidden">
-          <iframe
-            id="ticket-iframe"
-            class="w-full h-screen hidden"
-            src=""
-            frameborder="0"
-          ></iframe>
-        </div>
+          <div id="ticket-content" class="w-full h-screen hidden">
+            <div id="open" class="container mx-auto p-4">
+              <div id="ticket-container" class="md:flex md:gap-8">
+                <div class="w-full md:w-[90%]">
+                  <div id="ticket-list" class="py-2">
+                    <!-- Tickets will be dynamically generated here -->
+                  </div>
+                </div>
 
+                <div class="md:block hidden w-[40%]">
+                  <div
+                    class="bg-white border-gray rounded-md p-6 shadow-md h-fit w-full"
+                  >
+                    <div class="text-lg font-sans my-1">FAQ</div>
+                    <div class="flex justify-between">
+                      <div class="text-sm font-sans my-0.5">
+                        Account Details
+                      </div>
+                      <div class="mx-1 mt-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="gray"
+                          class="w-4 h-4"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="flex justify-between">
+                      <div class="text-sm font-sans my-0.5">
+                        Brokage and Other Charges
+                      </div>
+                      <div class="mx-1 mt-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="gray"
+                          class="w-4 h-4"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="flex justify-between">
+                      <div class="text-sm font-sans my-0.5">
+                        Funds & Account Balance
+                      </div>
+                      <div class="mx-1 my-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="gray"
+                          class="w-4 h-4"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="flex justify-between">
+                      <div class="text-sm font-sans my-0.5">
+                        IPO & OFS and Mutual Fund
+                      </div>
+                      <div class="mx-1 mt-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="gray"
+                          class="w-4 h-4"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="justify-end flex items-center text-sm text-[#0d6efd] font-semibold py-3"
+                  >
+                    <div>SEE MORE</div>
+                    <div class="mx-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="#0d6efd"
+                        class="w-4 h-4"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="no-tickets"
+                class="flex justify-center items-center hidden"
+              >
+                <div>
+                  <p class="text-center py-3 text-gray-600 min-h-screen">
+                    No tickets available
+                  </p>
+                </div>
+              </div>
+
+              <div
+                id="ticket-modal"
+                class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center min-h-screen"
+                style="background: rgba(113, 110, 110, 0.7)"
+              >
+                <div
+                  class="border shadow-lg modal-container bg-white w-full h-full shadow-lg z-50 overflow-y-auto"
+                >
+                  <div class="modal-content text-left h-full">
+                    <div class="bg-[#eeeff4] md:bg-white md:py-5 md:mt-[5%]">
+                      <div
+                        class="flex justify-between w-full items-center container md:w-[90%] mx-auto"
+                      >
+                        <div class="p-3 md:py-6 md:text-[30px]">
+                          Hi <span id="username"></span>,<br />
+                          We are here to help you
+                        </div>
+                        <div class="md:block hidden md:pl-6">
+                          <button
+                            id="create-ticket"
+                            class="block py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-blue-600 text-white hover:bg-[#2741b6] disabled:opacity-50 disabled:pointer-events-none"
+                          >
+                            Create Ticket
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-col bg-[#eeeff4] md:bg-white pointer-events-auto max-w-full max-h-full h-full"
+                    >
+                      <div class="bg-[#F9FAFF] container md:mx-auto md:w-[90%]">
+                        <div
+                          class="flex justify-between items-center py-3 px-2"
+                        >
+                          <div class="flex items-center">
+                            <div id="back-button" class="cursor-pointer">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                class="w-7 h-7"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                            </div>
+                            <div
+                              class="text-sm font-semibold"
+                              id="ticket-number"
+                            >
+                              #12345
+                            </div>
+                          </div>
+                          <div class="md:px-6">
+                            <div
+                              class="uppercase bg-yellow-200 text-xs px-4 py-2 flex items-center justify-center"
+                              id="ticket-status"
+                            >
+                              Open
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="pb-20 md:pb-5">
+                        <div class="w-full p-4 bg-[#eeeff4] md:bg-white">
+                          <div id="ticket-details" class="flex flex-col">
+                            <!-- Ticket details will be dynamically generated here -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="status-modal"
+                class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center"
+                style="background: rgba(0, 0, 0, 0.7)"
+              >
+                <div
+                  class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
+                >
+                  <div class="modal-content py-4 text-left px-6 h-full">
+                    <div id="status-message" class="flex justify-center py-3">
+                      Status message here
+                    </div>
+                    <div
+                      class="flex justify-center items-center gap-x-2 py-3 px-4"
+                    >
+                      <button
+                        type="button"
+                        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                        id="go-back-button"
+                      >
+                        Go Back
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="image-modal"
+                class="fixed inset-0 z-50 hidden overflow-auto flex justify-end items-center"
+                style="background: rgba(0, 0, 0, 0.7)"
+              >
+                <div
+                  class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
+                >
+                  <div
+                    class="flex justify-end items-center p-2 pointer"
+                    id="close-image-modal"
+                  >
+                    <button
+                      type="button"
+                      class="flex justify-center items-center size-7 text-sm font-semibold rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                    >
+                      <span class="sr-only">Close</span>
+                      <svg
+                        class="flex-shrink-0 size-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="modal-content text-left p-4 h-full">
+                    <div class="flex justify-center">
+                      <img
+                        id="uploaded-image"
+                        class="rounded-xl"
+                        alt="uploaded Image"
+                        style="height: 400px"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="resolved" class="container mx-auto p-4">
+              <div id="ticket-container" class="md:flex md:gap-8">
+                <div class="bg-[#eeeff4] md:bg-white md:py-5 w-full md:w-[90%]">
+                  <div id="ticket-list" class="w-full">
+                    <!-- Tickets will be dynamically generated here -->
+                  </div>
+                </div>
+                <div class="md:block hidden w-[40%]">
+                  <div
+                    class="bg-white border-gray rounded-md p-6 shadow-md h-fit w-full"
+                  >
+                    <div class="text-lg font-sans my-1">FAQ</div>
+                    <div class="flex justify-between">
+                      <div class="text-sm font-sans my-0.5">Account Details</div>
+                      <div class="mx-1 mt-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="gray"
+                          class="w-4 h-4"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <!-- Additional FAQ items can be added here -->
+                  </div>
+                </div>
+              </div>
+
+              <div id="no-tickets" class="flex justify-center items-center hidden">
+                <div>
+                  <p class="text-center py-3 text-gray-600 min-h-screen">No tickets available</p>
+                </div>
+              </div>
+
+              <!-- Modal for ticket details -->
+              <div
+                id="ticket-modal"
+                class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center min-h-screen"
+                style="background: rgba(113, 110, 110, 0.7)"
+              >
+                <div
+                  class="border shadow-lg modal-container bg-white w-full h-full shadow-lg z-50 overflow-y-auto"
+                >
+                  <div class="modal-content text-left h-full">
+                    <div class="bg-[#eeeff4] md:bg-white md:py-4 md:mt-[5%]">
+                      <div
+                        class="flex justify-between w-full items-center container md:w-[90%] mx-auto"
+ 
+                      >
+                        <div class="p-3 md:py-6 md:text-[30px]">
+                          Hi <span id="username"></span>,<br />
+                          We are here to help you
+                        </div>
+                        <div class="md:block hidden pl-6">
+                          <button
+                            id="create-ticket"
+                            class="block py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-blue-600 text-white hover:bg-[#2741b6] disabled:opacity-50 disabled:pointer-events-none"
+                          >
+                            Create Ticket
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-col bg-[#eeeff4] md:bg-white pointer-events-auto max-w-full max-h-full h-full"
+                    >
+                      <div class="bg-[#F9FAFF] container md:mx-auto md:w-[90%]">
+                        <div
+                          class="flex justify-between items-center py-3 px-2"
+                        >
+                          <div class="flex items-center">
+                            <div id="back-button" class="cursor-pointer">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                class="w-7 h-7"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                            </div>
+                            <div class="text-xs font-semibold" id="ticket-number">
+                              #12345
+                            </div>
+                          </div>
+                          <div class="md:px-6">
+                            <div
+                              class="uppercase bg-green-200 text-green-700 text-xs px-4 py-2 flex items-center justify-center"
+                              id="ticket-status"
+                            >
+                              Open
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="md:pb-5 pb-20">
+                        <div class="w-full p-4 bg-[#eeeff4] md:bg-white">
+                          <div id="ticket-details" class="flex flex-col">
+                            <!-- Ticket details will be dynamically generated here -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  const params = new URLSearchParams(window.location.search);
+                  const clientname = params.get("clientname");
+                  const clientemail = params.get("clientemail");
+                  const clientcode = params.get("clientcode");
+
+                  const decodedClientName = clientname ? atob(clientname) : "User    ";
+                  localStorage.setItem("clientname", decodedClientName);
+                  localStorage.setItem("clientemail", clientemail);
+                  localStorage.setItem("clientcode", clientcode);
+
+                  const username = localStorage.getItem("clientname");
+                  document.getElementById("username").textContent =
+                    username || "User     ";
+
+                  let openTicketsCount = [];
+                  let resolvedTickets = [];
+                  let setTab = 1;
+
+                  fetchTickets();
+
+                  function fetchTickets() {
+                    const emailId = localStorage.getItem("clientemail");
+                    const formData = new FormData();
+                    formData.append("emailId", emailId);
+
+                    axios
+                      .post(
+                        "https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php",
+                        formData
+                      )
+                      .then((response) => {
+                        openTicketsCount = response.data.data.filter(
+                          (item) =>
+                            item.status.name === "Open" ||
+                            item.status.name === "In-Progress"
+                        );
+                        resolvedTickets = response.data.data.filter(
+                          (item) =>
+                            item.status.name === "Closed" ||
+                            item.status.name === "Awaiting Reply"
+                        );
+                        updateTicketCounts();
+                      })
+                      .catch((error) => {
+                        console.error(error.message || "An error occurred");
+                      });
+                  }
+
+                  function updateTicketCounts() {
+                    document.getElementBy
+                    ("open-tickets-count").textContent =
+                      openTicketsCount.length;
+                    document.getElementById("resolved-tickets-count").textContent =
+                      resolvedTickets.length;
+                    if (openTicketsCount.length > 0) {
+                      document
+                        .getElementById("create-ticket-button")
+                        .classList.remove("hidden");
+                      document
+                        .getElementById("fixed-create-ticket-button")
+                        .classList.remove("hidden");
+                    }
+                  }
+
+                  window.getTabId = function (id) {
+                    const openTab = document.getElementById("open-tickets-tab");
+                    const resolvedTab = document.getElementById("resolved-tickets-tab");
+                    const ticketContent = document.getElementById("ticket-content");
+
+                    openTab.classList.remove("active-tab");
+                    resolvedTab.classList.remove("active-tab");
+
+                    if (id === 1) {
+                      openTab.classList.add("active-tab");
+                      fetchTicketContent("open");
+                    } else if (id === 2) {
+                      resolvedTab.classList.add("active-tab");
+                      fetchTicketContent("resolved");
+                    }
+                  };
+
+                  function fetchTicketContent(tab) {
+                    const ticketContent = document.getElementById("ticket-content");
+                    ticketContent.classList.remove("hidden");
+
+                    const tickets = tab === "open" ? openTicketsCount : resolvedTickets;
+                    updateTicketList(tickets);
+                  }
+
+                  function updateTicketList(tickets) {
+                    const ticketList = document.getElementById("ticket-list");
+                    ticketList.innerHTML = ""; // Clear existing tickets
+
+                    if (tickets.length === 0) {
+                      document.getElementById("no-tickets").classList.remove("hidden");
+                    } else {
+                      document.getElementById("no-tickets").classList.add("hidden");
+                      tickets.forEach((ticket) => {
+                        const ticketDiv = document.createElement("div");
+                        ticketDiv.className =
+                          "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
+
+                        // Set the onclick event handler
+                        ticketDiv.onclick = () => openTicketModal(ticket);
+
+                        ticketDiv.innerHTML = `
+                          <div class="flex justify-between">
+                            <div class="text-xs font-semibold">#${ticket.number}</div>
+                            <div class="flex gap-1">
+                              <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
+                                ${ticket.status.name}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="text-base font-bold">${ticket.subject}</div>
+                          <div class="text-xs">${formatDate(ticket.created_at)}</div>
+                          <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
+                        `;
+
+                        ticketList.appendChild(ticketDiv);
+                      });
+                    }
+                  }
+
+                  // Function to open ticket modal
+                  function openTicketModal(ticket) {
+                    document.getElementById("ticket-number").textContent = `#${ticket.number}`;
+                    document.getElementById("ticket-status").textContent = ticket.status.name;
+                    document.getElementById("ticket-details").innerHTML = `
+                      <p>Details for ticket #${ticket.number}</p>
+                      <p>Status: ${ticket.status.name}</p>
+                      <p>Subject: ${ticket.subject}</p>
+                    `;
+                    document.getElementById("ticket-modal").classList.remove("hidden");
+                  }
+
+                  // Function to format date
+                  function formatDate(timestamp) {
+                    const date = new Date(timestamp * 1000);
+                    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+                  }
+                });
+              </script>
+            </div>
+          </div>
+        </div>
         <div class="fixed-bottom p-3 md:hidden" id="fixed-create-ticket-button">
           <button type="button" class="button w-full" onclick="openCreate()">
             Create Ticket
@@ -115,190 +647,314 @@
     </div>
 
     <!-- Create Ticket Modal -->
-    <div
-      id="create-ticket-modal"
-      class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden"
-    >
+    <div id="create-ticket-modal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
       <div class="bg-white rounded-lg p-6 w-11/12 md:w-1/3">
-        <div
-          class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
-          style="background: rgba(0, 0, 0, 0.7)"
-        >
-          <div
-            class="border shadow-lg modal-container bg-white md:w-[90%] md:mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
-          >
-            <div class="modal-content text-left h-full">
-              <div class="grid grid-cols-6 items-center p-3">
-                <div class="flex justify-center col-span-5">
-                  <h3 class="font-bold text-gray-800">Raise a Ticket</h3>
-                </div>
-                <div class="col-span-1 flex justify-end">
-                  <button
-                    type="button"
-                    class="flex justify-center items-center size-7 text-sm font-semibold rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
-                    onclick="closeModal()"
+        <div class="modal-content text-left h-full">
+          <div class="grid grid-cols-6 items-center p-3">
+            <div class="flex justify-center col-span-5">
+              <h3 class="font-bold text-gray-800">Raise a Ticket</h3>
+            </div>
+            <div class="col-span-1 flex justify-end">
+              <button
+                type="button class="flex justify-center items-center size-7 text-sm font-semibold rounded-full text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                onclick="closeModal()"
+              >
+                <span class="sr-only">Close</span>
+                <svg
+                  class="flex-shrink-0 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="p-4 overflow-y-auto">
+            <div class="space-y-4">
+              <div class="w-full">
+                <button
+                  id="categoryButton"
+                  type="button"
+                  class="w-full py-3 px-4 inline-flex justify-between items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50"
+                  onclick="toggleCategoryDropdown()"
+                >
+                  <p id="selectedCategoryText">Select category</p>
+                  <svg
+                    class="hs-dropdown-open:rotate-180 size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   >
-                    <span class="sr-only">Close</span>
-                    <svg
-                      class="flex-shrink-0 size-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M18 6 6 18"></path>
-                      <path d="m6 6 12 12"></path>
-                    </svg>
-                  </button>
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div id="categoryDropdown" class="hidden relative">
+                  <div
+                    class="rounded-lg border absolute bg-gray-50 shadow-md z-50 w-full max-h-40 overflow-y-auto"
+                  >
+                    <div id="categoryList"></div>
+                  </div>
                 </div>
               </div>
-              <div class="p-4 overflow-y-auto">
-                <div class="space-y-4">
-                  <div class="w-full">
-                    <button
-                      id="categoryButton"
-                      type="button"
-                      class="w-full py-3 px-4 inline-flex justify-between items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50"
-                      onclick="toggleCategoryDropdown()"
-                    >
-                      <p id="selectedCategoryText">Select category</p>
-                      <svg
-                        class="hs-dropdown-open:rotate-180 size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m6 9 6 6 6-6" />
-                      </svg>
-                    </button>
-                    <div id="categoryDropdown" class="hidden relative">
-                      <div
-                        class="rounded-lg border absolute bg-gray-50 shadow-md z-50 w-full max-h-40 overflow-y-auto"
-                      >
-                        <div id="categoryList"></div>
-                      </div>
-                    </div>
+              <div class="w-full">
+                <button
+                  id="subcategoryButton"
+                  type="button"
+                  class="w-full py-3 px-4 inline-flex justify-between items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50"
+                  onclick="toggleSubcategoryDropdown()"
+                >
+                  <p id="selectedSubCategoryText">Select subcategory</p>
+                  <svg
+                    class="hs-dropdown-open:rotate-180 size-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div id="subcategoryDropdown" class="hidden relative">
+                  <div
+                    class="rounded-lg border absolute bg-gray-50 shadow-md z-50 w-full max-h-40 overflow-y-auto"
+                  >
+                    <div id="subcategoryList"></div>
                   </div>
-                  <div class="w-full">
-                    <button
-                      id="subcategoryButton"
-                      type="button"
-                      class="w-full py-3 px-4 inline-flex justify-between items-center gap-x-2 text-sm rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50"
-                      onclick="toggleSubcategoryDropdown()"
+                </div>
+              </div>
+              <input
+                id="subjectInput"
+                type="text"
+                class="py-3 shadow-sm px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Subject"
+              />
+              <textarea
+                id="descriptionInput"
+                class="py-3 shadow-sm px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Description"
+              ></textarea>
+              <div class="flex items-center justify-center w-full">
+                <label>
+                  <div
+                    class="flex gap-1 flex-row items-center justify-center cursor-pointer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="blue"
+                      class="w-5 h-5"
                     >
-                      <p id="selectedSubCategoryText">Select subcategory</p>
-                      <svg
-                        class="hs-dropdown-open:rotate-180 size-4"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m6 9 6 6 6 -6" />
-                      </svg>
-                    </button>
-                    <div id="subcategoryDropdown" class="hidden relative">
-                      <div
-                        class="rounded-lg border absolute bg-gray-50 shadow-md z-50 w-full max-h-40 overflow-y-auto"
-                      >
-                        <div id="subcategoryList"></div>
-                      </div>
+                      <path
+                        fill-rule="evenodd"
+                        d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a3 3 0 0 0 0 4.241 4.243h.001l.497-.5a.75.75 0 0 1 1.064 1.057l-.498.501.002.002a4.5 4.5 0 0 1-6.364-6.364l7-7a4.5 4.5 0 0 1 6.368 6.36l-3.455 3.553A2.625 2.625 0 1 1 9.52 9.52l3.45-3.451a.75.75 0 1 1 1.061 1.06l-3.45 3.451a1.125 1.125 0 0 0 1.587 1.595l3.454-3.553a3 3 0 0 0 0-4.242Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <div
+                      class="text-xs text-[#2741b6] flex items-center justify-center"
+                    >
+                      Attach Image or Pdf ( Max Size 5mb )
                     </div>
                   </div>
                   <input
-                    id="subjectInput"
-                    type="text"
-                    class="py-3 shadow-sm px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Subject"
+                    id="fileInput"
+                    type="file"
+                    class="hidden"
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                    onchange="uploadImage(event)"
                   />
-                  <textarea
-                    id="descriptionInput"
-                    class="py-3 shadow-sm px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Description"
-                  ></textarea>
-                  <div class="flex items-center justify-center w-full">
-                    <label>
-                      <div
-                        class="flex gap-1 flex-row items-center justify-center cursor-pointer"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="blue"
-                          class="w-5 h-5"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a3 3 0 0 0 4.241 4.243h.001l.497-.5a.75.75 0 0 1 1.064 1.057l-.498.501.002.002a4.5 4.5 0 0 1-6.364-6.364l7-7a4.5 4.5 0 0 1 6.368 6.36l-3.455 3.553A2.625 2.625 0 1 1 9.52 9.52l3.45-3.451a.75.75 0 1 1 1.061 1.06l-3.45 3.451a1.125 1.125 0 0 0 1.587 1.595l3.454-3.553a3 3 0 0 0 0-4.242Z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                        <div
-                          class="text-xs text-[#2741b6] flex items-center justify-center"
-                        >
-                          Attach Image or Pdf ( Max Size 5mb )
-                        </div>
-                      </div>
-                      <input
-                        id="fileInput"
-                        type="file"
-                        class="hidden"
-                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        onchange="uploadImage(event)"
-                      />
-                    </label>
-                  </div>
-                  <div class="flex justify-end items-center gap-x-2 p-3">
-                    <button
-                      id="createTicketButton"
-                      type="button"
-                      class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-blue-700 text-white hover:bg-[#2741b6]"
-                      onclick="createTicket()"
-                    >
-                      Create Ticket
-                    </button>
-                  </div>
-                </div>
+                </label>
+              </div>
+              <div class="flex justify-end items-center gap-x-2 p-3">
+                <button
+                  id="createTicketButton"
+                  type="button"
+                  class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-blue-700 text-white hover:bg-[#2741b6]"
+                  onclick="createTicket()"
+                >
+                  Create Ticket
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
+    <script>    let allCategories = [];
+        let subcategories = [];
+        let selectedCategory = null;
+        let selectedSubCategory = null;
+        let attachment = null;
+        let selectedFileName = null;
+             function openCreate() {
+    document.getElementById("create-ticket-modal").classList.remove("hidden");
+  }
+  function toggleCategoryDropdown() {
+            const dropdown = document.getElementById('categoryDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function toggleSubcategoryDropdown() {
+            const dropdown = document.getElementById('subcategoryDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function selectCategory(category) {
+            selectedCategory = category;
+            document.getElementById('selectedCategoryText').innerText = category;
+            document.getElementById('categoryDropdown').classList.add('hidden');
+            getSubcategories(category);
+        }
+
+        function selectSubCategory(subCategory) {
+            selectedSubCategory = subCategory;
+            document.getElementById('selectedSubCategoryText').innerText = subCategory;
+            document.getElementById('subcategoryDropdown').classList.add('hidden');
+        }
+
+        async function getDepartmentData() {
+            try {
+                const response = await axios.get('https://g1.gwcindia.in/ticket-api/ticket-category-subcategory.php');
+                allCategories = response.data.map(item => Object.keys(item)[0]);
+                populateCategoryDropdown();
+            } catch (error) {
+                console.error('Error fetching departments:', error);
+            }
+        }
+
+        function populateCategoryDropdown() {
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = '';
+            allCategories.forEach(category => {
+                const div = document.createElement('div');
+                div.innerText = category;
+                div.className = 'cursor-pointer text-sm text-gray-800 hover:bg-gray-100 p-2';
+                div.onclick = () => selectCategory(category);
+                categoryList.appendChild(div);
+            });
+        }
+
+        async function getSubcategories(category) {
+            try {
+                const response = await axios.get(`https://g1.gwcindia.in/ticket-api/ticket-category-subcategory.php?category=${category}`);
+                subcategories = response.data[category] || [];
+                populateSubcategoryDropdown();
+            } catch (error) {
+                console.error('Error fetching subcategories:', error);
+            }
+        }
+
+        function populateSubcategoryDropdown() {
+            const subcategoryList = document.getElementById('subcategoryList');
+            subcategoryList.innerHTML = '';
+            subcategories.forEach(sub => {
+                const div = document.createElement('div');
+                div.innerText = sub;
+                div.className = 'cursor-pointer text-sm text-gray-800 hover:bg-gray-100 p-2';
+                div.onclick = () => selectSubCategory(sub);
+                subcategoryList.appendChild(div);
+            });
+        }
+
+        function uploadImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                selectedFileName = file.name;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    attachment = reader.result.split(',')[1]; // Get the base64 string
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function createTicket() {
+            const subject = document.getElementById('subjectInput').value;
+            const description = document.getElementById('descriptionInput').value;
+
+            if (!selectedCategory || !selectedSubCategory || !subject || !description) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('department', selectedCategory);
+            formData.append('subject', subject);
+            formData.append('text', description);
+            formData.append('subCat', selectedSubCategory);
+            if (attachment) {
+                formData.append('attachment', attachment);
+                formData.append('filename', selectedFileName);
+            }
+
+            try {
+                const response = await axios.post('https://g1.gwcindia.in/ticket-api/create-ticket.php', formData);
+                showResponseModal(response.data);
+            } catch (error) {
+             
+                console.error('Error creating ticket:', error);
+                showResponseModal({ status: 'error', message: 'Failed to create ticket.' });
+            }
+        }
+
+        function showResponseModal(data) {
+            const responseModal = document.getElementById('responseModal');
+            const responseContent = document.getElementById('responseContent');
+            responseContent.innerHTML = '';
+
+            if (data.status === 'ok') {
+                responseContent.innerHTML = `<div class="text-green-500">Ticket created successfully! Ticket No: #${data.data.ticket_no}</div>`;
+            } else {
+                responseContent.innerHTML = `<div class="text-red-500">${data.message}</div>`;
+            }
+
+            responseModal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('app').classList.add('hidden');
+        }
+
+        function closeResponseModal() {
+            document.getElementById('responseModal').classList.add('hidden');
+        }
       document.addEventListener("DOMContentLoaded", () => {
+        getDepartmentData();
         const params = new URLSearchParams(window.location.search);
         const clientname = params.get("clientname");
         const clientemail = params.get("clientemail");
         const clientcode = params.get("clientcode");
 
-        // Decoding the clientname if it's base64 encoded
-        const decodedClientName = clientname ? atob(clientname) : "User ";
-
-        // Setting values in local storage
+        const decodedClientName = clientname ? atob(clientname) : "User     ";
         localStorage.setItem("clientname", decodedClientName);
         localStorage.setItem("clientemail", clientemail);
         localStorage.setItem("clientcode", clientcode);
 
         const username = localStorage.getItem("clientname");
-        document.getElementById("username").textContent = username || "User  ";
+        document.getElementById("username").textContent =
+          username || "User      ";
 
         let openTicketsCount = [];
         let resolvedTickets = [];
@@ -331,10 +987,6 @@
             })
             .catch((error) => {
               console.error(error.message || "An error occurred");
-            })
-            .finally(() => {
-              document.getElementById("loading").classList.add("hidden");
-              document.getElementById("content").classList.remove("hidden");
             });
         }
 
@@ -352,208 +1004,86 @@
               .classList.remove("hidden");
           }
         }
-
-        // Simulating router data retrieval
-       
-
+        getTabId(1)
         window.getTabId = function (id) {
-          const iframe = document.getElementById("ticket-iframe");
           const openTab = document.getElementById("open-tickets-tab");
           const resolvedTab = document.getElementById("resolved-tickets-tab");
+          const ticketContent = document.getElementById("ticket-content");
 
           openTab.classList.remove("active-tab");
           resolvedTab.classList.remove("active-tab");
 
           if (id === 1) {
-            console.log(clientcode,clientname,clientemail)
-            iframe.src = "http://127.0.0.1:5500/open.html?clientcode=clientcode&clientname=clientname==&clientemail=clientemail"; // Update with the correct URL
             openTab.classList.add("active-tab");
+            fetchTicketContent("open");
           } else if (id === 2) {
-            iframe.src = "http://127.0.0.1:5500/resolved.html?clientcode=clientcode&clientname=clientname==&clientemail=clientemail"; // Update with the correct URL
             resolvedTab.classList.add("active-tab");
+            fetchTicketContent("resolved");
           }
-          iframe.classList.remove("hidden");
         };
 
-        window.openCreate = function () {
-          document
-            .getElementById("create-ticket-modal")
-            .classList.remove("hidden");
-        };
+        function fetchTicketContent(tab) {
+          const ticketContent = document.getElementById("ticket-content");
+          ticketContent.classList.remove("hidden");
 
-        window.closeModal = function () {
-          document
-            .getElementById("create-ticket-modal")
-            .classList.add("hidden");
-        };
+          const tickets = tab === "open" ? openTicketsCount : resolvedTickets;
+          updateTicketList(tickets);
+        }
 
-        window.submitTicket = function () {
-          const title = document.getElementById("ticket-title").value;
-          const description =
-            document.getElementById("ticket-description").value;
+        function updateTicketList(tickets) {
+          const ticketList = document.getElementById("ticket-list");
+          ticketList.innerHTML = ""; // Clear existing tickets
 
-          console.log("Ticket Title:", title);
-          console.log("Ticket Description:", description);
+          if (tickets.length === 0) {
+            document.getElementById("no-tickets").classList.remove("hidden");
+          } else {
+            document.getElementById("no-tickets").classList.add("hidden");
+            tickets.forEach((ticket) => {
+              const ticketDiv = document.createElement("div");
+              ticketDiv.className =
+                "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
 
-          closeModal();
-          document.getElementById("create-ticket-form").reset();
-        };
+              // Set the onclick event handler
+              ticketDiv.onclick = () => openTicketModal(ticket);
+
+              ticketDiv.innerHTML = `
+                <div class="flex justify-between">
+                  <div class="text-xs font-semibold">#${ticket.number}</div>
+                  <div class="flex gap-1">
+                    <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
+                      ${ticket.status.name}
+                    </div>
+                  </div>
+                </div>
+                <div class="text-base font-bold">${ticket.subject}</div>
+                <div class="text-xs">${formatDate(ticket.created_at)}</div>
+                <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
+              `;
+
+              ticketList.appendChild(ticketDiv);
+            });
+          }
+        }
+   
+        // Function to open ticket modal
+        function openTicketModal(ticket) {
+          document.getElementById("ticket-number").textContent = `#${ticket.number}`;
+          document.getElementById("ticket-status").textContent = ticket.status.name;
+          document.getElementById("ticket-details").innerHTML = `
+            <p>Details for ticket #${ticket.number}</p>
+            <p>Status: ${ticket.status.name}</p>
+            <p>Subject: ${ticket.subject}</p>
+          `;
+          document.getElementById("ticket-modal").classList.remove("hidden");
+        }
+
+        // Function to format date
+        function formatDate(timestamp) {
+          const date = new Date(timestamp * 1000);
+          return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+        }
+  
       });
-
-      let allCategories = [];
-      let subcategories = [];
-      let selectedCategory = null;
-      let selectedSubCategory = null;
-      let attachment = null;
-      let selectedFileName = null;
-
-      document.addEventListener("DOMContentLoaded", () => {
-        getDepartmentData();
-      });
-
-      function toggleCategoryDropdown() {
-        const dropdown = document.getElementById("categoryDropdown");
-        dropdown.classList.toggle("hidden");
-      }
-
-      function toggleSubcategoryDropdown() {
-        const dropdown = document.getElementById("subcategoryDropdown");
-        dropdown.classList.toggle("hidden");
-      }
-
-      function selectCategory(category) {
-        selectedCategory = category;
-        document.getElementById("selectedCategoryText").innerText = category;
-        document.getElementById("categoryDropdown").classList.add("hidden");
-        getSubcategories(category);
-      }
-
-      function selectSubCategory(subCategory) {
-        selectedSubCategory = subCategory;
-        document.getElementById("selectedSubCategoryText").innerText =
-          subCategory;
-        document.getElementById("subcategoryDropdown").classList.add("hidden");
-      }
-
-      async function getDepartmentData() {
-        try {
-          const response = await axios.get(
-            "https://g1.gwcindia.in/ticket-api/ticket-category-subcategory.php"
-          );
-          allCategories = response.data.map((item) => Object.keys(item)[0]);
-          populateCategoryDropdown();
-        } catch (error) {
-          console.error("Error fetching departments:", error);
-        }
-      }
-
-      function populateCategoryDropdown() {
-        const categoryList = document.getElementById("categoryList");
-        categoryList.innerHTML = "";
-        allCategories.forEach((category) => {
-          const div = document.createElement("div");
-          div.innerText = category;
-          div.className =
-            "cursor-pointer text-sm text-gray-800 hover:bg-gray-100 p-2";
-          div.onclick = () => selectCategory(category);
-          categoryList.appendChild(div);
-        });
-      }
-
-      async function getSubcategories(category) {
-        try {
-          const response = await axios.get(
-            `https://g1.gwcindia.in/ticket-api/ticket-category-subcategory.php?category=${category}`
-          );
-          subcategories = response.data[category] || [];
-          populateSubcategoryDropdown();
-        } catch (error) {
-          console.error("Error fetching subcategories:", error);
-        }
-      }
-
-      function populateSubcategoryDropdown() {
-        const subcategoryList = document.getElementById("subcategoryList");
-        subcategoryList.innerHTML = "";
-        subcategories.forEach((sub) => {
-          const div = document.createElement("div");
-          div.innerText = sub;
-          div.className =
-            "cursor-pointer text-sm text-gray-800 hover:bg-gray-100 p-2";
-          div.onclick = () => selectSubCategory(sub);
-          subcategoryList.appendChild(div);
-        });
-      }
-
-      function uploadImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-          selectedFileName = file.name;
-          const reader = new FileReader();
-          reader.onload = () => {
-            attachment = reader.result.split(",")[1]; // Get the base64 string
-          };
-          reader.readAsDataURL(file);
-        }
-      }
-
-      async function createTicket() {
-        const subject = document.getElementById("subjectInput").value;
-        const description = document.getElementById("descriptionInput").value;
-
-        if (
-          !selectedCategory ||
-          !selectedSubCategory ||
-          !subject ||
-          !description
-        ) {
-          alert("Please fill in all fields.");
-          return;
-        }
-
-        const formData = new FormData();
-        formData.append("department", selectedCategory);
-        formData.append("subject", subject);
-        formData.append("text", description);
-        formData.append("subCat", selectedSubCategory);
-        if (attachment) {
-          formData.append("attachment", attachment);
-          formData.append("filename", selectedFileName);
-        }
-
-        try {
-          const response = await axios.post(
-            "https://g1.gwcindia.in/ticket-api/create-ticket.php",
-            formData
-          );
-          showResponseModal(response.data);
-        } catch (error) {
-          console.error("Error creating ticket:", error);
-          showResponseModal({
-            status: "error",
-            message: "Failed to create ticket.",
-          });
-        }
-      }
-
-      function showResponseModal(data) {
-        const responseModal = document.getElementById("responseModal");
-        const responseContent = document.getElementById("responseContent");
-        responseContent.innerHTML = "";
-
-        if (data.status === "ok") {
-          responseContent.innerHTML = `<div class="text-green-500">Ticket created successfully! Ticket No: #${data.data.ticket_no}</div>`;
-        } else {
-          responseContent.innerHTML = `<div class="text-red-500">${data.message}</div>`;
-        }
-
-        responseModal.classList.remove("hidden");
-      }
-
-      function closeResponseModal() {
-        document.getElementById("responseModal").classList.add("hidden");
-      }
-      
     </script>
   </body>
 </html>

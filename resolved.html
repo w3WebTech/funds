@@ -10,10 +10,7 @@
     <title>Ticket System</title>
   </head>
   <body class="bg-gray-100">
-    <div id="loading" class="flex justify-center items-center">
-      <p>Loading...</p>
-    </div>
-    <div id="content" class="container mx-auto p-4 hidden">
+    <div id="content" class="container mx-auto p-4">
       <div id="ticket-container" class="md:flex md:gap-8">
         <div class="bg-[#eeeff4] md:bg-white md:py-5 w-full md:w-[90%]">
           <div id="ticket-list" class="w-full">
@@ -49,12 +46,6 @@
 
       <div id="no-tickets" class="flex justify-center items-center hidden">
         <div>
-          <img
-            src="/static/no-data-found.jpeg"
-            class="rounded-lg pt-4"
-            alt=""
-            style="height: 300px; width: 300px"
-          />
           <p class="text-center py-3 text-gray-600">No tickets available</p>
         </div>
       </div>
@@ -95,7 +86,7 @@
                   <div class="flex items-center">
                     <div id="back-button" class="cursor-pointer">
                       <svg
-                        xmlns="http ://www.w3.org/2000/svg"
+                        xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         class="w-7 h-7"
@@ -135,116 +126,135 @@
 
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
       <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  // Extract query parameters from the iframe URL
-                  const urlParams = new URLSearchParams(window.location.search);
-                  const clientcode = urlParams.get("clientcode");
-                  const clientname = urlParams.get("clientname");
-                  const clientemail = urlParams.get("clientemail");
-                  console.log(clientemail)
+        document.addEventListener("DOMContentLoaded", () => {
+          const params = new URLSearchParams(window.location.search);
+          const clientname = params.get("clientname");
+          const clientemail = params.get("clientemail");
+          const clientcode = params.get("clientcode");
+          alert(clientname);
+          console.log(clientemail);
+          alert(clientcode);
+          const decodedClientName = clientname ? atob(clientname) : "User  ";
+          localStorage.setItem("clientname", decodedClientName);
+          localStorage.setItem("clientemail", clientemail);
+          localStorage.setItem("clientcode", clientcode);
 
-                  // Set the username in the UI
-                  const username = localStorage.getItem("clientname");
-                document.getElementById("username").textContent = username || "User ";
-                fetchTickets();
+          const username = localStorage.getItem("clientname");
+          document.getElementById("username").textContent =
+            username || "User  ";
 
-                function fetchTickets() {
+          fetchTickets();
+
+          function fetchTickets() {
+            debugger
             const emailId = localStorage.getItem("clientemail");
+            alert(clientemail);
+            if (!emailId || !validateEmail(emailId)) {
+              console.error("Invalid email address");
+              return; // Exit the function if the email is invalid
+            }
+
             const formData = new FormData();
             formData.append("emailId", emailId);
 
             axios
-            .post(
+              .post(
                 "https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php",
                 formData
-            )
-            .then((response) => {
-                console.log(response.data); // Log the entire response
-                const tickets = response.data.data; // Assuming the API returns an array of tickets
-                if (Array.isArray(tickets)) {
-                    updateTicketList(tickets);
-                } else {
-                    console.error("Expected an array of tickets, but got:", tickets);
+              )
+              .then((response) => {
+                if (response.data.user_email) {
+                  console.error("API Error:", response.data.user_email[0]);
+                  return; // Exit if there's an error
                 }
-            })
-            .catch((error) => {
+                const tickets = response.data.data; // Adjust this based on the actual response structure
+                if (Array.isArray(tickets)) {
+                  updateTicketList(tickets);
+                } else {
+                  console.error(
+                    "Expected an array of tickets, but got:",
+                    tickets
+                  );
+                  document
+                    .getElementById("no-tickets")
+                    .classList.remove("hidden");
+                }
+              })
+              .catch((error) => {
                 console.error(error.message || "An error occurred");
-            }).finally(() => {
-                    // Check if the elements exist before trying to manipulate them
-                    const loadingElement = document.getElementById("loading");
-                    const contentElement = document.getElementById("content");
+              })
+              .finally(() => {});
+          }
 
-                    if (loadingElement) {
-                        loadingElement.classList.add("hidden");
-                    }
-                    if (contentElement) {
-                        contentElement.classList.remove("hidden");
-                    }
-                });
-        }         function updateTicketList(tickets) {
-                    const ticketList = document.getElementById("ticket-list");
-                    ticketList.innerHTML = ""; // Clear existing tickets
+          function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Corrected regex for email validation
+            return re.test(String(email).toLowerCase());
+          }
 
-                    if (tickets.length === 0) {
-                      document.getElementById("no-tickets").classList.remove("hidden");
-                    } else {
-                      document.getElementById("no-tickets").classList.add("hidden");
-                      tickets.forEach((ticket) => {
-                        const ticketDiv = document.createElement("div");
-                        ticketDiv.className =
-                          "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
+          function updateTicketList(tickets) {
+            const ticketList = document.getElementById("ticket-list");
+            ticketList.innerHTML = ""; // Clear existing tickets
 
-                        // Set the onclick event handler
-                        ticketDiv.onclick = () => openTicketModal(ticket);
+            if (tickets.length === 0) {
+              document.getElementById("no-tickets").classList.remove("hidden");
+            } else {
+              document.getElementById("no-tickets").classList.add("hidden");
+              tickets.forEach((ticket) => {
+                const ticketDiv = document.createElement("div");
+                ticketDiv.className =
+                  "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
 
-                        ticketDiv.innerHTML = `
-                                    <div class="flex justify-between">
-                                        <div class="text-xs font-semibold">#${
-                                          ticket.number
-                                        }</div>
-                                        <div class="flex gap-1">
-                                            <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
-                                                ${ticket.status.name}
-                                            </div>
+                // Set the onclick event handler
+                ticketDiv.onclick = () => openTicketModal(ticket);
+
+                ticketDiv.innerHTML = `
+                                <div class="flex justify-between">
+                                    <div class="text-xs font-semibold">#${
+                                      ticket.number
+                                    }</div>
+                                    <div class="flex gap-1">
+                                        <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
+                                            ${ticket.status.name}
                                         </div>
                                     </div>
-                                    <div class="text-base font-bold">${
-                                      ticket.subject
-                                    }</div>
-                                    <div class="text-xs">${formatDate(
-                                      ticket.created_at
-                                    )}</div>
-                                    <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
-                                `;
+                                </div>
+                                <div class="text-base font-bold">${
+                                  ticket.subject
+                                }</div>
+                                <div class="text-xs">${formatDate(
+                                  ticket.created_at
+                                )}</div>
+                                <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
+                            `;
 
-                        ticketList.appendChild(ticketDiv);
-                      });
-                    }
-                  }
+                ticketList.appendChild(ticketDiv);
+              });
+            }
+          }
 
-                  // Function to open ticket modal
-                  function openTicketModal(ticket) {
-                    document.getElementById(
-                      "ticket-number"
-                    ).textContent = `#${ticket.number}`;
-                    document.getElementById("ticket-status").textContent =
-                      ticket.status.name;
-                    document.getElementById("ticket-details").innerHTML = `
-                            <p>Details for ticket #${ticket.number}</p>
-                            <p>Status: ${ticket.status.name}</p>
-                            <p>Subject: ${ticket.subject}</p>
-                        `;
-                    document.getElementById("ticket-modal").classList.remove("hidden");
-                  }
+          // Function to open ticket modal
+          function openTicketModal(ticket) {
+            document.getElementById(
+              "ticket-number"
+            ).textContent = `#${ticket.number}`;
+            document.getElementById("ticket-status").textContent =
+              ticket.status.name;
+            document.getElementById("ticket-details").innerHTML = `
+                        <p>Details for ticket #${ticket.number}</p>
+                        <p>Status: ${ticket.status.name}</p>
+                        <p>Subject: ${ticket.subject}</p>
+                    `;
+            document.getElementById("ticket-modal").classList.remove("hidden");
+          }
 
-                  // Function to format date
-                  function formatDate(timestamp) {
-                    const date = new Date(timestamp * 1000);
-                    return `${date.getDate()}/${
-                      date.getMonth() + 1
-                    }/${date.getFullYear()}`;
-                  }
-                });
+          // Function to format date
+          function formatDate(timestamp) {
+            const date = new Date(timestamp * 1000);
+            return `${date.getDate()}/${
+              date.getMonth() + 1
+            }/${date.getFullYear()}`;
+          }
+        });
       </script>
     </div>
   </body>
