@@ -55,7 +55,7 @@
         background-color: #2741b6;
       }
       .card {
-        padding: 10px;
+        padding-top: 10px;
         margin-top: 10px;
         border: 1px solid #ccc;
       }
@@ -101,7 +101,7 @@
             <div id="open" class="container mx-auto p-4">
               <div id="ticket-container" class="md:flex md:gap-8">
                 <div class="w-full md:w-[90%]">
-                  <div id="ticket-list" class="py-2">
+                  <div id="ticket-list" class="py-2 px-5">
                     <!-- Tickets will be dynamically generated here -->
                   </div>
                 </div>
@@ -376,7 +376,7 @@
             </div>
             <div id="resolved" class="container mx-auto p-4">
               <div id="ticket-container" class="md:flex md:gap-8">
-                <div class="bg-[#eeeff4] md:bg-white md:py-5 w-full md:w-[90%]">
+                <div class=" md:bg-white md:py-5 w-full md:w-[90%]">
                   <div id="ticket-list" class="w-full">
                     <!-- Tickets will be dynamically generated here -->
                   </div>
@@ -543,8 +543,7 @@
                   }
 
                   function updateTicketCounts() {
-                    document.getElementBy
-                    ("open-tickets-count").textContent =
+                    document.getElementById("open-tickets-count").textContent =
                       openTicketsCount.length;
                     document.getElementById("resolved-tickets-count").textContent =
                       resolvedTickets.length;
@@ -637,6 +636,7 @@ function updateTicketList(tickets) {
                   function openTicketModal(ticket) {
                     document.getElementById("ticket-number").textContent = `#${ticket.number}`;
                     document.getElementById("ticket-status").textContent = ticket.status.name;
+                    getTicketMessages(ticket.number);
                     document.getElementById("ticket-details").innerHTML = `
                       <p>Details for ticket #${ticket.number}</p>
                       <p>Status: ${ticket.status.name}</p>
@@ -644,6 +644,26 @@ function updateTicketList(tickets) {
                     `;
                     document.getElementById("ticket-modal").classList.remove("hidden");
                   }
+                  async function getTicketMessages(number) {
+            const formData = new FormData();
+            formData.append("ticket_no", number);
+            const clientCode = localStorage.getItem("clientcode");
+            formData.append("clientcode", clientCode);
+
+            try {
+                const response = await axios.post("https://g1.gwcindia.in/ticket-api/get-ticket-status-messages.php", formData);
+                const messages = response.data.data;
+                const ticketDetails = document.getElementById("ticket-details");
+                ticketDetails.innerHTML = `
+                    <p>Details for ticket #${number}</p>
+                    <p>Status: ${response.data.status.name}</p>
+                    <p>Subject: ${response.data.subject}</p>
+                `;
+                ticketDetails.innerHTML += messages.map(msg => `<p class="bg-gray-100 p-5 rounded-md ">${msg.text}</p>`).join('');
+            } catch (error) {
+                console.error("Error fetching ticket messages:", error);
+            }
+        }
 
                   // Function to format date
                   function formatDate(timestamp) {
@@ -817,9 +837,25 @@ function updateTicketList(tickets) {
         </div>
       </div>
     </div>
+    <!-- Response Modal -->
+<div id="responseModal" class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center" style="background: rgba(0, 0, 0, 0.7)">
+  <div class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+      <div class="modal-content py-4 text-left px-6 h-full">
+          <div id="responseContent" class="flex justify-center py-3">
+              <!-- Response message will be displayed here -->
+          </div>
+          <div class="flex justify-center items-center gap-x-2 py-3 px-4">
+              <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700" onclick="closeResponseModal()">
+                  Close
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>    let allCategories = [];
+    let categoryIndex= 0;
         let subcategories = [];
         let selectedCategory = null;
         let selectedSubCategory = null;
@@ -840,8 +876,11 @@ function updateTicketList(tickets) {
         }
 
         function selectCategory(category) {
+          debugger
             selectedCategory = category;
             document.getElementById('selectedCategoryText').innerText = category;
+           
+ categoryIndex = allCategories.findIndex(category => category === selectedCategory);
             document.getElementById('categoryDropdown').classList.add('hidden');
             getSubcategories(category);
         }
@@ -875,9 +914,10 @@ function updateTicketList(tickets) {
         }
 
         async function getSubcategories(category) {
+          debugger
             try {
-                const response = await axios.get(`https://g1.gwcindia.in/ticket-api/ticket-category-subcategory.php?category=${category}`);
-                subcategories = response.data[category] || [];
+              const response = await axios.get(`https://g1.gwcindia.in/ticket-api/ticket-category-subcategory.php?category=${category}`);
+              subcategories = response.data.find(item => item[category])?.[category] || [];
                 populateSubcategoryDropdown();
             } catch (error) {
                 console.error('Error fetching subcategories:', error);
@@ -885,6 +925,7 @@ function updateTicketList(tickets) {
         }
 
         function populateSubcategoryDropdown() {
+          debugger
             const subcategoryList = document.getElementById('subcategoryList');
             subcategoryList.innerHTML = '';
             subcategories.forEach(sub => {
@@ -909,33 +950,80 @@ function updateTicketList(tickets) {
         }
 
         async function createTicket() {
-            const subject = document.getElementById('subjectInput').value;
-            const description = document.getElementById('descriptionInput').value;
+    const subject = document.getElementById('subjectInput').value;
+    const description = document.getElementById('descriptionInput').value;
 
-            if (!selectedCategory || !selectedSubCategory || !subject || !description) {
-                alert('Please fill in all fields.');
-                return;
-            }
+    if (!selectedCategory || !selectedSubCategory || !subject || !description) {
+        alert('Please fill in all fields.');
+        return;
+    }
 
-            const formData = new FormData();
-            formData.append('department', selectedCategory);
-            formData.append('subject', subject);
-            formData.append('text', description);
-            formData.append('subCat', selectedSubCategory);
-            if (attachment) {
-                formData.append('attachment', attachment);
-                formData.append('filename', selectedFileName);
-            }
+    const formData = new FormData();
+    formData.append('department', categoryIndex);
+    formData.append('subject', subject);
+    formData.append('text', description);
+    formData.append('subCat', selectedSubCategory);
+    const clientCode = localStorage.getItem("clientcode");
+    formData.append("clientcode", clientCode);
+    if (attachment) {
+        formData.append('attachment', attachment);
+        formData.append('filename', selectedFileName);
+    }
 
-            try {
-                const response = await axios.post('https://g1.gwcindia.in/ticket-api/create-ticket.php', formData);
-                showResponseModal(response.data);
-            } catch (error) {
-             
-                console.error('Error creating ticket:', error);
-                showResponseModal({ status: 'error', message: 'Failed to create ticket.' });
-            }
-        }
+    try {
+        const response = await axios.post('https://g1.gwcindia.in/ticket-api/create-ticket.php', formData);
+        
+        // Show success message
+        showResponseModal(response.data);
+        
+        // Close the modal after a short delay
+        setTimeout(() => {
+           
+            document.getElementById('create-ticket-modal').classList.add('hidden'); // Hide the modal
+        }, 2000); // Adjust the delay as needed (2000 ms = 2 seconds)
+    } catch (error) {
+        console.error('Error creating ticket:', error);
+        showResponseModal({ status: 'error', message: 'Failed to create ticket.' });
+    }
+}
+
+function showResponseModal(data) {
+    const responseModal = document.getElementById('responseModal');
+    const responseContent = document.getElementById('responseContent');
+
+    // Check if the responseContent element exists
+    if (!responseContent) {
+        console.error('Response content element not found!');
+        return; // Exit the function if the element is not found
+    }
+
+    responseContent.innerHTML = '';
+
+    if (data.status === 'ok') {
+        responseContent.innerHTML = `<div class="text-green-500">Ticket created successfully! Ticket No: #${data.data.ticket_no}</div>`;
+    } else {
+        responseContent.innerHTML = `<div class="text-red-500">${data.message}</div>`;
+    }
+
+    responseModal.classList.remove('hidden');
+
+    // Close the modal after a short delay
+    setTimeout(() => {
+        closeModal(); // Close the create ticket modal
+        closeResponseModal(); // Close the response modal
+    }, 2000); // Adjust the delay as needed (2000 ms = 2 seconds)
+}
+
+function closeResponseModal() {
+    const responseModal = document.getElementById('responseModal');
+    if (responseModal) {
+        responseModal.classList.add('hidden');
+    }
+}
+
+function closeModal() {
+    document.getElementById('create-ticket-modal').classList.add('hidden');
+}
 
         function showResponseModal(data) {
             const responseModal = document.getElementById('responseModal');
@@ -951,9 +1039,7 @@ function updateTicketList(tickets) {
             responseModal.classList.remove('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('app').classList.add('hidden');
-        }
+       
 
         function closeResponseModal() {
             document.getElementById('responseModal').classList.add('hidden');
