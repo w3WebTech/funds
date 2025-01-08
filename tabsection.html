@@ -69,11 +69,13 @@
             <div class="p-3">
               Hi <span id="username"></span>,<br />We are here to help you
             </div>
-            <div id="create-ticket-button" class="hidden md:block">
-              <button type="button" class="button" onclick="openCreate()">
-                Create Ticket
-              </button>
+            <div id="create-ticket-button" >
+                <div class=" md:block hidden">
+                <button type="button" class="button" onclick="openCreate()">
+                  Create Ticket
+                </button>
             </div>
+              </div>
           </div>
 
           <div class="grid grid-cols-12 px-2">
@@ -574,47 +576,62 @@
                   };
 
                   function fetchTicketContent(tab) {
-                    const ticketContent = document.getElementById("ticket-content");
-                    ticketContent.classList.remove("hidden");
+    const emailId = localStorage.getItem("clientemail");
+    const formData = new FormData();
+    formData.append("emailId", emailId);
 
-                    const tickets = tab === "open" ? openTicketsCount : resolvedTickets;
-                    updateTicketList(tickets);
-                  }
+    axios.post("https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php", formData)
+        .then((response) => {
+            openTicketsCount = response.data.data.filter(
+                (item) => item.status.name === "Open" || item.status.name === "In-Progress"
+            );
+            resolvedTickets = response.data.data.filter((item) => item.status.name === "Closed" || item.status.name === "Awaiting Reply" );
+            const tickets = tab === "open" ? openTicketsCount : resolvedTickets;
+            updateTicketList(tickets);
+        })
+        .catch((error) => {
+            console.error(error.message || "An error occurred");
+        });
+}
 
-                  function updateTicketList(tickets) {
-                    const ticketList = document.getElementById("ticket-list");
-                    ticketList.innerHTML = ""; // Clear existing tickets
+function updateTicketList(tickets) {
+    const ticketList = document.getElementById("ticket-list");
+    ticketList.innerHTML = ""; // Clear existing tickets
 
-                    if (tickets.length === 0) {
-                      document.getElementById("no-tickets").classList.remove("hidden");
-                    } else {
-                      document.getElementById("no-tickets").classList.add("hidden");
-                      tickets.forEach((ticket) => {
-                        const ticketDiv = document.createElement("div");
-                        ticketDiv.className =
-                          "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
+    // Check if there are any tickets to display
+    if (tickets.length === 0) {
+        document.getElementById("no-tickets").classList.remove("hidden");
+    } else {
+        document.getElementById("no-tickets").classList.add("hidden");
 
-                        // Set the onclick event handler
-                        ticketDiv.onclick = () => openTicketModal(ticket);
+        // Iterate over the tickets and create DOM elements for each
+        tickets.forEach((ticket) => {
+            const ticketDiv = document.createElement("div");
+            ticketDiv.className = "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
 
-                        ticketDiv.innerHTML = `
-                          <div class="flex justify-between">
-                            <div class="text-xs font-semibold">#${ticket.number}</div>
-                            <div class="flex gap-1">
-                              <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
-                                ${ticket.status.name}
-                              </div>
-                            </div>
-                          </div>
-                          <div class="text-base font-bold">${ticket.subject}</div>
-                          <div class="text-xs">${formatDate(ticket.created_at)}</div>
-                          <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
-                        `;
+            // Set the onclick event handler to open the ticket modal
+            ticketDiv.onclick = () => openTicketModal(ticket);
 
-                        ticketList.appendChild(ticketDiv);
-                      });
-                    }
-                  }
+            // Populate the ticketDiv with ticket details
+            ticketDiv.innerHTML = `
+                <div class="flex justify-between">
+                    <div class="text-xs font-semibold">#${ticket.number}</div>
+                    <div class="flex gap-1">
+                        <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
+                            ${ticket.status.name}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-base font-bold">${ticket.subject}</div>
+                <div class="text-xs">${formatDate(ticket.created_at)}</div>
+                <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
+            `;
+
+            // Append the ticketDiv to the ticketList
+            ticketList.appendChild(ticketDiv);
+        });
+    }
+}
 
                   // Function to open ticket modal
                   function openTicketModal(ticket) {
@@ -811,6 +828,7 @@
              function openCreate() {
     document.getElementById("create-ticket-modal").classList.remove("hidden");
   }
+ // Call this to fetch and display open tickets
   function toggleCategoryDropdown() {
             const dropdown = document.getElementById('categoryDropdown');
             dropdown.classList.toggle('hidden');
@@ -942,6 +960,7 @@
         }
       document.addEventListener("DOMContentLoaded", () => {
         getDepartmentData();
+      
         const params = new URLSearchParams(window.location.search);
         const clientname = params.get("clientname");
         const clientemail = params.get("clientemail");
@@ -1005,66 +1024,65 @@
           }
         }
         getTabId(1)
+        fetchTicketContent("open"); 
         window.getTabId = function (id) {
-          const openTab = document.getElementById("open-tickets-tab");
-          const resolvedTab = document.getElementById("resolved-tickets-tab");
-          const ticketContent = document.getElementById("ticket-content");
+    const openTab = document.getElementById("open-tickets-tab");
+    const resolvedTab = document.getElementById("resolved-tickets-tab");
+    const ticketContent = document.getElementById("ticket-content");
 
-          openTab.classList.remove("active-tab");
-          resolvedTab.classList.remove("active-tab");
+    openTab.classList.remove("active-tab");
+    resolvedTab.classList.remove("active-tab");
 
-          if (id === 1) {
-            openTab.classList.add("active-tab");
-            fetchTicketContent("open");
-          } else if (id === 2) {
-            resolvedTab.classList.add("active-tab");
-            fetchTicketContent("resolved");
-          }
-        };
+    if (id === 1) {
+        openTab.classList.add("active-tab");
+        fetchTicketContent("open");
+    } else if (id === 2) {
+        resolvedTab.classList.add("active-tab");
+        fetchTicketContent("resolved");
+    }
+};
 
-        function fetchTicketContent(tab) {
-          const ticketContent = document.getElementById("ticket-content");
-          ticketContent.classList.remove("hidden");
+function fetchTicketContent(tab) {
+    const ticketContent = document.getElementById("ticket-content");
+    ticketContent.classList.remove("hidden");
 
-          const tickets = tab === "open" ? openTicketsCount : resolvedTickets;
-          updateTicketList(tickets);
-        }
+    const tickets = tab === "open" ? openTicketsCount : resolvedTickets;
+    updateTicketList(tickets);
+}
 
-        function updateTicketList(tickets) {
-          const ticketList = document.getElementById("ticket-list");
-          ticketList.innerHTML = ""; // Clear existing tickets
+function updateTicketList(tickets) {
+    const ticketList = document.getElementById("ticket-list");
+    ticketList.innerHTML = ""; // Clear existing tickets
 
-          if (tickets.length === 0) {
-            document.getElementById("no-tickets").classList.remove("hidden");
-          } else {
-            document.getElementById("no-tickets").classList.add("hidden");
-            tickets.forEach((ticket) => {
-              const ticketDiv = document.createElement("div");
-              ticketDiv.className =
-                "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
+    if (tickets.length === 0) {
+        document.getElementById("no-tickets").classList.remove("hidden");
+    } else {
+        document.getElementById("no-tickets").classList.add("hidden");
+        tickets.forEach((ticket) => {
+            const ticketDiv = document.createElement("div");
+            ticketDiv.className = "flex flex-col bg-white shadow-xl rounded-xl p-4 md:p-5 mb-4";
 
-              // Set the onclick event handler
-              ticketDiv.onclick = () => openTicketModal(ticket);
+            // Set the onclick event handler
+            ticketDiv.onclick = () => openTicketModal(ticket);
 
-              ticketDiv.innerHTML = `
+            ticketDiv.innerHTML = `
                 <div class="flex justify-between">
-                  <div class="text-xs font-semibold">#${ticket.number}</div>
-                  <div class="flex gap-1">
-                    <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
-                      ${ticket.status.name}
+                    <div class="text-xs font-semibold">#${ticket.number}</div>
+                    <div class="flex gap-1">
+                        <div class="px-4 uppercase text-xs text-center bg-yellow-200 flex items-center">
+                            ${ticket.status.name}
+                        </div>
                     </div>
-                  </div>
                 </div>
                 <div class="text-base font-bold">${ticket.subject}</div>
                 <div class="text-xs">${formatDate(ticket.created_at)}</div>
                 <div class="bg-gray-100 rounded-md p-2 mt-5 mb-2">test</div>
-              `;
+            `;
 
-              ticketList.appendChild(ticketDiv);
-            });
-          }
-        }
-   
+            ticketList.appendChild(ticketDiv);
+        });
+    }
+}
         // Function to open ticket modal
         function openTicketModal(ticket) {
           document.getElementById("ticket-number").textContent = `#${ticket.number}`;
