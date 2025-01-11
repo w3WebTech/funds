@@ -958,7 +958,7 @@ function updateTicketList(tickets) {
 
                   // Function to open ticket modal
                   function openTicketModal(ticket) {
-                    debugger
+                      
                     console.log("openn")
     document.getElementById("ticket-number").textContent = `#${ticket.number}`;
     document.getElementById("ticket-status").textContent = ticket.status.name;
@@ -1115,7 +1115,7 @@ async function getTicketMessages(number,status) {
         const messages = response.data.data;
         const ticketDetails = document.getElementById("ticket-details");
         const ticketStatus = response.data.status; // Assuming the response contains the ticket status
-debugger
+  
         
         ticketDetails.innerHTML = '';
 
@@ -1163,7 +1163,7 @@ if (messages.length > 0) {
 }
 
         if (status === "Closed") {
-debugger
+  
 
              ticketDetails.innerHTML += `
                 <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
@@ -1575,7 +1575,7 @@ async function postRatings(load, ratingData, rating) {
 }
 
 function submitRating() {
-  debugger
+    
     if (currentRating === 0) {
         alert("Please select a rating before submitting.");
         return;
@@ -1608,7 +1608,7 @@ function submitRating() {
         }
 
         function selectCategory(category) {
-          debugger
+            
             selectedCategory = category;
             document.getElementById('selectedCategoryText').innerText = category;
            
@@ -1646,7 +1646,7 @@ function submitRating() {
         }
 
         async function getSubcategories(category) {
-          debugger
+            
             try {
               const response = await axios.get(`https://g1.gwcindia.in/ticket-api/ticket-category-subcategory.php?category=${category}`);
               subcategories = response.data.find(item => item[category])?.[category] || [];
@@ -1662,7 +1662,7 @@ function submitRating() {
        
 
         function populateSubcategoryDropdown() {
-          debugger
+            
             const subcategoryList = document.getElementById('subcategoryList');
             subcategoryList.innerHTML = '';
             subcategories.forEach(sub => {
@@ -1921,7 +1921,7 @@ function updateTicketList(tickets) {
 }
         // Function to open ticket modal
         function openTicketModal(ticket) {
-                    debugger
+                      
                     console.log("re3solved")
     document.getElementById("ticket-number").textContent = `#${ticket.number}`;
     document.getElementById("ticket-status").textContent = ticket.status.name;
@@ -2078,7 +2078,7 @@ async function getTicketMessages(number,status) {
         const messages = response.data.data;
         const ticketDetails = document.getElementById("ticket-details");
         const ticketStatus = response.data.status; // Assuming the response contains the ticket status
-debugger
+  
         
         ticketDetails.innerHTML = '';
 
@@ -2126,7 +2126,7 @@ if (messages.length > 0) {
 }
 
         if (status === "Closed") {
-debugger
+  
 
              ticketDetails.innerHTML += `
                 <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
