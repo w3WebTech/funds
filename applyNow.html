@@ -11,14 +11,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body>   <div class="block md:hidden bg-blue-600 sm:relative sm:h-[100px] ">
+  <body class="overflow-hidden">   <div class="block md:hidden bg-blue-600 sm:relative sm:h-[100px] ">
     <div class="flex justify-center items-center text-center">
       <div class="w-screen">
         <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
           <nav class="absolute top-2 w-full">
-            <!-- <div class="flex justify-between p-4 font-bold text-xl"> -->
+           
               <div class="grid grid-cols-12 my-4">
-                  <!-- First SVG Icon -->
+             
                   <div class="col-span-2 flex justify-center items-center clickable-div"  data-target="newipodetails.html">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
                       <path
@@ -224,7 +224,7 @@
     const hniButton = document.getElementById("hniButton");
     const employeeButton = document.getElementById("employeeButton");
 
-    // Function to clear active class and reset styles
+  
     function resetButtons() {
         // Reset all buttons' styles to default
         retailButton.classList.remove("border-blue-700", "text-blue-700", "bg-blue-50");
@@ -237,11 +237,10 @@
         employeeButton.classList.add("bg-white", "text-black-700");
     }
 
-    // Add click events to buttons
+
     retailButton.addEventListener("click", () => {
         resetButtons();
         retailButton.classList.add("border-blue-700", "text-blue-700", "bg-blue-50");
-        // Add custom logic, like setting a value or changing a state
         console.log("Retail selected");
     });
 

@@ -502,8 +502,8 @@ background-color:  #e2e2e2;
                         class="flex justify-between w-full items-center container md:w-[90%] mx-auto"
                       >
                         <div class="p-3 md:py-6 md:text-[30px]">
-                          Hi <span id="username"></span>,<br />
-                          We are here to help you
+                          Hi <span id="username1"></span>,<br />
+                       We are here to help you
                         </div>
                         <div class="md:block hidden md:pl-6">
                           <button
@@ -699,7 +699,7 @@ background-color:  #e2e2e2;
                       >
                         <div class="p-3 md:py-6 md:text-[30px]">
                           Hi <span id="username"></span>,<br />
-                          We are here to help you
+                          gggWe are here to help you
                         </div>
                         <div class="md:block hidden pl-6">
                           <button
@@ -764,6 +764,40 @@ background-color:  #e2e2e2;
                            function closeTicketModal() {
     document.getElementById("ticket-modal").classList.add("hidden");
 }
+async function submitReply() {
+    const replyTextElement = document.getElementById('replyText');
+    if (!replyTextElement) {
+        console.error('Reply text element not found!');
+        return;
+    }
+
+    const replyText = replyTextElement.value;
+    const ticketNo = document.getElementById("ticket-number").textContent.replace('#', '');
+
+    if (!replyText) {
+        alert('Please enter a reply.');
+        return;
+    }
+
+    const formData = new FormData();
+    const clientCode = localStorage.getItem("clientcode");
+    formData.append("clientcode", clientCode);
+    formData.append("ticket_no", ticketNo);
+    formData.append("text", replyText);
+
+    try {
+        const response = await axios.post("https://g1.gwcindia.in/ticket-api/reply-ticket.php", formData);
+     
+        closeTicketModal(); // Close the modal after submission
+        
+    } catch (error) {
+        console.error('Error submitting reply:', error);
+     
+    }
+}
+        
+
+                  // Function to format date
                 document.addEventListener("DOMContentLoaded", () => {
        
                   const params = new URLSearchParams(window.location.search);
@@ -779,6 +813,9 @@ background-color:  #e2e2e2;
                   const username = localStorage.getItem("clientname");
                   document.getElementById("username").textContent =
                     username || "User     ";
+                    document.getElementById("username1").textContent =
+                    username || "User     ";
+                    
 
                   let openTicketsCount = [];
                   let resolvedTickets = [];
@@ -925,7 +962,7 @@ function updateTicketList(tickets) {
                     console.log("openn")
     document.getElementById("ticket-number").textContent = `#${ticket.number}`;
     document.getElementById("ticket-status").textContent = ticket.status.name;
-    getTicketMessages(ticket.number);
+    getTicketMessages(ticket.number,ticket.status.name);
     document.getElementById("ticket-details").innerHTML = `
     <div
       class="my-4 rounded-lg mx-2"
@@ -1063,21 +1100,21 @@ function updateTicketList(tickets) {
     document.getElementById("ticket-modal").classList.remove("hidden");
 
     // Fetch ticket messages and details
-    getTicketMessages(ticket.number);
+    getTicketMessages(ticket.number,ticket.status.name);
     document.getElementById("ticket-modal").classList.remove("hidden");
 }
 
-// Function to fetch ticket messages
-async function getTicketMessages(number) {
-  debugger
+async function getTicketMessages(number,status) {
     const formData = new FormData();
     formData.append("ticket_no", number);
     const clientCode = localStorage.getItem("clientcode");
     formData.append("clientcode", clientCode);
+    
     try {
         const response = await axios.post("https://g1.gwcindia.in/ticket-api/get-ticket-status-messages.php", formData);
         const messages = response.data.data;
         const ticketDetails = document.getElementById("ticket-details");
+        const ticketStatus = response.data.status; // Assuming the response contains the ticket status
 
         // Clear previous content
         ticketDetails.innerHTML = '';
@@ -1085,14 +1122,12 @@ async function getTicketMessages(number) {
         // Check if there are messages
         if (messages.length > 0) {
             // Loop through messages and create HTML content
-            messages.forEach((msg, index) => {
+            messages.forEach((msg) => {
                 const messageHTML = `
                     <div class="space-y-4 my-2">
                         <div class="bg-blue-100 p-4 rounded-lg flex">
                             <div class="flex-shrink-0">
-                                <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center">
-                                    E
-                                </div>
+                                <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center">E</div>
                             </div>
                             <div class="ml-4">
                                 <p class="text-gray-700">${msg.excerpt}</p>
@@ -1103,58 +1138,37 @@ async function getTicketMessages(number) {
                     </div>
                 `;
                 ticketDetails.innerHTML += messageHTML;
-
-               
-                if (index === 0) {
-                    ticketDetails.innerHTML += `
-                        <div class="bg-gray-100 p-4 my-4 rounded-lg flex">
-                            <div class="flex-shrink-0">
-                                <img alt="Support team logo" class="rounded-full w-8 h-8" height="40" src="images/goodwill.jpeg" width="40"/>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-700">
-                                    Your ticket has been created successfully. Our support team will get back to you in 24-48 business hours.
-                                </p>
-                                <p class="text-gray-400 text-sm mt-2">
-                                    ${new Date().toLocaleString()}  <!-- Current date and time -->
-                                </p>
-                            </div>
-                        </div>
-                    `;
-                }
             });
         }
 
-        // Additional UI elements for closed tickets
-        ticketDetails.innerHTML += `
-            <div class="bg-white rounded-lg">
-                <div class="flex space-x-2 mb-2">
-                    <button class="text-gray-500"><i class="fas fa-bold"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-italic"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-underline"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-paperclip"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-list-ul"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-list-ol"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-align-left"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-align-center"></i></button>
-                    <button class="text-gray-500"><i class="fas fa-align-right"></i></button>
+        // Check the ticket status and render appropriate UI
+        if (status === "Closed") {
+            ticketDetails.innerHTML += `
+                <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
+                    <button class="w-full bg-blue-500 text-white py-2 block rounded-lg button" onclick="openRatingModal()">Rate Us</button>
                 </div>
-                <textarea class="w-full border border-gray-300 rounded-lg p-2" placeholder="Description (min 30 characters)..." rows="3"></textarea>
-            </div>
-            <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
-    <button class="w-full button text-white py-2 block rounded-lg" onclick="document.getElementById('ticket-modal').classList.add('hidden');">
-        Submit
-    </button>
-</div>
-        `;
+            `;
+        } else if (status=== "Open" || status=== "In-Progress") {
+            ticketDetails.innerHTML += `
+                <div class="bg-white rounded-lg">
+                    <div class="flex space-x-2 mb-2">
+                        <button class="text-gray-500"><i class="fas fa-bold"></i></button>
+                        <button class="text-gray-500"><i class="fas fa-italic"></i></button>
+                        <button class="text-gray-500"><i class="fas fa-underline"></i></button>
+                        <button class="text-gray-500"><i class="fas fa-paperclip"></i></button>
+                    </div>
+                    <textarea id="replyText" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Type your reply..." rows="3"></textarea>
+                </div>
+                <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
+                    <button class="w-full button text-white py-2 block rounded-lg" onclick="submitReply()">Submit</button>
+                </div>
+            `;
+        }
     } catch (error) {
         console.error("Error fetching ticket status messages:", error);
     }
 }
-                  
-        
 
-                  // Function to format date
                   function formatDate(timestamp) {
                     const date = new Date(timestamp * 1000);
                     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
@@ -1271,7 +1285,8 @@ async function getTicketMessages(number) {
               <input
                 id="subjectInput"
                 type="text"
-                class="py-3 shadow-sm px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+                class="py-3 shadow-sm px-4 block w-full border-gray-400 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 
+                "
                 placeholder="Subject"
               />
               <textarea
@@ -1284,18 +1299,11 @@ async function getTicketMessages(number) {
                   <div
                     class="flex gap-1 flex-row items-center justify-center cursor-pointer"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="blue"
-                      class="w-5 h-5"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a3 3 0 0 0 0 4.241 4.243h.001l.497-.5a.75.75 0 0 1 1.064 1.057l-.498.501.002.002a4.5 4.5 0 0 1-6.364-6.364l7-7a4.5 4.5 0 0 1 6.368 6.36l-3.455 3.553A2.625 2.625 0 1 1 9.52 9.52l3.45-3.451a.75.75 0 1 1 1.061 1.06l-3.45 3.451a1.125 1.125 0 0 0 1.587 1.595l3.454-3.553a3 3 0 0 0 0-4.242Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5
+                  ">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+                  </svg>
+                  
                     <div
                       class="text-xs text-[#2741b6] flex items-center justify-center"
                     >
@@ -1310,7 +1318,10 @@ async function getTicketMessages(number) {
                     onchange="uploadImage(event)"
                   />
                 </label>
+         
               </div>
+              <div id="fileNameDisplay" class="text-xs text-gray-600 mt-2 px-3
+              "></div> <!-- Display for the file name -->
               <div class="flex justify-end items-center gap-x-2 p-3">
                 <button
                   id="createTicketButton"
@@ -1327,6 +1338,21 @@ async function getTicketMessages(number) {
       </div>
     </div>
     <!-- Response Modal -->
+     <!-- Rating Response Modal -->
+<div id="ratingResponseModal" class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center" style="background: rgba(0, 0, 0, 0.7)">
+  <div class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+      <div class="modal-content py-4 text-left px-6 h-full">
+          <div id="responseContent" class="flex justify-center py-3">
+              <!-- Response message will be displayed here -->
+          </div>
+          <div class="flex justify-center items-center gap-x-2 py-3 px-4">
+              <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700" onclick="closeRatingResponseModal()">
+                  Close
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
 <div id="responseModal" class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center" style="background: rgba(0, 0, 0, 0.7)">
   <div class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
       <div class="modal-content py-4 text-left px-6 h-full">
@@ -1392,6 +1418,21 @@ async function getTicketMessages(number) {
     </div>
   </div>
 </div>
+<!-- Ticket Creation Response Modal -->
+<div id="ticketResponseModal" class="fixed inset-0 z-50 hidden overflow-hidden flex justify-center items-center" style="background: rgba(0, 0, 0, 0.7)">
+  <div class="border shadow-lg modal-container bg-white w-11/12 mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+      <div class="modal-content py-4 text-left px-6 h-full">
+          <div id="ticketResponseContent" class="flex justify-center py-3">
+              <!-- Response message will be displayed here -->
+          </div>
+          <div class="flex justify-center items-center gap-x-2 py-3 px-4">
+              <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700" onclick="closeTicketResponseModal()">
+                  Close
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -1404,7 +1445,63 @@ async function getTicketMessages(number) {
         let selectedFileName = null;
        
         let currentRating = 0;
+        function showTicketResponseModal(message) {
+    const ticketResponseModal = document.getElementById('ticketResponseModal');
+    const ticketResponseContent = document.getElementById('ticketResponseContent');
 
+    // Set the message to be displayed
+    ticketResponseContent.innerHTML = message;
+
+    // Show the modal
+    ticketResponseModal.classList.remove('hidden');
+}
+function fetchTickets() {
+          const emailId = localStorage.getItem("clientemail");
+          const formData = new FormData();
+          formData.append("emailId", emailId);
+
+          axios
+            .post(
+              "https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php",
+              formData
+            )
+            .then((response) => {
+              openTicketsCount = response.data.data.filter(
+                (item) =>
+                  item.status.name === "Open" ||
+                  item.status.name === "In-Progress"
+              );
+              resolvedTickets = response.data.data.filter(
+                (item) =>
+                  item.status.name === "Closed" ||
+                  item.status.name === "Awaiting Reply"
+              );
+              updateTicketCounts();
+            })
+            .catch((error) => {
+              console.error(error.message || "An error occurred");
+            });
+        }
+
+function closeTicketResponseModal() {
+    const ticketResponseModal = document.getElementById('ticketResponseModal');
+    ticketResponseModal.classList.add('hidden'); // Hide the modal
+}
+        function showRatingResponseModal(message) {
+    const ratingResponseModal = document.getElementById('ratingResponseModal');
+    const responseContent = document.getElementById('responseContent');
+
+    // Set the message to be displayed
+    responseContent.innerHTML = message;
+
+    // Show the modal
+    ratingResponseModal.classList.remove('hidden');
+}
+
+function closeRatingResponseModal() {
+    const ratingResponseModal = document.getElementById('ratingResponseModal');
+    ratingResponseModal.classList.add('hidden'); // Hide the modal
+}
 function selectRating(rating) {
     currentRating = rating;
     const stars = document.querySelectorAll('.star');
@@ -1418,16 +1515,50 @@ function selectRating(rating) {
             star.setAttribute('stroke', 'orange'); // Keep stroke color for unselected stars
         }
     });
+};
+async function postRatings(load, ratingData, rating) {
+    const formData = new FormData();
+    const clientCode = localStorage.getItem("clientcode");
+    if (clientCode) formData.append("clientcode", clientCode);
+
+    formData.append("ticket_no", ratingData?.ticketNo);
+    formData.append("rating", rating);
+
+    try {
+        const response = await axios.post(
+            "https://g1.gwcindia.in/ticket-api/add-rating.php",
+            formData
+        );
+        const ratingResponse = response.data;
+        if (ratingResponse) {
+            const apirating = ratingResponse.rating;
+            showRatingResponseModal(`Rating submitted successfully! Your rating: ${apirating} stars.`);
+        }
+    } catch (error) {
+        console.error(error.message || "An error occurred");
+        showRatingResponseModal("Failed to submit rating.");
+    }
 }
+
 function submitRating() {
-    if (selectedRating === 0) {
+  debugger
+    if (currentRating === 0) {
         alert("Please select a rating before submitting.");
         return;
     }
-    // Here you can handle the submission of the rating, e.g., send it to your server
-    console.log(`Rating submitted: ${selectedRating} stars`);
+
+    // Prepare the data for posting
+    const ratingData = {
+        ticketNo: document.getElementById("ticket-number").textContent.replace('#', ''),
+    };
+    console.log(currentRating,"currentRating")
+    // Call the postRatings function
+    postRatings(false, ratingData, currentRating);
+
+    console.log(`Rating submitted: ${currentRating} stars`);
     document.getElementById('ratingModal').style.display = 'none'; // Close the modal after submission
 }
+
              function openCreate() {
     document.getElementById("create-ticket-modal").classList.remove("hidden");
   }
@@ -1510,16 +1641,26 @@ function submitRating() {
         }
 
         function uploadImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                selectedFileName = file.name;
-                const reader = new FileReader();
-                reader.onload = () => {
-                    attachment = reader.result.split(',')[1]; // Get the base64 string
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+    const file = event.target.files[0];
+    const fileNameDisplay = document.getElementById('fileNameDisplay'); // Get the display element
+
+    if (file) {
+        selectedFileName = file.name; // Store the file name
+        const reader = new FileReader();
+        reader.onload = () => {
+            attachment = reader.result.split(',')[1]; // Get the base64 string
+        };
+        reader.readAsDataURL(file);
+
+        // Display the file name
+        fileNameDisplay.textContent = `${selectedFileName
+        }`;
+    } else {
+        selectedFileName = null; // Clear the selected file name if no file is selected
+        fileNameDisplay.textContent = ''; // Clear the display if no file is selected
+    }
+}
+
 
         async function createTicket() {
     const subject = document.getElementById('subjectInput').value;
@@ -1544,18 +1685,17 @@ function submitRating() {
 
     try {
         const response = await axios.post('https://g1.gwcindia.in/ticket-api/create-ticket.php', formData);
-        
-        // Show success message
-        showResponseModal(response.data);
-        
+     
+        showTicketResponseModal(`Ticket created successfully! Ticket No: #${response.data.data.ticket_no}`);
+      
+        fetchTickets()
         // Close the modal after a short delay
         setTimeout(() => {
-           
-            document.getElementById('create-ticket-modal').classList.add('hidden'); // Hide the modal
+            document.getElementById('create-ticket-modal').classList.add('hidden'); // Hide the create ticket modal
         }, 2000); // Adjust the delay as needed (2000 ms = 2 seconds)
     } catch (error) {
         console.error('Error creating ticket:', error);
-        showResponseModal({ status: 'error', message: 'Failed to create ticket.' });
+        showTicketResponseModal("Failed to create ticket.");
     }
 }
 
@@ -1709,6 +1849,7 @@ function fetchTicketContent(tab) {
 }
 
 function updateTicketList(tickets) {
+ console.log("updateTicketListopem")
     const ticketList = document.getElementById("ticket-list");
     ticketList.innerHTML = ""; // Clear existing tickets
 
@@ -1750,7 +1891,7 @@ function updateTicketList(tickets) {
                     console.log("re3solved")
     document.getElementById("ticket-number").textContent = `#${ticket.number}`;
     document.getElementById("ticket-status").textContent = ticket.status.name;
-    getTicketMessages(ticket.number);
+    getTicketMessages(ticket.number,ticket.status.name);
     document.getElementById("ticket-details").innerHTML = `
         <div
       class="my-4 rounded-lg mx-2"
@@ -1888,20 +2029,21 @@ function updateTicketList(tickets) {
     document.getElementById("ticket-modal").classList.remove("hidden");
 
     // Fetch ticket messages and details
-    getTicketMessages(ticket.number);
+    getTicketMessages(ticket.number,ticket.status.name);
     document.getElementById("ticket-modal").classList.remove("hidden");
 }
 
-async function getTicketMessages(number) {
-  debugger
+async function getTicketMessages(number,status) {
     const formData = new FormData();
     formData.append("ticket_no", number);
     const clientCode = localStorage.getItem("clientcode");
     formData.append("clientcode", clientCode);
+    
     try {
         const response = await axios.post("https://g1.gwcindia.in/ticket-api/get-ticket-status-messages.php", formData);
         const messages = response.data.data;
         const ticketDetails = document.getElementById("ticket-details");
+        const ticketStatus = response.data.status; // Assuming the response contains the ticket status
 
         // Clear previous content
         ticketDetails.innerHTML = '';
@@ -1909,14 +2051,12 @@ async function getTicketMessages(number) {
         // Check if there are messages
         if (messages.length > 0) {
             // Loop through messages and create HTML content
-            messages.forEach((msg, index) => {
+            messages.forEach((msg) => {
                 const messageHTML = `
                     <div class="space-y-4 my-2">
                         <div class="bg-blue-100 p-4 rounded-lg flex">
                             <div class="flex-shrink-0">
-                                <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center">
-                                    E
-                                </div>
+                                <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center">E</div>
                             </div>
                             <div class="ml-4">
                                 <p class="text-gray-700">${msg.excerpt}</p>
@@ -1927,33 +2067,32 @@ async function getTicketMessages(number) {
                     </div>
                 `;
                 ticketDetails.innerHTML += messageHTML;
-
-               
-                if (index === 0) {
-                    ticketDetails.innerHTML += `
-                        <div class="bg-gray-100 p-4 my-4 rounded-lg flex">
-                            <div class="flex-shrink-0">
-                                <img alt="Support team logo" class="rounded-full w-8 h-8" height="40" src="images/goodwill.jpeg" width="40"/>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-gray-700">
-                                    Your ticket has been created successfully. Our support team will get back to you in 24-48 business hours.
-                                </p>
-                                <p class="text-gray-400 text-sm mt-2">
-                                    ${new Date().toLocaleString()}  <!-- Current date and time -->
-                                </p>
-                            </div>
-                        </div>
-                    `;
-                }
             });
         }
 
-        ticketDetails.innerHTML += `
-    <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
-        <button class="w-full bg-blue-500 text-white py-2 block rounded-lg button" onclick="openRatingModal()">Ok, Thanks</button>
-    </div>
-`;
+        // Check the ticket status and render appropriate UI
+        if (status === "Closed") {
+            ticketDetails.innerHTML += `
+                <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
+                    <button class="w-full bg-blue-500 text-white py-2 block rounded-lg button" onclick="openRatingModal()">Rate Us</button>
+                </div>
+            `;
+        } else if (status=== "Open" || status=== "In-Progress") {
+            ticketDetails.innerHTML += `
+                <div class="bg-white rounded-lg">
+                    <div class="flex space-x-2 mb-2">
+                        <button class="text-gray-500"><i class="fas fa-bold"></i></button>
+                        <button class="text-gray-500"><i class="fas fa-italic"></i></button>
+                        <button class="text-gray-500"><i class="fas fa-underline"></i></button>
+                        <button class="text-gray-500"><i class="fas fa-paperclip"></i></button>
+                    </div>
+                    <textarea id="replyText" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Type your reply..." rows="3"></textarea>
+                </div>
+                <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
+                    <button class="w-full button text-white py-2 block rounded-lg" onclick="submitReply()">Submit</button>
+                </div>
+            `;
+        }
     } catch (error) {
         console.error("Error fetching ticket status messages:", error);
     }
