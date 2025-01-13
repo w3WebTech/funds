@@ -32,9 +32,7 @@
         padding-bottom: 500px;
       }
       .container {
-        margin: 0 auto;
-      
-        padding: 2px;
+       
       }
       .tab {
         text-align: center;
@@ -67,14 +65,14 @@
       }
 
 
-.shimmer {
-  animation-duration: 2.2s;
+      .shimmer {
+    animation-duration: 2.2s;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
     animation-name: shimmer;
     animation-timing-function: linear;
-    background: #cbd6db;
-    background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+    background: #999fa1; /* Base background color */
+    background: linear-gradient(to right, #E0E0E0 8%, #D0D0D0 18%, #E0E0E0 33%); /* Adjusted gradient colors */
     background-size: 1200px 100%;
 }
 @-webkit-keyframes shimmer {
@@ -165,7 +163,7 @@
         "
       >
     </div>
-    <div class="flex ">
+    <div class="flex shimmer mx-3 rounded-md">
       <div
       class="my-2 rounded-lg mx-2 shimmer"
       style="
@@ -190,7 +188,7 @@
           background-color:  #ecebeb;
         "
       >
-      <div class="flex">   <div
+      <div class="flex shimmer">   <div
         class="my-2 rounded-lg mx-2 shimmer"
         style="
           width: 200px;
@@ -245,7 +243,7 @@ style="
       background-color:  #ecebeb;
     "
   >
-  <div class="flex">   <div
+  <div class="flex shimmer">   <div
     class="my-2 rounded-lg mx-2 shimmer"
     style="
       width: 200px;
@@ -300,7 +298,7 @@ style="
   background-color:  #ecebeb;
 "
 >
-<div class="flex">   <div
+<div class="flex shimmer">   <div
 class="my-2 rounded-lg mx-2 shimmer"
 style="
   width: 200px;
@@ -404,10 +402,27 @@ background-color:  #e2e2e2;
 </div>
     </div>
     <div id="app" class="roboto-thin hidden" >
-      <div id="content" class=" bg-blue-500">
-        <div class="container ">
-         
-            <div class="p-3 py-4 text-white font-semibold test-xl">
+      <div id="content" class="">
+        <div class="container   ">
+          <div class="bg-blue-500">
+          <nav class="">
+            <div class="flex justify-between p-4 font-bold text-xl text-white py-5">
+                <div class="flex justify-between">
+                    <div class="mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                            <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="px-5">Client Tickets</div>
+                </div>
+                <div class="mr-4 mt-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                    </svg>
+                </div>
+            </div>
+        </nav>
+            <div class="p-3 py-4  bg-white  rounded-t-xl">
               Hi <span id="username"></span>,<br />We are here to help you
             </div>
             <div id="create-ticket-button" >
@@ -418,8 +433,9 @@ background-color:  #e2e2e2;
             </div>
               </div>
           </div>
+        </div>
 
-          <div class="grid grid-cols-12 px-2 rounded-t-xl bg-white">
+          <div class="grid grid-cols-12 px-2 bg-white">
             <div
               id="open-tickets-tab"
               class="col-span-6 tab cursor-pointer text-center text-blue-400 p-4"
@@ -574,12 +590,30 @@ background-color:  #e2e2e2;
                 <div
                   class="border shadow-lg modal-container bg-white w-full h-full shadow-lg z-50 overflow-y-auto"
                 >
-                  <div class="modal-content text-left h-full bg-blue-500">
-                    <div class="bg-[#eeeff4] md:bg-white md:py-5 md:mt-[5%]">
+                
+                  <div class="modal-content text-left h-full">
+                    <div class="bg-blue-500 md:bg-white md:py-5 md:mt-[5%]">
+                      <nav class=" ">
+                        <div class="flex justify-between p-4 font-bold text-xl text-white Client py-5">
+                            <div class="flex justify-between">
+                                <div class="mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                        <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="px-5">Client Tickets</div>
+                            </div>
+                            <div class="mr-4 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </nav>
                       <div
-                        class="flex justify-between w-full items-center container  md:w-[90%] mx-auto"
+                        class="flex justify-between w-full items-center container  md:w-[90%] mx-auto bg-white rounded-t-xl"
                       >
-                        <div class="p-3 md:py-6 md:text-[30px] text-white font-semibold">
+                        <div class="p-3 md:py-6 md:text-[30px]">
                           Hi <span id="username1"></span>,<br />
                        We are here to help you
                         </div>
