@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branch Resolved Tickets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-4">
+        <div class="flex justify-start border-b border-gray-300 mb-4">
+            <button id="openTicketsTab" class="px-4 py-2 text-blue-500" onclick="showOpenTickets()">Branch Open Tickets (0)</button>
+            <button id="resolvedTicketsTab" class="px-4 py-2 text-blue-500 border-b-2 border-blue-500" onclick="showResolvedTickets()">Branch Resolved Tickets (5)</button>
+        </div>
+        <div class="flex justify-center mb-4">
+            <input type="text" placeholder="Search by Clientcode / Ticket No" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <div id="ticketContainer" class="space-y-4">
+            <!-- Tickets will be dynamically generated here -->
+        </div>
+    </div>
+
+    <script>
+        // Static JSON data
+        const ticketData = {
+            "branches": [
+                {
+                    "name": "gz10219",
+                    "tickets": [
+                        { "number": "#8424060", "status": "CLOSED" },
+                        { "number": "#7403636", "status": "CLOSED" },
+                        { "number": "#5132757", "status": "CLOSED" }
+                    ]
+                },
+                {
+                    "name": "GU096",
+                    "tickets": [
+                    { "number": "#7403636", "status": "CLOSED" },
+                    { "number": "#5132757", "status": "CLOSED" }
+                    ]
+                },
+                {
+                    "name": "gu096",
+                    "tickets": [
+                    { "number": "#7403636", "status": "CLOSED" },
+                    { "number": "#5132757", "status": "CLOSED" }
+                    ]
+                }
+            ]
+        };
+
+        let currentTab = 'resolved'; // Default to resolved tickets
+
+        function showOpenTickets() {
+            currentTab = 'open';
+            updateTicketDisplay();
+            document.getElementById('openTicketsTab').classList.add('border-b-2', 'border-blue-500');
+            document.getElementById('resolvedTicketsTab').classList.remove('border-b-2', 'border-blue-500');
+        }
+
+        function showResolvedTickets() {
+            currentTab = 'resolved';
+            updateTicketDisplay();
+            document.getElementById('resolvedTicketsTab').classList.add('border-b-2', 'border-blue-500');
+            document.getElementById('openTicketsTab').classList.remove('border-b-2', 'border-blue-500');
+        }
+
+        function updateTicketDisplay() {
+            const ticketContainer = document.getElementById('ticketContainer');
+            ticketContainer.innerHTML = ''; // Clear previous tickets
+
+            ticketData.branches.forEach(branch => {
+                const branchDiv = document.createElement('div');
+                branchDiv.className = 'bg-white p-4 rounded shadow cursor-pointer';
+                branchDiv.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold">${branch.name}</span>
+                        <i class="fas fa-chevron-down cursor-pointer" onclick="toggleTickets('${branch.name}')"></i>
+                    </div>
+                    <div id="${branch.name}-tickets" class="hidden mt-2 space-y-2">
+                    </div>
+                `;
+                ticketContainer.appendChild(branchDiv);
+
+                // Populate tickets if the current tab is resolved
+                if (currentTab === 'resolved') {
+                    branch.tickets.forEach(ticket => {
+                        const ticketDiv = document.createElement('div');
+                        ticketDiv.className = 'flex justify-between items-center p-2 bg-gray-100 rounded';
+                        ticketDiv.innerHTML = `
+                            <span>${ticket.number}</span>
+                            <span class="text-green-500">${ticket.status}</span>
+                        `;
+                        document.getElementById(`${branch.name}-tickets`).appendChild(ticketDiv);
+                    });
+                }
+            });
+        }
+
+        function toggleTickets(branchName) {
+            const ticketsDiv = document.getElementById(`${branchName}-tickets`);
+            ticketsDiv.classList.toggle('hidden');
+        }
+
+        // Initial display of resolved tickets
+        updateTicketDisplay();
+    </script>
+</body>
+</html>

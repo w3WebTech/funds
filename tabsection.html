@@ -30,7 +30,7 @@
       }
       .container {
         margin: 0 auto;
-        background-color: #eeeff4;
+      
         padding: 2px;
       }
       .tab {
@@ -59,13 +59,64 @@
         margin-top: 10px;
   
       }
-    
+     .custom-bg {
+        background-color: #4269b6;
+      }
+
 
 .shimmer {
   background-color: #ccc;
 
   animation: shimmer 1.5s infinite;
 }
+
+
+.fade .active {
+        background-color: #717171;
+      }
+
+      
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+
+      .loader {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .loader::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+        animation: loading 1s linear;
+      }
+
+      @keyframes loading {
+        0% {
+          left: -100%;
+        }
+
+        100% {
+          left: 100%;
+        }
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
     </style>
   </head>
   <body>
@@ -328,16 +379,16 @@ background-color:  #e2e2e2;
     </div>
     <div id="app" class="roboto-thin hidden">
       <div id="content" class="">
-        <div class="container">
+        <div class="container bg-blue-50">
           <div class="flex justify-between">
             <div class="p-3">
               Hi <span id="username"></span>,<br />We are here to help you
             </div>
             <div id="create-ticket-button" >
                 <div class=" md:block hidden">
-                <button type="button" class="button" onclick="openCreate()">
+                <!-- <button type="button"  class="rounded-md custom-bg px-20 py-2.5 text-sm font-semibold text-white shadow-sm" onclick="openCreate()" id="createproceedButton">
                   Create Ticket
-                </button>
+                </button> -->
             </div>
               </div>
           </div>
@@ -363,7 +414,7 @@ background-color:  #e2e2e2;
         <div class="card ">
          
           <div id="ticket-content" class="w-full h-screen hidden">
-            <div id="open" class="container mx-auto p-4">
+            <div id="open" class="container bg-blue-50 mx-auto p-4">
               <div id="ticket-container" class="md:flex md:gap-8">
                 <div class="w-full md:w-[90%]">
                   <div id="ticket-list" class="py-2 px-2 min-h-screen">
@@ -499,7 +550,7 @@ background-color:  #e2e2e2;
                   <div class="modal-content text-left h-full">
                     <div class="bg-[#eeeff4] md:bg-white md:py-5 md:mt-[5%]">
                       <div
-                        class="flex justify-between w-full items-center container md:w-[90%] mx-auto"
+                        class="flex justify-between w-full items-center container bg-gray-50 md:w-[90%] mx-auto"
                       >
                         <div class="p-3 md:py-6 md:text-[30px]">
                           Hi <span id="username1"></span>,<br />
@@ -518,7 +569,7 @@ background-color:  #e2e2e2;
                     <div
                       class="flex flex-col md:bg-white pointer-events-auto max-w-full max-h-full h-full"
                     >
-                      <div class=" container md:mx-auto md:w-[90%]">
+                      <div class=" container bg-blue-50  md:mx-auto md:w-[90%]">
                         <div
                           class="flex justify-between items-center py-3 px-2"
                         >
@@ -766,8 +817,25 @@ background-color:  #e2e2e2;
 }
 async function submitReply() {
     const replyTextElement = document.getElementById('replyText');
+    const test = document.getElementById("submitreply");
+
+       
+test.textContent = "Processing..."; // Change text to indicate processing
+
+
+test.classList.add("loader");
+
+
+test.disabled = true;
     if (!replyTextElement) {
-        console.error('Reply text element not found!');
+        
+        setTimeout(() => {
+          
+          test.textContent = "Submit"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          console.error('Reply text element not found!');
+        }, 2000);
         return;
     }
 
@@ -775,7 +843,14 @@ async function submitReply() {
     const ticketNo = document.getElementById("ticket-number").textContent.replace('#', '');
 
     if (!replyText) {
-        alert('Please enter a reply.');
+      setTimeout(() => {
+          
+          test.textContent = "Submit"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          alert('Please enter a reply.');
+        }, 2000);
+       
         return;
     }
 
@@ -788,9 +863,23 @@ async function submitReply() {
     try {
         const response = await axios.post("https://g1.gwcindia.in/ticket-api/reply-ticket.php", formData);
      
-        closeTicketModal(); // Close the modal after submission
+        closeTicketModal(); 
+        setTimeout(() => {
+          
+          test.textContent = "Submit"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          
+        }, 2000);// Close the modal after submission
         
     } catch (error) {
+      setTimeout(() => {
+          
+          test.textContent = "Submit"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          
+        }, 2000);// Close the modal after submission
         console.error('Error submitting reply:', error);
      
     }
@@ -1189,7 +1278,7 @@ ticketDetails.innerHTML += `
         <textarea id="replyText" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Description (min 30 characters)..." rows="3"></textarea>
     </div>
     <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
-<button class="w-full button text-white py-2 block rounded-lg" onclick="submitReply()">
+<button class="w-full button text-white py-2 block rounded-lg" onclick="submitReply()" id="submitreply">
 Submit
 </button>
 </div>
@@ -1208,7 +1297,7 @@ Submit
                 });
               </script>
             </div>  <div class="fixed-bottom p-3 md:hidden" id="fixed-create-ticket-button">
-              <button type="button" class="button w-full" onclick="openCreate()">
+              <button type="button" id="createproceedButton" class="rounded-md custom-bg px-20 py-2.5 text-sm font-semibold text-white shadow-sm w-full"  onclick="openCreate()">
                 Create Ticket
               </button>
             </div>
@@ -1551,6 +1640,7 @@ function selectRating(rating) {
     });
 };
 async function postRatings(load, ratingData, rating) {
+  const test = document.getElementById("submitRatingButton");
     const formData = new FormData();
     const clientCode = localStorage.getItem("clientcode");
     if (clientCode) formData.append("clientcode", clientCode);
@@ -1565,19 +1655,50 @@ async function postRatings(load, ratingData, rating) {
         );
         const ratingResponse = response.data;
         if (ratingResponse) {
-            const apirating = ratingResponse.rating;
+          setTimeout(() => {
+          // Reset button text and remove loader class after some time
+          test.textContent = "Rate us"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          const apirating = ratingResponse.rating;
             showRatingResponseModal(`Rating submitted successfully! Your rating: ${apirating} stars.`);
+        }, 2000);
+            
         }
+      
     } catch (error) {
+      setTimeout(() => {
+          // Reset button text and remove loader class after some time
+          test.textContent = "Rate us"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          showRatingResponseModal("Failed to submit rating.");
+        }, 2000);
         console.error(error.message || "An error occurred");
-        showRatingResponseModal("Failed to submit rating.");
+       
     }
 }
 
 function submitRating() {
-    
+  const test = document.getElementById("submitRatingButton");
+
+// Change button text
+test.textContent = "Processing..."; // Change text to indicate processing
+
+// Add loader class
+test.classList.add("loader");
+
+// Optionally, you can disable the button to prevent multiple clicks
+test.disabled = true;
     if (currentRating === 0) {
-        alert("Please select a rating before submitting.");
+      setTimeout(() => {
+          // Reset button text and remove loader class after some time
+          test.textContent = "Create Ticket"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          alert("Please select a rating before submitting.");
+        }, 2000);
+       
         return;
     }
 
@@ -1594,7 +1715,26 @@ function submitRating() {
 }
 
              function openCreate() {
-    document.getElementById("create-ticket-modal").classList.remove("hidden");
+              const test = document.getElementById("createproceedButton");
+
+        // Change button text
+        test.textContent = "Processing..."; // Change text to indicate processing
+
+        // Add loader class
+        test.classList.add("loader");
+
+        // Optionally, you can disable the button to prevent multiple clicks
+        test.disabled = true;
+
+        // Simulate a delay for demonstration (e.g., an API call)
+        setTimeout(() => {
+          // Reset button text and remove loader class after some time
+          test.textContent = "Create Ticket"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          document.getElementById("create-ticket-modal").classList.remove("hidden"); // Re-enable the button
+        }, 2000);
+   
   }
  // Call this to fetch and display open tickets
   function toggleCategoryDropdown() {
@@ -1699,9 +1839,29 @@ function submitRating() {
         async function createTicket() {
     const subject = document.getElementById('subjectInput').value;
     const description = document.getElementById('descriptionInput').value;
+    const test = document.getElementById("createTicketButton");
 
+       
+        test.textContent = "Processing..."; // Change text to indicate processing
+
+        
+        test.classList.add("loader");
+
+        
+        test.disabled = true;
+
+        
+        
+   
     if (!selectedCategory || !selectedSubCategory || !subject || !description) {
-        alert('Please fill in all fields.');
+      setTimeout(() => {
+          
+          test.textContent = "Create Ticket"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
+          alert('Please fill in all fields.');
+        }, 2000);
+    
         return;
     }
 
@@ -1726,10 +1886,22 @@ function submitRating() {
         // Close the modal after a short delay
         setTimeout(() => {
             document.getElementById('create-ticket-modal').classList.add('hidden'); // Hide the create ticket modal
+             
+          test.textContent = "Create Ticket"; // Reset text
+          test.classList.remove("loader"); // Remove loading animation
+          test.disabled = false;
         }, 2000); // Adjust the delay as needed (2000 ms = 2 seconds)
     } catch (error) {
+      setTimeout(() => {
+            
+             
+            test.textContent = "Create Ticket"; // Reset text
+            test.classList.remove("loader"); // Remove loading animation
+            test.disabled = false;
+          }, 2000); 
         console.error('Error creating ticket:', error);
         showTicketResponseModal("Failed to create ticket.");
+      
     }
 }
 
@@ -2152,7 +2324,7 @@ ticketDetails.innerHTML += `
         <textarea id="replyText" class="w-full border border-gray-300 rounded-lg p-2" placeholder="Description (min 30 characters)..." rows="3"></textarea>
     </div>
     <div class="pr-10 py-5 border-t border-gray-200 fixed bottom-0 w-full">
-<button class="w-full button text-white py-2 block rounded-lg" onclick="submitReply()">
+<button class="w-full button text-white py-2 block rounded-lg" onclick="submitReply()" id="submitreply">
 Submit
 </button>
 </div>
