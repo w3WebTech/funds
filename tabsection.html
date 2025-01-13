@@ -29,21 +29,21 @@
         background-color: #ffffff;
       }
       .custom-space{
-        padding-bottom: 500px;
+        padding-bottom: 20px;
       }
       .container {
        
       }
-      .tab {
-        text-align: center;
-        cursor: pointer;
-        color: rgb(31, 87, 209);
-        padding: 15px;
-      }
-      .active-tab {
-        border-bottom: 2px solid rgb(31, 87, 209);
-        font-weight: bold;
-      }
+     
+      @keyframes showBorder {
+  0% {
+    border-bottom: 0;
+  }
+  100% {
+    border-bottom: 2px solid rgb(31, 87, 209);
+  }
+}
+
       .button {
         padding: 10px 15px;
         background-color: rgb(31, 87, 209);
@@ -71,9 +71,9 @@
     animation-iteration-count: infinite;
     animation-name: shimmer;
     animation-timing-function: linear;
-    background: #999fa1; /* Base background color */
+    background: #fcfdfd; /* Base background color */
     background: linear-gradient(to right, #E0E0E0 8%, #D0D0D0 18%, #E0E0E0 33%); /* Adjusted gradient colors */
-    background-size: 1200px 100%;
+    background-size: 500px 100%;
 }
 @-webkit-keyframes shimmer {
     0% {
@@ -86,10 +86,10 @@
 
 @keyframes shimmer {
     0% {
-        background-position: -1200px 0;
+        background-position: -500px 0;
     }
     100% {
-        background-position: 1200px 0;
+        background-position: 500px 0;
     }
 }
   
@@ -139,6 +139,71 @@
         to {
           opacity: 1;
         }
+      }
+      .tab {
+    text-align: center;
+    cursor: pointer;
+    color: rgb(31, 87, 209);
+    padding: 15px;
+    transition: color 0.3s ease-in-out; /* Smooth color transition */
+}
+
+.active-tab {
+    border-bottom: 2px solid rgb(31, 87, 209);
+    transition: left 2s ease-in-out; 
+    font-weight: bold;
+}
+
+.indicator {
+    position: absolute;
+    bottom: 0; /* Position it at the bottom of the tabs */
+    left: 0; /* Start at the left */
+    height: 2px; /* Height of the indicator */
+    width: 100px; /* Width of the indicator (adjust as needed) */
+    background-color: rgb(31, 87, 209); /* Color of the indicator */
+    transition: left 2s ease-in-out; /* Smooth left transition */
+}
+
+
+      /* Hide radio buttons */
+      input[type="radio"] {
+        display: none;
+      }
+
+      /* Tab content styling */
+      .tab-content .content {
+        display: none;
+      }
+
+      #tab1:checked ~ .tab-titles ~ .tab-content #content1,
+      #tab2:checked ~ .tab-titles ~ .tab-content #content2 {
+        display: block;
+      }
+
+      /* Border animation */
+      .tab-titles {
+        position: relative;
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .tab-titles:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50%; /* Adjust to the number of tabs */
+        height: 2px;
+        background-color: #3498db;
+        transition: left 0.3s ease-in-out;
+      }
+
+      #tab1:checked ~ .tab-titles:before {
+        left: 0%;
+      }
+
+      #tab2:checked ~ .tab-titles:before {
+        left: 50%;
       }
 
     </style>
@@ -435,23 +500,17 @@ background-color:  #e2e2e2;
           </div>
         </div>
 
-          <div class="grid grid-cols-12 px-2 bg-white">
-            <div
-              id="open-tickets-tab"
-              class="col-span-6 tab cursor-pointer text-center text-blue-400 p-4"
-              onclick="getTabId(1)"
-            >
-              Open Tickets (<span id="open-tickets-count">0</span>)
-            </div>
-            <div
-              id="resolved-tickets-tab"
-              class="col-span-6 tab cursor-pointer text-center text-blue-400 p-4"
-              onclick="getTabId(2)"
-            >
-              Resolved Tickets (<span id="resolved-tickets-count">0</span>)
-            </div>
+          <div class="tabs grid grid-cols-12 px-2 bg-white">
+            <input type="radio" id="tab1" name="tab" checked />
+            <input type="radio" id="tab2" name="tab" />
+            <div class="tab active-tab col-span-6" id="open-tickets-tab" onclick="getTabId(1)">
+              <label for="tab1">Open Tickets (<span id="open-tickets-count">0</span>)</label>
           </div>
+          <div class="tab col-span-6" id="resolved-tickets-tab" onclick="getTabId(2)">
+            <label for="tab2">Resolved Tickets (<span id="resolved-tickets-count">0</span>)</label>
         </div>
+          </div>
+        
         </div>
        
         <div class="card  ">
@@ -756,7 +815,7 @@ background-color:  #e2e2e2;
             <div id="resolved" class="container mx-auto p-4">
               <div id="ticket-container" class="md:flex md:gap-8">
                 <div class=" md:bg-white md:py-5 w-full md:w-[90%]">
-                  <div id="ticket-list" class="w-full min-h-screen">
+                  <div id="ticket-list" class="w-full">
                     <!-- Tickets will be dynamically generated here -->
                   </div>
                 </div>
