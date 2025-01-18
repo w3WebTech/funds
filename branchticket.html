@@ -147,7 +147,7 @@
                     ticketDiv.onclick = () => {
                         // Remove the '#' character from the ticket number
                         const cleanTicketNumber = ticket.number.replace('#', ''); // Remove the '#' character
-                        window.location.href = `http://127.0.0.1:5500/branchticketdetails.html?ticketNo=${cleanTicketNumber}&clientCode=${branch.name}`;
+                        window.location.href = `https://funds-plum.vercel.app/branchticketdetails.html?ticketNo=${cleanTicketNumber}&clientCode=${branch.name}`;
                     };
                     document.getElementById(`${branch.name}-tickets`).appendChild(ticketDiv);
                 });
