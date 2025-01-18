@@ -1,159 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <title>Ticket Management</title>
-    <style>
-        body {
-            font-family: "Roboto", sans-serif;
-            margin: 0;
-            background-color: #fafbff;
-        }
-        .hidden {
-            display: none;
-        }
-        .tabs {
-            display: flex;
-            position: relative;
-        }
-        .tab {
-            text-align: center;
-            cursor: pointer;
-            color: rgb(31, 87, 209);
-            padding: 15px;
-            position: relative;
-            transition: color 0.3s ease-in-out; /* Smooth color transition */
-        }
-        .active-tab {
-            font-weight: bold;
-            color: rgb(31, 87, 209);
-        }
-        .indicator {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: rgb(31, 87, 209);
-            transition: left 0.3s ease-in-out; /* Smooth left transition */
-        }
-        .button {
-            padding: 10px 15px;
-            background-color: rgb(31, 87, 209);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .button:hover {
-            background-color: #2741b6;
-        }
-        /* Additional styles omitted for brevity */
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Ticket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
-    <div id="loading" class="rounded-md">
-        <div class="my-2 rounded-lg mx-2 shimmer" style="width: 200px; height: 40px; background-color: #ecebeb;"></div>
-        <div class="my-2 rounded-lg mx-2 shimmer" style="width: 300px; height: 40px; background-color: #ecebeb;"></div>
-        <div class="flex shimmer mx-3 rounded-md">
-            <div class="my-2 rounded-lg mx-2 shimmer" style="width: 200px; height: 40px; background-color: #ecebeb;"></div>
-            <div class="my-2 rounded-lg mx-2 shimmer" style="width: 200px; height: 40px; background-color: #ecebeb;"></div>
+<body class="bg-gray-100">
+    <div class="max-w-5xl mx-auto p-4">
+        <div class="flex items-center justify-between mb-4">
+            <a href="#" class="text-lg font-semibold" id="ticketNumber">&lt; #8424060</a>
+            <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full" id="ticketStatus">CLOSED</span>
+        </div>
+        <div class="space-y-4" id="messagesContainer">
+            <!-- Messages will be dynamically generated here -->
+        </div>
+        <div class="mt-8">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-lg font-semibold mb-2">FAQ</h2>
+                <ul class="space-y-2">
+                    <li class="flex justify-between items-center">
+                        <a href="#" class="text-blue-500">Account Details</a>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <a href="#" class="text-blue-500">Brokage and Other Charges</a>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <a href="#" class="text-blue-500">Funds & Account Balance</a>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <a href="#" class="text-blue-500">IPO & OFS and Mutual Fund</a>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </li>
+                </ul>
+                <div class="text-right mt-4">
+                    <a href="#" class="text-blue-500">SEE MORE <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="app" class="hidden">
-        <div class="tabs">
-            <div class="tab active-tab" id="open-tickets-tab" onclick="getTabId(1)">Open Tickets (<span id="open-tickets-count">0</span>)</div>
-            <div class="tab" id="resolved-tickets-tab" onclick="getTabId(2)">Resolved Tickets (<span id="resolved-tickets-count">0</span>)</div>
-            <div class="indicator"></div> <!-- This will be the moving indicator -->
-        </div>
-        <div id="ticket-content" class="hidden">
-            <!-- Ticket content goes here -->
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const activeTab = document.querySelector(".active-tab");
-            const indicator = document.querySelector(".indicator");
-            indicator.style.left = `${activeTab.offsetLeft}px`; // Set initial position of the indicator
+        // Function to get query parameters from the URL
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            const ticketNo = params.get('ticketNo').replace('#', ''); // Remove '#' if present
+            const clientCode = params.get('clientCode');
+            console.log("Extracted Params:", { ticketNo, clientCode });
+            return { ticketNo, clientCode };
+        }
 
-            // Fetch tickets and other initialization code...
-            fetchTickets();
-        });
-
-        window.getTabId = function (id) {
-            const openTab = document.getElementById("open-tickets-tab");
-            const resolvedTab = document.getElementById("resolved-tickets-tab");
-            const indicator = document.querySelector(".indicator");
-
-            openTab.classList.remove("active-tab");
-            resolvedTab.classList.remove("active-tab");
-
-            if (id === 1) {
-                openTab.classList.add("active-tab");
-                indicator.style.left = "0"; // Move indicator to the left for open tab
-                fetchTicketContent("open");
-            } else if (id === 2) {
-                resolvedTab.classList.add("active-tab");
-                indicator.style.left = `${resolvedTab.offsetLeft}px`; // Move indicator to the resolved tab's position
-                fetchTicketContent("resolved");
-            }
-        };
-
-        function fetchTickets() {
-            const emailId = localStorage.getItem("clientemail");
+        // Function to fetch ticket status messages
+        async function fetchTicketStatusMessages(ticketNo, clientCode) {
+            const apiUrl = 'https://g1.gwcindia.in/ticket-api/get-ticket-status-messages.php';
             const formData = new FormData();
-            formData.append("emailId", emailId);
+            formData.append("ticket_no", ticketNo);
+            formData.append("clientcode", clientCode);
 
-            axios.post("https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php", formData)
-                .then((response) => {
-                    const openTicketsCount = response.data.data.filter(item => item.status.name === "Open" || item.status.name === "In-Progress");
-                    const resolvedTickets = response.data.data.filter(item => item.status.name === "Closed" || item.status.name === "Awaiting Reply");
-                    updateTicketCounts(openTicketsCount.length, resolvedTickets.length);
-                })
-                .catch((error) => {
-                    console.error(error.message || "An error occurred");
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    body: formData,
                 });
-        }
 
-        function updateTicketCounts(openCount, resolvedCount) {
-            document.getElementById("open-tickets-count").textContent = openCount;
-            document.getElementById("resolved-tickets-count").textContent = resolvedCount;
-            if (openCount > 0) {
-                document.getElementById("create-ticket-button").classList.remove("hidden");
-                document.getElementById("fixed-create-ticket-button").classList.remove("hidden");
+                const data = await response.json();
+                if (response.ok) {
+                    if (data.status === "ok") {
+                        return data.messages; // Assuming the response contains a 'messages' array
+                    } else {
+                        console.error("API Error:", data.message || "Unknown error");
+                        return [];
+                    }
+                } else {
+                    console.error("HTTP Error:", response.status, response.statusText);
+                    return [];
+                }
+            } catch (error) {
+                console.error("Error fetching messages:", error);
+                return [];
             }
         }
 
-        function fetchTicketContent(tab) {
-    const emailId = localStorage.getItem("clientemail");
-    const formData = new FormData();
-    formData.append("emailId", emailId);
+        // Function to display messages
+        function displayMessages(messages) {
+            const messagesContainer = document.getElementById('messagesContainer');
+            messagesContainer.innerHTML = ''; // Clear previous messages
 
-    axios.post("https://g1.gwcindia.in/ticket-api/get-user-all-tickets.php", formData)
-        .then((response) => {
-            openTicketsCount = response.data.data.filter(
-                (item) => item.status.name === "Open" || item.status.name === "In-Progress"
-            );
-            resolvedTickets = response.data.data.filter((item) => item.status.name === "Closed" || item.status.name === "Awaiting Reply" );
-            const tickets = tab === "open" ? openTicketsCount : resolvedTickets;
-            updateTicketList(tickets);
-        })
-        .catch((error) => {
-            console.error(error.message || "An error occurred");
-        });
-}
-
-
-        function formatDate(timestamp) {
-            const date = new Date(timestamp * 1000);
-            return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+            messages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex items-start space-x-4 bg-white p-4 rounded-lg shadow mb-4';
+                messageDiv.innerHTML = `
+                    <div class="flex-shrink-0">
+                        <div class="bg-blue-200 text -blue-800 rounded-full w-10 h-10 flex items-center justify-center font-bold">${message.sender.charAt(0)}</div>
+                    </div>
+                    <div class="flex-1">
+                        <p>${message.content}</p>
+                    </div>
+                    <div class="text-gray-500 text-sm">${new Date(message.timestamp).toLocaleString()}</div>
+                `;
+                messagesContainer.appendChild(messageDiv);
+            });
         }
+
+        // Main function to initialize the page
+        async function init() {
+            const { ticketNo, clientCode } = getQueryParams();
+            const ticketNumberElement = document.getElementById('ticketNumber');
+
+            if (ticketNo && clientCode) {
+                ticketNumberElement.textContent = `#${ticketNo}`;
+                const messages = await fetchTicketStatusMessages(ticketNo, clientCode);
+                displayMessages(messages);
+            } else {
+                ticketNumberElement.textContent = "Error: Ticket number or client code is missing.";
+                console.error("Ticket number or client code is missing.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", init);
     </script>
 </body>
 </html>

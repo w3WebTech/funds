@@ -1,138 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Support Ticket</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-</head>
-<body class="bg-gray-100">
-    <div class="max-w-7xl mx-auto p-4">
-        <div class="flex items-center mb-4">
-            <i class="fas fa-arrow-left text-xl" onclick="window.history.back();"></i>
-            <span class="ml-2 text-lg font-semibold" id="ticketNumber">#8424060</span>
-            <span class="ml-auto bg-green-200 text-green-800 px-3 py-1 rounded" id="ticketStatus">CLOSED</span>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Shimmer effect styles */
+      .shimmer {
+        position: relative;
+        overflow: hidden;
+        background: #f6f7f8;
+      }
+      .shimmer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.2) 100%);
+        animation: loading 1.5s infinite;
+      }
+      @keyframes loading {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body class="">
+    <div class="mx-auto w-[90%]">
+      <div class="flex items-center text-sm bg-gray-50 py-5">
+        <div onclick="window.history.back();">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="black"
+            class="h-6 w-6 font-bold"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
         </div>
-        <div class="flex flex-col lg:flex-row">
-            <div class="flex-1 lg:mr-4" id="messagesContainer">
-                <!-- Messages will be dynamically generated here -->
+
+        <span class="ml-2 font-semibold" id="ticketNumber">#8424060</span>
+        <span
+          class="ml-auto bg-green-200 text-green-800 px-3 py-1 rounded"
+          id="ticketStatus"
+          >CLOSED</span
+        >
+      </div>
+      <div class="flex flex-col lg:flex-row">
+        <div class="flex-1 lg:mr-4" id="messagesContainer">
+          <!-- Shimmer loading effect -->
+          <div class="shimmer p-4 rounded-lg shadow my-4">
+            <div class="flex justify-between">
+              <div class="flex-shrink-0">
+                <div class="bg-gray-200 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
+              </div>
+           
             </div>
-            <div class="w-full lg:w-1/3">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h2 class="text-lg font-semibold mb-2">FAQ</h2>
-                    <ul class="space-y-2">
-                        <li class="flex justify-between items-center">
-                            <span>Account Details</span>
-                            <i class="fas fa-chevron-right text-gray-500"></i>
-                        </li>
-                        <li class="flex justify-between items-center">
-                            <span>Brokage and Other Charges</span>
-                            <i class="fas fa-chevron-right text-gray-500"></i>
-                        </li>
-                        <li class="flex justify-between items-center">
-                            <span>Funds &amp; Account Balance</span>
-                            <i class="fas fa-chevron-right text-gray-500"></i>
-                        </li>
-                        <li class="flex justify-between items-center">
-                            <span>IPO &amp; OFS and Mutual Fund</span>
-                            <i class="fas fa-chevron-right text-gray-500"></i>
-                        </li>
-                    </ul>
-                    <div class="text-right mt-4">
-                        <a class="text-blue-500" href="#">SEE MORE <i class="fas fa-chevron-right"></i></a>
-                    </div>
-                </div>
+            <div class="py-3 px-2">
+              <p class="h-4 bg-gray-200 rounded w-3/4 my-2"></p>
+              <p class="h-4 bg-gray-200 rounded w-3/4 my-2"></p>
+             
             </div>
+          </div>
+          <div class="shimmer p-4 rounded-lg shadow my-4">
+            <div class="flex justify-between">
+              <div class="flex-shrink-0">
+                <div class="bg-gray-200 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
+              </div>
+           
+            </div>
+            <div class="py-3 px-2">
+              <p class="h-4 bg-gray-200 rounded w-3/4 my-2"></p>
+              <p class="h-4 bg-gray-200 rounded w-3/4 my-2"></p>
+             
+            </div>
+          </div>
+          <div class="shimmer p-4 rounded-lg shadow my-4">
+            <div class="flex justify-between">
+              <div class="flex-shrink-0">
+                <div class="bg-gray-200 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold"></div>
+              </div>
+           
+            </div>
+            <div class="py-3 px-2">
+              <p class="h-4 bg-gray-200 rounded w-3/4 my-2"></p>
+              <p class="h-4 bg-gray-200 rounded w-3/4 my-2"></p>
+             
+            </div>
+          </div>
+          
+
+          
+
         </div>
+        <div class="w-full lg:w-1/3">
+          <div class="bg-white p-4 m-4 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold mb-2">FAQ</h2>
+            <ul class="space-y-2">
+              <li class="flex justify-between items-center">
+                <span>Account Details</span>
+                <i class="fas fa-chevron-right text-gray-500"></i>
+              </li>
+              <li class="flex justify-between items-center">
+                <span>Brokage and Other Charges</span>
+                <i class="fas fa-chevron-right text-gray-500"></i>
+              </li>
+              <li class="flex justify-between items-center">
+                <span>Funds &amp; Account Balance</span>
+                <i class="fas fa-chevron-right text-gray-500"></i>
+              </li>
+              <li class="flex justify-between items-center">
+                <span>IPO &amp; OFS and Mutual Fund</span>
+                <i class="fas fa-chevron-right text-gray-500"></i>
+              </li>
+            </ul>
+          </div>
+          <div class="text-right mt-4 mx-5 ">
+            <a class="text-blue-500 font-bold" href="#"
+              >SEE MORE <i class="fas fa-chevron-right"></i
+            ></a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Function to get query parameters from the URL
-        function getQueryParams() {
-            const params = new URLSearchParams(window.location.search);
-            const ticketNo = params.get('ticketNo');
-            const clientCode = params.get('clientCode');
-            console.log("Extracted Params:", { ticketNo, clientCode }); // Log the extracted parameters
-            return {
-                ticketNo,
-                clientCode
-            };
-        }
+      // Function to get query parameters from the URL
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        const ticketNo = params.get("ticketNo");
+        const clientCode = params.get("clientCode");
+        console.log("Extracted Params:", { ticketNo, clientCode });
+        return { ticketNo, clientCode };
+      }
 
-        // Function to fetch ticket status messages
-        async function fetchTicketStatusMessages(ticketNo, clientCode) {
-            const apiUrl = 'https://g1.gwcindia.in/ticket-api/get-ticket-status-messages.php';
-            const requestData = {
-                ticket_no: ticketNo,
-                clientcode: clientCode
-            };
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type ': 'application/json'
-                    },
-                    body: JSON.stringify(requestData)
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    if (data.status === "ok") {
-                        return data.messages; // Assuming the response contains a 'messages' array
-                    } else {
-                        console.error("API Error:", data.message || "Unknown error");
-                        return [];
-                    }
-                } else {
-                    console.error("HTTP Error:", response.status, response.statusText);
-                    return [];
-                }
-            } catch (error) {
-                console.error("Error fetching messages:", error);
-                return [];
-            }
-        }
+      // Function to fetch ticket status messages
+      async function fetchTicketStatusMessages(ticketNo, clientCode) {
+        const apiUrl =
+          "https://g1.gwcindia.in/ticket-api/get-ticket-status-messages.php";
+        const formData = new FormData();
+        formData.append("ticket_no", ticketNo);
+        formData.append("clientcode", clientCode);
 
-        // Function to display messages
-        function displayMessages(messages) {
-            const messagesContainer = document.getElementById('messagesContainer');
-            messagesContainer.innerHTML = ''; // Clear previous messages
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            body: formData,
+          });
 
-            messages.forEach(message => {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'bg-white p-4 rounded-lg shadow-md mb-4';
-                messageDiv.innerHTML = `
-                    <div class="flex items-start">
-                        <div class="bg-blue-200 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center font-bold">${message.sender}</div>
-                        <div class="ml-4 flex-1">
-                            <p>${message.content}</p>
-                        </div>
-                        <div class="text-gray-500 text-sm">${new Date(message.timestamp).toLocaleString()}</div>
-                    </div>`;
-                messagesContainer.appendChild(messageDiv);
-            });
-        }
-
-        // Main function to initialize the page
-        async function init() {
-            const { ticketNo, clientCode } = getQueryParams();
-            document.getElementById('ticketNumber').textContent = `#${ticketNo}`;
-            // Fetch and display messages
-            if (ticketNo && clientCode) {
-                const messages = await fetchTicketStatusMessages(ticketNo, clientCode);
-                displayMessages(messages);
+          const data = await response.json();
+          if (response.ok) {
+            if (data.status === "ok") {
+              return data.data; // Return the 'data' array from the response
             } else {
-                console.error("Ticket number or client code is missing.");
+              console.error("API Error:", data.message || "Unknown error");
+              return [];
             }
+          } else {
+            console.error("HTTP Error:", response.status, response.statusText);
+            return [];
+          }
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+          return [];
         }
+      }
 
-        document.addEventListener("DOMContentLoaded", init);
+      function displayMessages(messages) {
+        const messagesContainer = document.getElementById("messagesContainer");
+        messagesContainer.innerHTML = ""; // Clear previous messages
+
+        // Check if there are any messages
+        if (messages.length > 0) {
+          // Display the first message (0th index)
+          const firstMessage = messages[0];
+          const firstMessageDiv = document.createElement("div");
+          firstMessageDiv.className =
+            "bg-blue-100 p-4 rounded-lg shadow my-4";
+          const userInitial = firstMessage.user_name.trim()
+            ? firstMessage.user_name.charAt(0)
+            : "U"; // Check for empty or whitespace
+          firstMessageDiv.innerHTML = `
+        <div class="flex justify-between">
+            <div class="flex-shrink-0">
+                <div class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold">${userInitial}</div>
+            </div>
+             <div class="text-gray-500 text-sm">${new Date(
+               firstMessage.created_at * 1000
+             ).toLocaleString()}</div>
+             </div>
+            <div class="py-3 px-2">
+                <p>${firstMessage.purified_text || firstMessage.text}</p>
+            </div>
+        `;
+          messagesContainer.appendChild(firstMessageDiv);
+
+          // Show the goodwill message
+          const ticketDetails = document.createElement("div");
+          ticketDetails.className = "bg-gray-100 p-4 my-4 rounded-lg ";
+          ticketDetails.innerHTML = `
+         <div class="flex justify-between">
+            <div class="flex-shrink-0">
+                <img alt="Support team logo" class="rounded-full w-8 h-8" height="40" src="images/goodwill.jpeg" width="40"/>
+            </div>
+            <div class="text-gray-400 text-sm mt-2">
+                    ${new Date().toLocaleString()} 
+                </div></div>
+            <div class="py-3 px-2">
+                <p class="text-gray-700">
+                    Your ticket has been created successfully. Our support team will get back to you in 24-48 business hours.
+                </p>
+            </div>
+        `;
+          messagesContainer.appendChild(ticketDetails);
+
+          // Display the remaining messages starting from the 1st index
+          for (let i = 1; i < messages.length; i++) {
+            const message = messages[i];
+            const messageDiv = document.createElement("div");
+            messageDiv.className =
+              "bg-blue-100 p-4 rounded-lg shadow mb-4";
+            const remainingUserInitial = message.user_name.trim()
+              ? message.user_name.charAt(0)
+              : "U"; // Check for empty or whitespace
+            messageDiv.innerHTML = `
+             <div class="flex justify-between">
+                <div class="flex-shrink-0">
+                    <div class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold">${remainingUserInitial}</div>
+                </div>
+                 <div class="text-gray-500 text-sm">${new Date(
+                  message.created_at * 1000
+                ).toLocaleString()}</div>
+                </div>
+                <div class="py-3 px-2">
+                    <p>${message.purified_text || message.text}</p>
+                </div>
+            `;
+            messagesContainer.appendChild(messageDiv);
+          }
+        }
+      }
+      async function init() {
+        const { ticketNo, clientCode } = getQueryParams();
+        const ticketNumberElement = document.getElementById("ticketNumber");
+
+        if (ticketNo && clientCode) {
+          ticketNumberElement.textContent = `#${ticketNo}`;
+          const messages = await fetchTicketStatusMessages(
+            ticketNo,
+            clientCode
+          );
+          displayMessages(messages);
+        } else {
+          ticketNumberElement.textContent =
+            "Error: Ticket number or client code is missing.";
+          console.error("Ticket number or client code is missing.");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", init);
     </script>
-</body>
+  </body>
 </html>
-
-
-
-
-
-

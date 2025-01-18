@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body class="bg-gray-50">
-    <div class="container mx-auto p-4">
-        <div class="flex justify-start border-b border-gray-300 mb-4">
+    <div class="container mx-auto w-[90%]  p-4">
+        <div class="flex justify-start border-b border-gray-300 mb-4 my-6 text-sm">
             <button id="openTicketsTab" class="px-4 py-2 text-blue-500" onclick="showOpenTickets()">Branch Open Tickets (0)</button>
             <button id="resolvedTicketsTab" class="px-4 py-2 text-blue-500 border-b-2 border-blue-500" onclick="showResolvedTickets()">Branch Resolved Tickets (0)</button>
         </div>
-        <div class="flex justify-center mb-4">
-            <input type="text" id="searchInput" placeholder="Search by Clientcode / Ticket No" class="w-full p-2 border border-gray-300 rounded" oninput="filterTickets()">
-        </div>
-        <div id="ticketContainer" class="space-y-4">
-            <!-- Tickets will be dynamically generated here -->
+        <div class="container ml-[100px] w-[50%]">
+            <div class="flex justify-center  mt-10 mb-5">
+                <input type="text" id="searchInput" placeholder="Search by Clientcode / Ticket No" class="w-full p-2 py-3 border border-gray-300  font-semibold rounded" oninput="filterTickets()">
+            </div>
+            <div id="ticketContainer" class="space-y-4">
+                <!-- Tickets will be dynamically generated here -->
+            </div>
         </div>
     </div>
 
@@ -27,10 +29,17 @@
         };
 
         let currentTab = 'resolved'; // Default to resolved tickets
+        let branchCode = ''; // To hold branch code from URL
+        let createdBy = ''; // To hold created by from URL
+
+        // Function to get query parameters from the URL
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            branchCode = params.get('branchCode') || 'DEFAULT_BRANCH'; // Default value if not found
+            createdBy = params.get('createdBy') || 'DEFAULT_CREATED_BY'; // Default value if not found
+        }
 
         async function fetchResolvedTickets() {
-            const branchCode = 'HOSUR'; // You can replace this with dynamic data from router params
-            const createdBy = 'BRANCH'; // You can replace this with dynamic data from router params
             const apiUrl = `https://g1.gwcindia.in/ticket-api/resolved-tickets.php?branchCode=${branchCode}&createdBy=${createdBy}`;
 
             try {
@@ -55,8 +64,6 @@
         }
 
         async function fetchOpenTickets() {
-            const branchCode = 'HOSUR'; // You can replace this with dynamic data from router params
-            const createdBy = 'BRANCH'; // You can replace this with dynamic data from router params
             const apiUrl = `https://g1.gwcindia.in/ticket-api/open-tickets.php?branchCode=${branchCode}&createdBy=${createdBy}`;
 
             try {
@@ -83,24 +90,42 @@
         function showOpenTickets() {
             currentTab = 'open';
             fetchOpenTickets(); // Fetch open tickets when the tab is clicked
-            document.getElementById('openTicketsTab').classList.add('border-b-2', 'border-blue-500');
-            document.getElementById('resolvedTicketsTab').classList.remove('border-b- 2', 'border-blue-500');
+            document.getElementById('openTicketsTab').classList.add('border-b-2', 'border-blue-500', 'font-bold');
+            document.getElementById('resolvedTicketsTab').classList.remove('border-b-2', 'border-blue-500', 'font-bold');
         }
 
         function showResolvedTickets() {
             currentTab = 'resolved';
             fetchResolvedTickets(); // Fetch resolved tickets when the tab is clicked
-            document.getElementById('resolvedTicketsTab').classList.add('border-b-2', 'border-blue-500');
-            document.getElementById('openTicketsTab').classList.remove('border-b-2', 'border-blue-500');
+            document.getElementById('resolvedTicketsTab').classList.add('border-b-2', 'border-blue-500', 'font-bold');
+            document.getElementById('openTicketsTab').classList.remove('border-b-2', 'border-blue-500', 'font-bold');
         }
 
         function updateTicketDisplay() {
             const ticketContainer = document.getElementById('ticketContainer');
             ticketContainer.innerHTML = ''; // Clear previous tickets
 
+            if (ticketData.branches.length === 0 || ticketData.branches.every(branch => branch.tickets.length === 0)) {
+                // If there are no tickets available
+                const noTicketsMessage = document.createElement('div');
+                noTicketsMessage.className = 'text-center text-gray-500 font-semibold mt-4';
+
+                // Create an image element
+                const noTicketsImage = document.createElement('img');
+                noTicketsImage.src = 'images/logo.jpeg'; // Use a placeholder image for testing
+                noTicketsImage.alt = 'No Tickets Available';
+                noTicketsImage.className = 'mx-auto mb-2'; // Center the image and add some margin
+
+                // Append the image and message to the container
+                noTicketsMessage.appendChild(noTicketsImage);
+                noTicketsMessage.innerText += ' Ticket Not Available'; // Append the text after the image
+                ticketContainer.appendChild(noTicketsMessage);
+                return; // Exit the function early
+            }
+
             ticketData.branches.forEach(branch => {
                 const branchDiv = document.createElement('div');
-                branchDiv.className = 'bg-white p-4 rounded shadow cursor-pointer';
+                branchDiv.className = 'bg-gray-100 px-4 py-3 rounded shadow cursor-pointer border border-gray-200';
                 branchDiv.innerHTML = `
                     <div class="flex justify-between items-center">
                         <span class="font-bold">${branch.name}</span>
@@ -114,13 +139,15 @@
                 // Populate tickets based on the current tab
                 branch.tickets.forEach(ticket => {
                     const ticketDiv = document.createElement('div');
-                    ticketDiv.className = 'flex justify-between items-center p-2 bg-gray-100 rounded cursor-pointer';
+                    ticketDiv.className = 'flex justify-between items-center p-3 my-2 bg-white border border-gray-100 rounded-md cursor-pointer';
                     ticketDiv.innerHTML = `
                         <span>${ticket.number}</span>
-                        <span class="${ticket.status === 'CLOSED' ? 'text-green-500' : 'text-red-500'}">${ticket.status}</span>
+                        <span class="${ticket.status === 'CLOSED' ? 'text-green-500 bg-green-100 text-sm px-2' : 'text-red-500 bg-red-100 text-sm px-2'}">${ticket.status}</span>
                     `;
                     ticketDiv.onclick = () => {
-                        window.location.href = `http://127.0.0.1:5500/branchticketdetails.html?ticketNo=${ticket.number}&clientCode=${branch.name}`;
+                        // Remove the '#' character from the ticket number
+                        const cleanTicketNumber = ticket.number.replace('#', ''); // Remove the '#' character
+                        window.location.href = `http://127.0.0.1:5500/branchticketdetails.html?ticketNo=${cleanTicketNumber}&clientCode=${branch.name}`;
                     };
                     document.getElementById(`${branch.name}-tickets`).appendChild(ticketDiv);
                 });
@@ -161,7 +188,7 @@
                             <span class="${ticket.status === 'CLOSED' ? 'text-green-500' : 'text-red-500'}">${ticket.status}</span>
                         `;
                         ticketDiv.onclick = () => {
-                            window.location.href = `C:\\Users\\W3Dev\\Desktop\\funds\\branchticketdetails.html?ticketNo=${ticket.number}&clientCode=${branch.name}`;
+                            window.location.href = `http://127.0.0.1:5500/branchticketdetails.html?ticketNo=${ticket.number.replace('#', '')}&clientCode=${branch.name}`;
                         };
                         document.getElementById(`${branch.name}-tickets`).appendChild(ticketDiv);
                     });
@@ -175,7 +202,10 @@
         }
 
         // Fetch resolved tickets on page load
-        window.onload = fetchResolvedTickets;
+        window.onload = () => {
+            getQueryParams(); // Get parameters from URL
+            fetchResolvedTickets(); // Fetch resolved tickets
+        };
     </script>
 </body>
 </html>
