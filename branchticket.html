@@ -47,21 +47,21 @@
         let ticketData = {
             "branches": []
         };
-
+    
         let currentTab = 'resolved'; // Default to resolved tickets
         let branchCode = ''; // To hold branch code from URL
         let createdBy = ''; // To hold created by from URL
-
+    
         // Function to get query parameters from the URL
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             branchCode = params.get('branchCode') || 'DEFAULT_BRANCH'; // Default value if not found
             createdBy = params.get('createdBy') || 'DEFAULT_CREATED_BY'; // Default value if not found
         }
-
+    
         async function fetchResolvedTickets() {
             const apiUrl = `https://g1.gwcindia.in/ticket-api/resolved-tickets.php?branchCode=${branchCode}&createdBy=${createdBy}`;
-
+    
             try {
                 const response = await fetch(apiUrl);
                 const data = await response.json();
@@ -82,10 +82,10 @@
                 console.error("Error fetching tickets:", error);
             }
         }
-
+    
         async function fetchOpenTickets() {
             const apiUrl = `https://g1.gwcindia.in/ticket-api/open-tickets.php?branchCode=${branchCode}&createdBy=${createdBy}`;
-
+    
             try {
                 const response = await fetch(apiUrl);
                 const data = await response.json();
@@ -106,7 +106,7 @@
                 console.error("Error fetching tickets:", error);
             }
         }
-
+    
         function showOpenTickets() {
             currentTab = 'open';
             fetchOpenTickets(); // Fetch open tickets when the tab is clicked
@@ -114,7 +114,7 @@
             document.getElementById('openTicketsTab').classList.add('border-b-2', 'border-blue-500', 'font-bold');
             document.getElementById('resolvedTicketsTab').classList.remove('border-b-2', 'border-blue-500', 'font-bold');
         }
-
+    
         function showResolvedTickets() {
             currentTab = 'resolved';
             fetchResolvedTickets(); // Fetch resolved tickets when the tab is clicked
@@ -122,7 +122,7 @@
             document.getElementById('resolvedTicketsTab').classList.add('border-b-2', 'border-blue-500', 'font-bold');
             document.getElementById('openTicketsTab').classList.remove('border-b-2', 'border-blue-500', 'font-bold');
         }
-
+    
         function animateTab(tabId) {
             const tab = document.getElementById(tabId);
             tab.classList.add('jump'); // Add the jump class
@@ -130,73 +130,83 @@
                 tab.classList.remove('jump'); // Remove the jump class after animation
             }, 500); // Match the duration of the animation
         }
-
+    
         function updateTicketDisplay() {
-            const ticketContainer = document.getElementById('ticketContainer');
-            ticketContainer.innerHTML = ''; // Clear previous tickets
+    const ticketContainer = document.getElementById('ticketContainer');
+    ticketContainer.innerHTML = ''; // Clear previous tickets
 
-            if (ticketData.branches.length === 0 || ticketData.branches.every(branch => branch.tickets.length === 0)) {
-                // If there are no tickets available
-                const noTicketsMessage = document.createElement('div');
-                noTicketsMessage.className = 'text-center text-gray-500 font-semibold mt-4';
+    if (ticketData.branches.length === 0 || ticketData.branches.every(branch => branch.tickets.length === 0)) {
+        // If there are no tickets available
+        const noTicketsMessage = document.createElement('div');
+        noTicketsMessage.className = 'text-center text-gray-500 font-semibold mt-4';
 
-                // Create an image element
-                const noTicketsImage = document.createElement('img');
-                noTicketsImage.src = 'images/logo.jpeg'; // Use a placeholder image for testing
-                noTicketsImage.alt = 'No Tickets Available';
-                noTicketsImage.className = 'mx-auto mb-2'; // Center the image and add some margin
+        // Create an image element
+        const noTicketsImage = document.createElement('img');
+        noTicketsImage.src = 'images/logo.jpeg'; // Use a placeholder image for testing
+        noTicketsImage.alt = 'No Tickets Available';
+        noTicketsImage.className = 'mx-auto mb-2'; // Center the image and add some margin
 
-                // Append the image and message to the container
-                noTicketsMessage.appendChild(noTicketsImage);
-                noTicketsMessage.innerText += ' Ticket Not Available'; // Append the text after the image
-                ticketContainer.appendChild(noTicketsMessage);
-                return; // Exit the function early
-            }
+        // Append the image and message to the container
+        noTicketsMessage.appendChild(noTicketsImage);
+        noTicketsMessage.innerText += ' Ticket Not Available'; // Append the text after the image
+        ticketContainer.appendChild(noTicketsMessage);
+        return; // Exit the function early
+    }
 
-            ticketData.branches.forEach(branch => {
-                const branchDiv = document.createElement('div');
-                branchDiv.className = 'bg-gray-100 px-4 py-3 rounded shadow cursor-pointer border border-gray-200 jump'; // Add the jump class
-                branchDiv.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold">${branch.name}</span>
-                        <i class="fas fa-chevron-down cursor-pointer" onclick="toggleTickets('${branch.name}')"></i>
-                    </div>
-                    <div id="${branch.name}-tickets" class="hidden mt-2 space-y-2">
-                    </div> 
-                `;
-                ticketContainer.appendChild(branchDiv);
+    // Create a map to group tickets by clientCode
+    const groupedTickets = {};
 
-                // Populate tickets based on the current tab
-                branch.tickets.forEach(ticket => {
-                    const ticketDiv = document.createElement('div');
-                    ticketDiv.className = 'flex justify-between items-center p-3 my-2 bg-white border border-gray-100 rounded-md cursor-pointer jump'; // Add the jump class
-                    ticketDiv.innerHTML = `
-                        <span>${ticket.number}</span>
-                        <span class="${ticket.status === 'CLOSED' ? 'text-green-500 bg-green-100 text-sm px-2' : 'text-red-500 bg-red-100 text-sm px-2'}">${ticket.status}</span>
-                    `;
-                    ticketDiv.onclick = () => {
-                        // Remove the '#' character from the ticket number
-                        const cleanTicketNumber = ticket.number.replace('#', ''); // Remove the '#' character
-                        window.location.href = `https://funds-plum.vercel.app/branchticketdetails.html?ticketNo=${cleanTicketNumber}&clientCode=${branch.name}`;
-                    };
-                    document.getElementById(`${branch.name}-tickets`).appendChild(ticketDiv);
-                });
-            });
+    ticketData.branches.forEach(branch => {
+        if (!groupedTickets[branch.name]) {
+            groupedTickets[branch.name] = [];
         }
+        groupedTickets[branch.name] = groupedTickets[branch.name].concat(branch.tickets);
+    });
 
+    // Now render the grouped tickets
+    for (const clientCode in groupedTickets) {
+        const branchDiv = document.createElement('div');
+        branchDiv.className = 'bg-gray-100 px-4 py-3 rounded shadow cursor-pointer border border-gray-200 jump'; // Add the jump class
+        branchDiv.innerHTML = `
+            <div class="flex justify-between items-center">
+                <span class="font-bold">${clientCode}</span>
+                <i class="fas fa-chevron-down cursor-pointer" onclick="toggleTickets('${clientCode}')"></i>
+            </div>
+            <div id="${clientCode}-tickets" class="hidden mt-2 space-y-2">
+            </div> 
+        `;
+        ticketContainer.appendChild(branchDiv);
+
+        // Populate tickets for this clientCode
+        groupedTickets[clientCode].forEach(ticket => {
+            const ticketDiv = document.createElement('div');
+            ticketDiv.className = 'flex justify-between items-center p-3 my-2 bg-white border border-gray-100 rounded-md cursor-pointer jump'; // Add the jump class
+            ticketDiv.innerHTML = `
+                <span>${ticket.number}</span>
+                <span class="${ticket.status === 'CLOSED' ? 'text-green-500 bg-green-100 text-sm px-2' : 'text-red-500 bg-red-100 text-sm px-2'}">${ticket.status}</span>
+            `;
+            ticketDiv.onclick = () => {
+                // Remove the '#' character from the ticket number
+                const cleanTicketNumber = ticket.number.replace('#', ''); // Remove the '#' character
+                window.location.href = `https://funds-plum.vercel.app/branchticketdetails.html?ticketNo=${cleanTicketNumber}&clientCode=${clientCode}`;
+            };
+            document.getElementById(`${clientCode}-tickets`).appendChild(ticketDiv);
+        });
+    }
+}
         function filterTickets() {
             const searchValue = document.getElementById('searchInput').value.toLowerCase();
             const ticketContainer = document.getElementById('ticketContainer');
             const branches = ticketData.branches;
-
+    
             ticketContainer.innerHTML = ''; // Clear previous tickets
-
+    
             branches.forEach(branch => {
                 const filteredTickets = branch.tickets.filter(ticket => 
                     ticket.number.toLowerCase().includes(searchValue) || 
                     branch.name.toLowerCase().includes(searchValue)
                 );
-
+    
                 if (filteredTickets.length > 0) {
                     const branchDiv = document.createElement('div');
                     branchDiv.className = 'bg-white p-4 rounded shadow cursor-pointer '; // Add the jump class
@@ -209,7 +219,7 @@
                         </div>
                     `;
                     ticketContainer.appendChild(branchDiv);
-
+    
                     filteredTickets.forEach(ticket => {
                         const ticketDiv = document.createElement('div');
                         ticketDiv.className = 'flex justify-between items-center p-2 bg-gray-100 rounded cursor-pointer jump'; // Add the jump class
@@ -227,12 +237,12 @@
                 }
             });
         }
-
+    
         function toggleTickets(branchName) {
             const ticketsDiv = document.getElementById(`${branchName}-tickets`);
             ticketsDiv.classList.toggle('hidden');
         }
-
+    
         // Fetch resolved tickets on page load
         window.onload = () => {
             getQueryParams(); // Get parameters from URL
