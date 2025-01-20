@@ -33,9 +33,9 @@
             <button id="openTicketsTab" class="px-4 py-2 text-blue-500" onclick="showOpenTickets()">Branch Open Tickets (0)</button>
             <button id="resolvedTicketsTab" class="px-4 py-2 text-blue-500 border-b-2 border-blue-500" onclick="showResolvedTickets()">Branch Resolved Tickets (0)</button>
         </div>
-        <div class="container ml-[100px] w-[50%]">
+        <div class="container ml-[100px] w-[50%] jump">
             <div class="flex justify-center  mt-10 mb-5">
-                <input type="text" id="searchInput" placeholder="Search by Clientcode / Ticket No" class="w-full p-2 py-3 border border-gray-300  font-semibold rounded" oninput="filterTickets()">
+                <input type="text" id="searchInput" placeholder="Search by Clientcode / Ticket No" class="  w-full p-2 py-3 border border-gray-300  font-semibold rounded" oninput="filterTickets()">
             </div>
             <div id="ticketContainer" class="space-y-4">
                 <!-- Tickets will be dynamically generated here -->
@@ -199,7 +199,7 @@
 
                 if (filteredTickets.length > 0) {
                     const branchDiv = document.createElement('div');
-                    branchDiv.className = 'bg-white p-4 rounded shadow cursor-pointer jump'; // Add the jump class
+                    branchDiv.className = 'bg-white p-4 rounded shadow cursor-pointer '; // Add the jump class
                     branchDiv.innerHTML = `
                         <div class="flex justify-between items-center">
                             <span class="font-bold">${branch.name}</span>
@@ -218,7 +218,9 @@
                             <span class="${ticket.status === 'CLOSED' ? 'text-green-500' : 'text-red-500'}">${ticket.status}</span>
                         `;
                         ticketDiv.onclick = () => {
-                            window.location.href = `https://funds-plum.vercel.app/branchticketdetails.html?ticketNo=${ticket.number.replace('#', '')}&clientCode=${branch.name}`;
+                            window.location.href = `https://funds-plum.vercel.app/
+                            // 
+                            // branchticketdetails.html?ticketNo=${ticket.number.replace('#', '')}&clientCode=${branch.name}`;
                         };
                         document.getElementById(`${branch.name}-tickets`).appendChild(ticketDiv);
                     });
