@@ -173,35 +173,51 @@
     <!-- Small device -->
     <div class="block md:hidden">
       <div class="block md:hidden bg-blue-600 sm:relative sm:h-[100px]">
-        <div class="flex justify-center items-center text-center ">
-            <div class="w-screen">
-                <div class="mx-auto p-3   my-4 mb-20 rounded-md text-white font-bold">
-                    <nav class="absolute top-2 w-full ">
-                      <div class="flex justify-between p-4  font-bold text-xl">
-                        <div class="flex justify-between">
-                            <div class="mt-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                                    <path fill-rule="evenodd"
-                                        d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="px-5">Add Funds</div>
-                        </div>
-                        <div class="mr-4 mt-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor" class="h-6 w-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                            </svg>
-                        </div>
+        <div class="flex justify-center items-center text-center">
+          <div class="w-screen">
+            <div class="mx-auto p-3 my-4 mb-20 rounded-md text-white font-bold">
+              <nav class="absolute top-2 w-full">
+                <div class="flex justify-between p-4 font-bold text-xl">
+                  <div class="flex justify-between">
+                    <div class="mt-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="h-6 w-6"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
                     </div>
-                    </nav>
+                    <div class="px-5">Add Funds</div>
+                  </div>
+                  <div class="mr-4 mt-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      class="h-6 w-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+                      />
+                    </svg>
+                  </div>
                 </div>
+              </nav>
             </div>
+          </div>
         </div>
-    </div>
-       
+      </div>
+
       <div class="flex min-h-screen">
         <div class="absolute top-12">
           <div class="">
@@ -272,7 +288,9 @@
                               >
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                              <div class="bg-gray-100 rounded-md shadow-lg border border-gray-200 p-2">
+                              <div
+                                class="bg-gray-100 rounded-md shadow-lg border border-gray-200 p-2"
+                              >
                                 <div
                                   class="bg-gray-500 rounded-lg animate-pulse shimmer-effect my-2"
                                   style="width: 100%; height: 10px"
@@ -559,7 +577,7 @@
                             >
                               <div class="flex items-center">
                                 <i
-                                  class="fas fa-university text-gray-900 mr-2"
+                                  class="fas fa-university text-gray-500 mr-5 text-2xl"
                                 ></i>
                                 <div>
                                   <div
@@ -572,7 +590,10 @@
                                   </div>
                                 </div>
                               </div>
-                              <i class="fas fa-check-circle check-icon"></i>
+                              <i
+                                class="fas fa-check-circle check-icon"
+                                style="display: none"
+                              ></i>
                             </label>
                           </div>
                           <div>
@@ -900,119 +921,64 @@
         </div>
         <div id="accountSheet" class="hidden">
           <div class="p-4 bg-gray-100 rounded-t-2xl">
-            <div class="flex justify-between">
-              <div>
-                <h2 class="text-lg font-semibold mb-2 px-4 text-xl">
-                  Choose bank
-                </h2>
-              </div>
-            </div>
-            <div class=" ">
+              <h2 class="text-lg font-semibold mb-2">Choose Bank Account</h2>
               <div class="mb-10 w-full">
-                <div class="p-4">
-                  <div>
-                    <div
-                      class="mb-4 bg-blue-100"
-                      onclick="selectAccount('ICICI BANK LTD')"
-                    >
-                      <input
-                        type="radio"
-                        id="account1"
-                        name="selectedAccount"
-                        value="ICICI"
-                        class="custom-radio"
-                      />
-                      <label
-                        for="account1"
-                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
-                      >
-                        <div class="flex items-center">
-                          <i
-                            class="fas fa-university text-gray-500 mr-5 text-2xl"
-                          ></i>
-                          <div>
-                            <div class="text-gray-700 font-semibold text-sm">
-                              ICICI BANK LTD
-                            </div>
-                            <div class="text-gray-500 text-sm">●●●● 17436</div>
-                          </div>
-                        </div>
-                        <i
-                          class="fa-solid fa-circle-check text-green-500 text-2xl"
-                        ></i>
-                      </label>
-                    </div>
-                    <div
-                      class="mb-4 bg-white"
-                      onclick="selectAccount('HDFC BANK LTD')"
-                    >
-                      <input
-                        type="radio"
-                        id="account2"
-                        name="selectedAccount"
-                        value="HDFC"
-                        class="custom-radio"
-                      />
-                      <label
-                        for="account2"
-                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
-                      >
-                        <div class="flex items-center">
-                          <i
-                            class="fas fa-university text-gray-500 mr-5 text-2xl"
-                          ></i>
-                          <div>
-                            <div class="text-gray-700 font-semibold text-sm">
-                              HDFC BANK LTD
-                            </div>
-                            <div class="text-gray-500 text-sm">●●●● 689095</div>
-                          </div>
-                        </div>
-                        <i class="fas fa-check-circle check-icon"></i>
-                      </label>
-                    </div>
-                    <div
-                      class="mb-4 bg-white"
-                      onclick="selectAccount('SBI BANK LTD')"
-                    >
-                      <input
-                        type="radio"
-                        id="account3"
-                        name="selectedAccount"
-                        value="SBI"
-                        class="custom-radio"
-                      />
-                      <label
-                        for="account3"
-                        class="custom-radio-label flex items-center justify-between p-4 rounded-lg"
-                      >
-                        <div class="flex items-center">
-                          <i
-                            class="fas fa-university text-gray-500 mr-5 text-2xl"
-                          ></i>
-                          <div>
-                            <div class="text-gray-700 font-semibold text-sm">
-                              SBI BANK LTD
-                            </div>
-                            <div class="text-gray-500 text-sm">●●●● 12345</div>
-                          </div>
-                        </div>
-                        <i class="fas fa-check-circle check-icon"></i>
-                      </label>
-                    </div>
+                  <div class="p-4">
+                      <!-- ICICI Bank -->
+                      <div class="mb-4 bg-white">
+                          <input type="radio" id="account1" name="selectedAccount" value="ICICI" class="custom-radio" />
+                          <label for="account1" class="custom-radio-label flex items-center justify-between p-4 rounded-lg" onclick="selectAccount('ICICI BANK LTD')">
+                              <div class="flex items-center">
+                                  <i class="fas fa-university text-gray-500 mr-5 text-2xl"></i>
+                                  <div>
+                                      <div class="text-gray-700 font-semibold text-sm">ICICI BANK LTD</div>
+                                      <div class="text-gray-500 text-sm">●●●● 17436</div>
+                                  </div>
+                              </div>
+                              <i class="fa-solid fa-circle-check text-green-500 text-2xl check-icon" style="display: none"></i>
+                          </label>
+                      </div>
+      
+                      <!-- HDFC Bank -->
+                      <div class="mb-4 bg-white">
+                          <input type="radio" id="account2" name="selectedAccount" value="HDFC" class="custom-radio" />
+                          <label for="account2" class="custom-radio-label flex items-center justify-between p-4 rounded-lg" onclick="selectAccount('HDFC BANK LTD')">
+                              <div class="flex items-center">
+                                  <i class="fas fa-university text-gray-500 mr-5 text-2xl"></i>
+                                  <div>
+                                      <div class="text-gray-700 font-semibold text-sm">HDFC BANK LTD</div>
+                                      <div class="text-gray-500 text-sm">●●●● 689095</div>
+                                  </div>
+                              </div>
+                              <i class="fa-solid fa-circle-check text-green-500 text-2xl check-icon" style="display: none"></i>
+                          </label>
+                      </div>
+      
+                      <!-- SBI Bank -->
+                      <div class="mb-4 bg-white">
+                          <input type="radio" id="account3" name="selectedAccount" value="SBI" class="custom-radio" />
+                          <label for="account3" class="custom-radio-label flex items-center justify-between p-4 rounded-lg" onclick="selectAccount('SBI BANK LTD')">
+                              <div class="flex items-center">
+                                  <i class="fas fa-university text-gray-500 mr-5 text-2xl"></i>
+                                  <div>
+                                      <div class="text-gray-700 font-semibold text-sm">SBI BANK LTD</div>
+                                      <div class="text-gray-500 text-sm">●●●● 12345</div>
+                                  </div>
+                              </div>
+                              <i class="fa-solid fa-circle-check text-green-500 text-2xl check-icon" style="display: none"></i>
+                          </label>
+                      </div>
                   </div>
-                </div>
               </div>
-            </div>
           </div>
-        </div>
+      </div>
         <div id="transactionModeSheet" class="hidden">
           <div class="p-4 bg-gray-100 rounded-t-2xl mb-10">
             <h2 class="text-lg font-semibold mb-2 px-4 text-xl">
               Select Transaction Mode
             </h2>
             <div class="flex flex-col">
-              <div class="mb-4 bg-blue-100" onclick="selectTransactionMode()">
+              <div class="mb-4 bg-white" onclick="selectTransactionMode()">
                 <input
                   type="radio"
                   id="upi"
@@ -1033,7 +999,8 @@
                     </div>
                   </div>
                   <i
-                    class="fa-solid fa-circle-check text-green-500 text-2xl"
+                    class="fa-solid fa-circle-check text-green-500 text-2xl check-icon"
+                    style="display: none"
                   ></i>
                 </label>
               </div>
@@ -1058,6 +1025,10 @@
                       <div class="text-gray-500 text-sm">via Razorpay</div>
                     </div>
                   </div>
+                  <i
+                    class="fa-solid fa-circle-check text-green-500 text-2xl check-icon"
+                    style="display: none"
+                  ></i>
                 </label>
               </div>
               <div class="mb-4 bg-white" onclick="selectTransactionMode()">
@@ -1081,6 +1052,10 @@
                       <div class="text-gray-500 text-sm">via Paytm</div>
                     </div>
                   </div>
+                  <i
+                    class="fa-solid fa-circle-check text-green-500 text-2xl check-icon"
+                    style="display: none"
+                  ></i>
                 </label>
               </div>
             </div>
@@ -1094,7 +1069,7 @@
 
       async function sendEncryptedDate() {
         try {
-          const apiUrl = `https://smartpayz.gwcindia.in/gwc-techexcel/client-master-techexcel-live.php?src=SMARTPAY&key=QkYxMFlpcEtzODRnNTdyTFNZbFdkZz09&cid=GZ10219`;
+          const apiUrl = `https://smartpayz.gwcindia.in/gwc-techexcel/client-master-techexcel-live.php?src=SMARTPAY&key=eWpHQi8rL2d3Sldsbk54UlhkYlNjZz09&cid=GZ10219`;
 
           const response = await fetch(apiUrl, {
             method: "GET",
@@ -1510,41 +1485,107 @@
         // Add your transaction processing logic here
       }
 
-      function openAccountSheet() {
-        const accountSheet = document.getElementById("accountSheet");
-        const overlay = document.getElementById("overlay"); // Get the overlay element
-        accountSheet.classList.remove("hidden");
-        accountSheet.classList.add("show");
-        overlay.classList.remove("hidden"); // Show the overlay
-      }
-
-      function closeAccountSheet() {
-        const accountSheet = document.getElementById("accountSheet");
-        const overlay = document.getElementById("overlay"); // Get the overlay element
-        accountSheet.classList.remove("show");
-        setTimeout(() => {
-          accountSheet.classList.add("hidden");
-          overlay.classList.add("hidden"); // Hide the overlay
-        }, 300);
-      }
-
       // Add click event listener to the overlay to close the account sheet
       document
         .getElementById("overlay")
         .addEventListener("click", closeAccountSheet);
-      function selectAccount() {
-        const selectedAccount = document.querySelector(
-          'input[name="selectedAccount"]:checked'
-        );
-        if (selectedAccount) {
-          const selectedAccountDisplay = document.getElementById(
-            "selectedAccountDisplay"
-          );
-          selectedAccountDisplay.textContent =
-            selectedAccount.nextElementSibling.textContent;
-          closeAccountSheet();
-        }
+      function openAccountSheet() {
+        const accountSheet = document.getElementById("accountSheet");
+        const overlay = document.getElementById("overlay");
+        accountSheet.classList.remove("hidden");
+        accountSheet.classList.add("show");
+        overlay.classList.remove("hidden");
       }
+
+      function closeAccountSheet() {
+        const accountSheet = document.getElementById("accountSheet");
+        const overlay = document.getElementById("overlay");
+        accountSheet.classList.remove("show");
+        setTimeout(() => {
+          accountSheet.classList.add("hidden");
+          overlay.classList.add("hidden");
+        }, 300);
+      }
+
+      function selectAccount(accountName) {
+    const selectedAccountDisplay = document.getElementById("selectedAccountDisplay");
+
+    // Check if the selectedAccountDisplay exists
+    if (selectedAccountDisplay) {
+        selectedAccountDisplay.textContent = accountName;
+    } else {
+        console.error("selectedAccountDisplay not found");
+    }
+
+    // Update the tick mark and background for selected account
+    document.querySelectorAll(".custom-radio-label").forEach((label) => {
+        const accountText = label.querySelector(".text-gray-700");
+
+        // Check if accountText exists
+        if (accountText) {
+            if (accountText.textContent.trim() === accountName) {
+                const checkIcon = label.querySelector(".check-icon");
+                if (checkIcon) {
+                    checkIcon.style.display = "block"; // Show tick mark
+                    closeAccountSheet()
+                } else {
+                    // console.error("Check icon not found for account:", accountName);
+                }
+                label.classList.add("bg-blue-200"); // Add active background
+            } else {
+                const checkIcon = label.querySelector(".check-icon");
+                if (checkIcon) {
+                    checkIcon.style.display = "none"; // Hide tick mark
+                }
+                label.classList.remove("bg-blue-200"); // Remove active background
+            }
+        } else {
+            console.error("Account text not found in label:", label);
+        }
+    });
+}
+
+// Add event listeners to bank radio buttons
+document.querySelectorAll('input[name="selectedAccount"]').forEach((radio) => {
+    radio.addEventListener("change", function () {
+        selectAccount(
+            this.nextElementSibling.querySelector(".text-gray-700").textContent
+        );
+    });
+});
+
+// Add event listeners to bank radio buttons
+document.querySelectorAll('input[name="selectedAccount"]').forEach((radio) => {
+    radio.addEventListener("change", function () {
+        selectAccount(
+            this.nextElementSibling.querySelector(".text-gray-700").textContent
+        );
+    });
+});
+
+      // Add event listeners to bank radio buttons
+      document
+        .querySelectorAll('input[name="selectedAccount"]')
+        .forEach((radio) => {
+          radio.addEventListener("change", function () {
+            selectAccount(
+              this.nextElementSibling.querySelector(".text-gray-700")
+                .textContent
+            );
+          });
+        });
+
+      // Add event listeners to bank radio buttons
+      document
+        .querySelectorAll('input[name="selectedAccount"]')
+        .forEach((radio) => {
+          radio.addEventListener("change", function () {
+            selectAccount(
+              this.nextElementSibling.querySelector(".text-gray-700")
+                .textContent
+            );
+          });
+        });
       function openTransactionModeSheet() {
         const transactionModeSheet = document.getElementById(
           "transactionModeSheet"
@@ -1553,6 +1594,9 @@
         transactionModeSheet.classList.remove("hidden");
         transactionModeSheet.classList.add("show");
         overlay.classList.remove("hidden"); // Show the overlay
+
+        // Update the display of the selected transaction mode
+        updateTransactionModeDisplay();
       }
 
       function closeTransactionModeSheet() {
@@ -1572,73 +1616,87 @@
         .getElementById("overlay")
         .addEventListener("click", closeTransactionModeSheet);
 
-        function selectTransactionMode() {
-          debugger
-    const priceInput = document.getElementById("price");
-    const nomsg = document.getElementById("no-message");
-    const errorMessage = document.getElementById("error-message");
-    const selectedMode = document.querySelector('input[name="transactionMode"]:checked');
-    const transactionModeDisplay = document.getElementById("transactionModeDisplay");
-    const transsub = document.getElementById("transsub");
-
-    // Check if price input is empty
-    if (priceInput.value.trim() === "") {
-      nomsg.classList.add("hidden");
-        errorMessage.classList.remove("hidden");
-        priceInput.classList.add("border-red-500");
-       
-    } else {
-      nomsg.classList.remove("hidden");
-        errorMessage.classList.add("hidden");
-        priceInput.classList.remove("border-red-500");
-    }
-
-    const amount = parseFloat(priceInput.value);
-    if (amount > 35000) {
-        document.getElementById("upi").disabled = true;
-    } else {
-        document.getElementById("upi").disabled = false;
-    }
-
-    if (selectedMode) {
-        console.log("Selected Transaction Mode:", selectedMode.value);
-
-        // Update the display based on the selected transaction mode
-        if (transactionModeDisplay && transsub) { // Check if elements exist
-            if (selectedMode.value === "UPI") {
-                transactionModeDisplay.textContent = "UPI";
-                transsub.textContent = "via Gpay";
-               
-            } else if (selectedMode.value === "Net Banking") {
-                transactionModeDisplay.textContent = "Net Banking";
-                transsub.textContent = "via Razorpay"; 
-               
-            } else if (selectedMode.value === "Paytm") {
-                transactionModeDisplay.textContent = "Paytm";
-                transsub.textContent = "via Paytm";
-                
-            }
-            const transactionModeSheet = document.getElementById(
-          "transactionModeSheet"
+      function selectTransactionMode() {
+        const priceInput = document.getElementById("price");
+        const nomsg = document.getElementById("no-message");
+        const errorMessage = document.getElementById("error-message");
+        const selectedMode = document.querySelector(
+          'input[name="transactionMode"]:checked'
         );
-        closeTransactionModeSheet();
+        const transactionModeDisplay = document.getElementById(
+          "transactionModeDisplay"
+        );
+        const transsub = document.getElementById("transsub");
+
+        // Check if price input is empty
+        if (priceInput.value.trim() === "") {
+          nomsg.classList.add("hidden");
+          errorMessage.classList.remove("hidden");
+          priceInput.classList.add("border-red-500");
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          priceInput.classList.remove("border-red-500");
         }
-    }
-}
-document.getElementById("price").addEventListener("input", function() {
-    const amount = parseFloat(this.value);
-    const nomsg = document.getElementById("no-message");
-    const errorMessage = document.getElementById("error-message");
-    if (isNaN(amount) || amount < 50) {
-      noMessage.classList.add("hidden");
-        errorMessage.classList.remove("hidden");
-        this.classList.add("border-red-500");
-    } else {
-      noMessage.classList.remove("hidden");
-        errorMessage.classList.add("hidden");
-        this.classList.remove("border-red-500");
-    }
-});
+
+        const amount = parseFloat(priceInput.value);
+        if (amount > 35000) {
+          document.getElementById("upi").disabled = true;
+        } else {
+          document.getElementById("upi").disabled = false;
+        }
+
+        if (selectedMode) {
+          console.log("Selected Transaction Mode:", selectedMode.value);
+
+          // Update the display based on the selected transaction mode
+          if (transactionModeDisplay && transsub) {
+            // Check if elements exist
+            if (selectedMode.value === "UPI") {
+              transactionModeDisplay.textContent = "UPI";
+              transsub.textContent = "via Gpay";
+            } else if (selectedMode.value === "Net Banking") {
+              transactionModeDisplay.textContent = "Net Banking";
+              transsub.textContent = "via Razorpay";
+            } else if (selectedMode.value === "Paytm") {
+              transactionModeDisplay.textContent = "Paytm";
+              transsub.textContent = "via Paytm";
+            }
+            closeTransactionModeSheet();
+          }
+        }
+
+        // Update the tick mark for the selected transaction mode
+        document
+          .querySelectorAll('input[name="transactionMode"]')
+          .forEach((radio) => {
+            const label = radio.nextElementSibling; // Get the label associated with the radio button
+            const parentDiv = label.parentElement; // Get the parent div
+
+            if (radio.checked) {
+              label.querySelector(".check-icon").style.display = "block"; // Show tick mark
+              parentDiv.classList.add("bg-blue-200"); // Add active background
+            } else {
+              label.querySelector(".check-icon").style.display = "none"; // Hide tick mark
+              parentDiv.classList.remove("bg-blue-200"); // Remove active background
+            }
+          });
+      }
+      document.getElementById("price").addEventListener("input", function () {
+        const amount = parseFloat(this.value);
+        const nomsg = document.getElementById("no-message");
+        const errorMessage = document.getElementById("error-message");
+
+        if (isNaN(amount) || amount < 50) {
+          nomsg.classList.add("hidden"); // Use nomsg instead of noMessage
+          errorMessage.classList.remove("hidden");
+          this.classList.add("border-red-500");
+        } else {
+          nomsg.classList.remove("hidden");
+          errorMessage.classList.add("hidden");
+          this.classList.remove("border-red-500");
+        }
+      });
 
       // Function to update the display of the selected transaction mode
       function updateTransactionModeDisplay() {
